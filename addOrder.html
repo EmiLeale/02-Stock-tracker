@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>addOrderComponent</title>
+    <link href="src/output.css" rel="stylesheet">
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+
+</head>
+<!-- if select Sell, GP and Beneficios visible -->
+
+<body class="h-screen w-full flex flex-col items-center justify-center bg-gray-700">
+    <button id="addOrder" class="w-32 h-8 bg-sky-100 hover:bg-sky-200 active:bg-sky-300 text-sm hover:font-semibold outline-1 hover:outline-2 hover:tracking-wider rounded-2xl cursor-pointer transition-all mb-2">Add an order</button>
+
+    <form class="h-fit min-w-96 bg-sky-100 grid grid-cols-2 grid-rows-5 gap-2 p-4 rounded-2xl *:w-full *:h-10 *:text-xs *:m-auto *:text-center *:outline-none *:border-1 *:focus:border-2 *:rounded-sm *:focus:bg-amber-200 transition-all  ">
+        <select name="order-type" id="order-type">
+            <option disabled selected="true">Select an operation</option>
+            <option value="Buy">Buy</option>
+            <option value="Sell">Sell</option>
+        </select>
+        <input type="datetime-local" >
+        <input type="text" placeholder="Ticker" maxlength="10" class="bg-amber-100">
+        <input type="number" placeholder="Unidades" class="bg-amber-100">
+        <input type="number" disabled placeholder="Price" class="col-span-2 bg-amber-50" >
+        <input type="number" disabled placeholder="Total" class="col-span-2 bg-amber-50">
+        <div class="col-span-2 hidden">G/P</div>
+        <div class="col-span-2 hidden">Beneficio %</div>
+        <div class="col-span-2 flex justify-between border-none">
+            <input type="submit" value="Save" class="w-1/4 bg-red-200 rounded-2xl">
+            <button class="w-1/4 bg-red-200 rounded-2xl">Cancel</button>
+        </div>
+    </form>
+</body>
+</html>
