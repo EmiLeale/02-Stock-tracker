@@ -10,26 +10,32 @@
 </head>
 <!-- if select Sell, GP and Beneficios visible -->
 
-<body class="h-screen w-full flex flex-col items-center justify-center bg-gray-700">
-    <button id="addOrder" class="w-32 h-8 bg-sky-100 hover:bg-sky-200 active:bg-sky-300 text-sm hover:font-semibold outline-1 hover:outline-2 hover:tracking-wider rounded-2xl cursor-pointer transition-all mb-2">Add an order</button>
+<body class="h-screen w-full bg-sky-900">
+    <button id="add-order" class="w-32 h-8 bg-sky-50 hover:bg-sky-200 active:bg-sky-300 text-sm hover:font-semibold hover:tracking-wider rounded-2xl cursor-pointer transition-all mb-2">Add an order</button>
 
-    <form class="h-fit min-w-96 bg-sky-100 grid grid-cols-2 grid-rows-5 gap-2 p-4 rounded-2xl *:w-full *:h-10 *:text-xs *:m-auto *:text-center *:outline-none *:border-1 *:focus:border-2 *:rounded-sm *:focus:bg-amber-200 transition-all  ">
-        <select name="order-type" id="order-type">
+    <form id="order-form" class="grid h-fit w-96 bg-sky-100 grid-cols-2 grid-rows-5 gap-2 p-4 rounded-2xl *:w-full *:h-10 *:text-xs *:m-auto  *:outline-none *:border-1 *:focus:border-2 *:rounded-sm *:text-center transition-all">
+
+        <select name="order-type" id="order-type" class="focus:bg-sky-50">
             <option disabled selected="true">Select an operation</option>
             <option value="Buy">Buy</option>
             <option value="Sell">Sell</option>
         </select>
-        <input type="datetime-local" >
-        <input type="text" placeholder="Ticker" maxlength="10" class="bg-amber-100">
-        <input type="number" placeholder="Unidades" class="bg-amber-100">
-        <input type="number" disabled placeholder="Price" class="col-span-2 bg-amber-50" >
-        <input type="number" disabled placeholder="Total" class="col-span-2 bg-amber-50">
-        <div class="col-span-2 hidden">G/P</div>
-        <div class="col-span-2 hidden">Beneficio %</div>
-        <div class="col-span-2 flex justify-between border-none">
-            <input type="submit" value="Save" class="w-1/4 bg-red-200 rounded-2xl">
-            <button class="w-1/4 bg-red-200 rounded-2xl">Cancel</button>
+        <input name="order-date" id="order-date" type="date" class="p-2 focus:bg-sky-50">
+
+        <input name="order-ticker" id="order-ticker" type="search" placeholder="Ticker" maxlength="10" class="w-full h-full bg-amber-100 focus:bg-amber-200">
+        <input name="order-units" id="order-units" type="number" placeholder="UNIDADES" max="999999999999999" min="0" step="any" class="bg-amber-100 focus:bg-amber-200">
+
+        <input name="order-price" id="order-price" type="number" placeholder="Price" max="999999999999999" min="0" step="any" class="col-span-2 bg-amber-100 focus:bg-amber-200" >
+        <div id="order-total" placeholder="Total" class="col-span-2 bg-amber-50 flex items-center justify-center">Total</div>
+
+        <div id="order-gp" class="hidden bg-amber-50 items-center justify-center">G / P</div>
+        <div id="order-profit" class="hidden bg-amber-50 items-center justify-center">Profit (%)</div>
+
+        <div class="col-span-2 flex items-end justify-around border-none *:cursor-pointer *:w-32 *:h-8 *:bg-sky-50 *:hover:bg-sky-200 *:active:bg-sky-300 *:rounded-2xl *:transition-all *:text-sm *:hover:font-semibold *:hover:tracking-wider">
+            <input id="order-submit" type="submit" value="Save">
+            <button id="order-cancel">Cancel</button>
         </div>
     </form>
+    <script src="addOrder.js"></script>
 </body>
 </html>
