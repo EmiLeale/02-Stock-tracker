@@ -4,16 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>addOrderComponent</title>
-    <link href="src/output.css" rel="stylesheet">
+    <link href="src/css/output.css" rel="stylesheet">
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
 
 </head>
-<!-- if select Sell, GP and Beneficios visible -->
 
 <body class="h-screen w-full bg-sky-900">
-    <button id="add-order" class="w-32 h-8 bg-sky-50 hover:bg-sky-200 active:bg-sky-300 text-sm hover:font-semibold hover:tracking-wider rounded-2xl cursor-pointer transition-all mb-2">Add an order</button>
+    <button id="add-order" class="w-32 h-8 bg-sky-50 hover:bg-sky-200 active:bg-sky-300 text-sm hover:font-semibold hover:tracking-wider rounded-2xl cursor-pointer transition-all mb-2 shadow-md shadow-sky-200 active:shadow-sky-600 hover:shadow-sky-900">Add an order</button>
 
-    <form id="order-form" class="grid h-fit w-96 bg-sky-100 grid-cols-2 grid-rows-5 gap-2 p-4 rounded-2xl *:w-full *:h-10 *:text-xs *:m-auto  *:outline-none *:border-1 *:focus:border-2 *:rounded-sm *:text-center transition-all">
+    <form id="order-form" class="grid h-fit w-96 bg-sky-100 grid-cols-2 grid-rows-5 gap-2 p-4 rounded-2xl *:w-full *:h-10 *:text-xs *:m-auto  *:outline-none *:border-1 *:focus:border-2 *:rounded-sm *:text-center transition-all ">
 
         <select name="order-type" id="order-type" class="focus:bg-sky-50">
             <option disabled selected="true">Select an operation</option>
@@ -31,11 +30,11 @@
         <div id="order-gp" class="hidden bg-amber-50 items-center justify-center">G / P</div>
         <div id="order-profit" class="hidden bg-amber-50 items-center justify-center">Profit (%)</div>
 
-        <div class="col-span-2 flex items-end justify-around border-none *:cursor-pointer *:w-32 *:h-8 *:bg-sky-50 *:hover:bg-sky-200 *:active:bg-sky-300 *:rounded-2xl *:transition-all *:text-sm *:hover:font-semibold *:hover:tracking-wider">
+        <div class="col-span-2 flex items-end justify-around border-none *:cursor-pointer *:w-32 *:h-8 *:bg-sky-50 *:hover:bg-sky-200 *:active:bg-sky-300 *:rounded-2xl *:transition-all *:text-sm *:hover:font-semibold *:hover:tracking-wider *:shadow-md *:shadow-sky-900 *:active:shadow-sky-600 *:hover:shadow-sky-200">
             <input id="order-submit" type="submit" value="Save">
             <button id="order-cancel">Cancel</button>
         </div>
     </form>
-    <script src="addOrder.js"></script>
+    <script type="module" src="index.js"></script>
 </body>
 </html>
