@@ -3,8 +3,24 @@ import OrderModal from "./OrderModal.js";
 class AddOrder extends OrderModal {
   constructor() {
     super();
-    this._orders = [];
+    this._orders = [
+      {
+        type: "Buy",
+        date: "10/03/2025",
+        ticker: "BTC",
+        units: 3,
+        price: 62000,
+      },
+      {
+        type: "Buy",
+        date: "10/03/2025",
+        ticker: "AAPL",
+        units: 3,
+        price: 62000,
+      },
+    ];
     this.addEventListener();
+    localStorage.setItem("orders", JSON.stringify(this._orders));
   }
 
   addEventListener() {
@@ -46,7 +62,7 @@ class AddOrder extends OrderModal {
     const formDataObj = {
       type: formData.get("order-type"),
       date: formData.get("order-date"),
-      ticker: formData.get("order-ticker"),
+      ticker: formData.get("order-ticker").toUpperCase(),
       units: Number(formData.get("order-units")),
       price: Number(formData.get("order-price")),
     };
@@ -57,8 +73,8 @@ class AddOrder extends OrderModal {
     }
 
     this._orders.push(formDataObj);
+    localStorage.setItem("orders", JSON.stringify(this._orders));
 
-    console.log(this._orders);
     this.cleanModal();
   }
 }

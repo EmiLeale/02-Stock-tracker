@@ -1,7 +1,7 @@
 /*! tailwindcss v4.0.9 | MIT License | https://tailwindcss.com */
 @font-face {
   font-family: "Sora";
-  src: url(/assets/Sora/Sora-VariableFont_wght.ttf);
+  src: url(/assets/fonts/Sora/Sora-VariableFont_wght.ttf);
 }
 * {
   font-family: "Sora", var(--font-sans);
