@@ -10,6 +10,7 @@ class AddOrder extends OrderModal {
         ticker: "BTC",
         units: 3,
         price: 62000,
+        note: "BTC was cheap",
       },
       {
         type: "Buy",
@@ -17,6 +18,7 @@ class AddOrder extends OrderModal {
         ticker: "AAPL",
         units: 3,
         price: 62000,
+        note: "The best investment of all times",
       },
     ];
     this.addEventListener();
@@ -36,11 +38,13 @@ class AddOrder extends OrderModal {
       this._profit.classList.toggle("hidden");
       this._profit.classList.toggle("flex");
       this._gp.classList.toggle("flex");
+      this._form.classList.toggle("grid-rows-8");
     } else {
       this._gp.classList.add("hidden");
       this._profit.classList.add("hidden");
       this._profit.classList.remove("flex");
       this._gp.classList.remove("flex");
+      this._form.classList.remove("grid-rows-8");
     }
   }
 
@@ -65,6 +69,7 @@ class AddOrder extends OrderModal {
       ticker: formData.get("order-ticker").toUpperCase(),
       units: Number(formData.get("order-units")),
       price: Number(formData.get("order-price")),
+      note: formData.get("order-note"),
     };
     formDataObj.total = formDataObj.price * formDataObj.units;
 

@@ -21,7 +21,17 @@
       { "symbol": "GBP/USD", "name": "Pound Dollar", "price": 1.32, "change_24h": 0.4, "high": 1.33, "low": 1.31 },
       { "symbol": "USD/CHF", "name": "Dollar Swiss Franc", "price": 0.92, "change_24h": -0.2, "high": 0.93, "low": 0.91 },
       { "symbol": "AUD/USD", "name": "Australian Dollar Dollar", "price": 0.75, "change_24h": 0.3, "high": 0.76, "low": 0.74 },
-      { "symbol": "USD/CAD", "name": "Dollar Canadian Dollar", "price": 1.25, "change_24h": -0.1, "high": 1.26, "low": 1.24 }
+      { "symbol": "USD/CAD", "name": "Dollar Canadian Dollar", "price": 1.25, "change_24h": -0.1, "high": 1.26, "low": 1.24 },
+      { "symbol": "NZD/USD", "name": "New Zealand Dollar Dollar", "price": 0.61, "change_24h": 0.15, "high": 0.615, "low": 0.605 },
+      { "symbol": "USD/SEK", "name": "Dollar Swedish Krona", "price": 10.80, "change_24h": -0.25, "high": 10.85, "low": 10.75 },
+      { "symbol": "USD/NOK", "name": "Dollar Norwegian Krone", "price": 10.65, "change_24h": 0.1, "high": 10.70, "low": 10.60 },
+      { "symbol": "USD/DKK", "name": "Dollar Danish Krone", "price": 6.85, "change_24h": -0.05, "high": 6.87, "low": 6.83 },
+      { "symbol": "USD/MXN", "name": "Dollar Mexican Peso", "price": 17.10, "change_24h": 0.3, "high": 17.15, "low": 17.05 },
+      { "symbol": "USD/ZAR", "name": "Dollar South African Rand", "price": 18.50, "change_24h": -0.4, "high": 18.60, "low": 18.40 },
+      { "symbol": "USD/TRY", "name": "Dollar Turkish Lira", "price": 27.00, "change_24h": 0.5, "high": 27.10, "low": 26.90 },
+      { "symbol": "USD/CNH", "name": "Dollar Chinese Yuan Offshore", "price": 7.25, "change_24h": -0.1, "high": 7.27, "low": 7.23 },
+      { "symbol": "USD/SGD", "name": "Dollar Singapore Dollar", "price": 1.35, "change_24h": 0.08, "high": 1.355, "low": 1.345 },
+      { "symbol": "USD/HKD", "name": "Dollar Hong Kong Dollar", "price": 7.82, "change_24h": 0.02, "high": 7.83, "low": 7.81 }
     ],
     "index": [
       { "symbol": "SPX", "name": "S&P 500", "price": 4800, "change_24h": -0.5, "market_cap": 40000000000000 },

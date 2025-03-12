@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link href="src/css/output.css" rel="stylesheet">
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+
+</head>
+
+<body class="h-screen w-full bg-sky-900 ">
+    
+    <header class="w-full h-20 bg-sky-50 flex justify-around sm:justify-evenly max-w-5xl m-auto"> <!-- Header -->
+
+        <a href="home.html"><img src="/assets/logo/logo-removebg-preview.png" alt="Logo" class="w-36 h-fit aspect-video"></a> <!-- Logo -->
+
+        <div class="relative w-fit h-full peer flex items-center sm:hidden"> <!-- Menu Container -->
+            <input type="checkbox" name="nav-button" id="nav-button" class="absolute opacity-0 cursor-pointer">
+            <label for="nav-button" class="cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu "><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg></label>
+        </div>
+
+        <nav class="h-8 w-full bg-sky-50 absolute top-0 peer-has-checked:top-20 transition-all -z-10 peer-has-checked:z-0 sm:static sm:z-0 sm:h-full sm:w-fit"> <!-- Sidebar/Navbar Container -->
+            <ul class="h-full flex justify-around sm:justify-center *:w-32 *:h-full *:text-center *:text-sm *:bg-sky-50 *:hover:bg-sky-200 *:active:bg-sky-300 *:flex *:justify-center *:items-center *:hover:font-semibold *:hover:tracking-wider *:transition-all" >
+                <a href="home.html"><li>Home</li></a>
+                <a href="wallet.html"><li>Wallet</li></a>
+                <a href="orders.html"><li>Orders</li></a>
+            </ul>
+        </nav>
+
+    </header>
+    
+    <main class="max-w-5xl m-auto bg-sky-900"> 
+        
+        <section class="w-full h-fit flex flex-col items-center"> <!-- Add Order section -->
+
+            <h2 class="w-full p-2 m-4 bg-sky-50 text-center">Welcome user, do you want to add an order?</h2>
+
+            <button id="add-order" class="w-32 h-8 bg-sky-50 hover:bg-sky-200 active:bg-sky-300 text-sm hover:font-semibold hover:tracking-wider rounded-2xl cursor-pointer transition-all mb-4 shadow-md shadow-sky-200 active:shadow-sky-600 hover:shadow-sky-900">Add order</button>
+
+            <form id="order-form" class="hidden h-fit w-96 bg-sky-100 grid-cols-2 grid-rows-7 gap-2 p-4 mb-4 rounded-2xl *:w-full *:h-full *:text-xs *:m-auto  *:outline-none *:border-1 *:focus:border-2 *:rounded-sm *:text-center transition-all">
+
+                <select name="order-type" id="order-type" class="focus:bg-sky-50">
+                    <option disabled selected="true">Select an operation</option>
+                    <option value="Buy">Buy</option>
+                    <option value="Sell">Sell</option>
+                </select>
+                <input name="order-date" id="order-date" type="date" class="px-2 focus:bg-sky-50">
+        
+                <input list="order-suggests" name="order-ticker" id="order-ticker" type="search" placeholder="Ticker" maxlength="10" class="w-full h-full bg-amber-100 focus:bg-amber-200">
+                <datalist id="order-suggests"></datalist>
+                <input name="order-units" id="order-units" type="number" placeholder="Units" max="999999999999999" min="0" step="any" class="bg-amber-100 focus:bg-amber-200">
+        
+                <input name="order-price" id="order-price" type="number" placeholder="Price" max="999999999999999" min="0" step="any" class="col-span-2 bg-amber-100 focus:bg-amber-200" >
+                <div id="order-total" placeholder="Total" class="col-span-2 bg-amber-50 flex items-center justify-center">Total</div>
+        
+                <div id="order-gp" class="hidden bg-amber-50 items-center justify-center">G / P</div>
+                <div id="order-profit" class="hidden bg-amber-50 items-center justify-center">Profit (%)</div>
+        
+                <textarea name="order-note" id="order-note" placeholder="Notes here..." class="p-2 resize-none col-span-2 row-span-2 bg-amber-100 focus:bg-amber-200"></textarea>
+
+                <div class="col-span-2 flex items-end justify-around border-none *:cursor-pointer *:w-32 *:h-8 *:bg-sky-50 *:hover:bg-sky-200 *:active:bg-sky-300 *:rounded-2xl *:transition-all *:text-sm *:hover:font-semibold *:hover:tracking-wider *:shadow-md *:shadow-sky-900 *:active:shadow-sky-600 *:hover:shadow-sky-200">
+                    <input id="order-submit" type="submit" value="Save">
+                    <button id="order-cancel">Cancel</button>
+                </div>
+            </form>
+
+        </section>
+
+        <section class="w-full h-fit flex flex-col lg:items-center bg-sky-50"> <!-- Portfolio section -->
+
+            <table class="w-full lg:w-5/6 h-fit my-2 rounded-lg overflow-hidden text-sm text-center *:text-nowrap *:transition-all"> <!-- Wallet table -->
+                <thead class="bg-sky-950 text-sky-50 *:text-sm *:tracking-wide ">
+                  <tr class="*:w-20 *:h-16 *:px-4 *:py-2 *:font-medium ">
+                    <th>Ticker</th>
+                    <th class="hidden md:table-cell">Name</th>
+                    <th>Units</th>
+                    <th class="hidden sm:table-cell">Actual Price</th>
+                    <th>Actual Value</th>
+                    <th class="hidden sm:table-cell">Profit</th>
+                    <th>Profit %</th>
+                  </tr>
+                </thead>
+                <tbody class="bg-sky-100 *:even:bg-sky-50 divide-y divide-sky-950 *:hover:bg-sky-200  *:font-light *:transition-all">
+                  <tr class="*:px-4 *:py-2 ">
+                    <th scope="row" class="font-medium">BTC</th>
+                    <td class="hidden md:table-cell">Bitcoin</td>
+                    <td >125</td>
+                    <td class="hidden sm:table-cell">1,299</td>
+                    <td >80,000</td>
+                    <td class="text-red-500 font-semibold tracking-wide hidden sm:table-cell">1,250</td>
+                    <td class="text-red-500 font-semibold tracking-wide">15%</td>
+                  </tr>
+                  <tr class="*:px-4 *:py-2">
+                    <th scope="row" class="font-medium">EUR / USD</th>
+                    <td class="hidden md:table-cell">Euro Canadian Dollar</td>
+                    <td >125</td>
+                    <td class="hidden sm:table-cell">1,299</td>
+                    <td >51,000</td>
+                    <td class="text-green-500 font-semibold tracking-wide hidden sm:table-cell">1,250</td>
+                    <td class="text-green-500 font-semibold tracking-wide">15%</td>
+                  </tr>
+                  <tr class="*:px-4 *:py-2">
+                    <th scope="row" class="font-medium">SPX</th>
+                    <td class="hidden md:table-cell">Standar and Poor</td>
+                    <td >10</td>
+                    <td class="hidden sm:table-cell">2,899</td>
+                    <td >1,250,000</td>
+                    <td class="text-green-500 font-semibold tracking-wide hidden sm:table-cell">1,250</td>
+                    <td class="text-green-500 font-semibold tracking-wide">15%</td>
+                  </tr>
+                </tbody>
+                <caption class="h-8 w-full text-center caption-bottom font-medium cursor-pointer text-sky-50 bg-sky-800 hover:text-sky-800 hover:bg-sky-50">
+                    <a href="wallet.html" class="h-full flex justify-center items-center">See more
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down ml-1">
+                      <path d="m6 9 6 6 6-6"/>
+                    </svg></a>
+                  </caption>
+                  <caption class="h-8 bg-sky-800 text-sky-50"><p class="h-full flex items-center justify-center text-lg font-semibold tracking-wider">Wallet</p></caption>
+            </table>
+            
+            <table class="w-full lg:w-5/6 h-fit my-2 rounded-lg overflow-hidden text-sm text-center *:text-nowrap *:transition-all"> <!-- Orders table -->
+                <thead class="bg-sky-950 text-sky-50 *:text-sm *:tracking-wide ">
+                  <tr class="*:w-20 *:h-16 *:px-4 *:py-2 *:font-medium ">
+                    <th>Ticker</th>
+                    <th>Type</th>
+                    <th class="hidden sm:table-cell">Date</th>
+                    <th>Units</th>
+                    <th>Price</th>
+                    <th class="hidden sm:table-cell">Total</th>
+                    <th class="hidden sm:table-cell">Profit</th>
+                    <th>Profit %</th>
+                  </tr>
+                </thead>
+                <tbody class="bg-sky-100 *:even:bg-sky-50 divide-y divide-sky-950 *:hover:bg-sky-200  *:font-light *:transition-all">
+                  <tr class="*:px-4 *:py-2 ">
+                    <th scope="row" class="font-medium">BTC</th>
+                    <td>Buy</td>
+                    <td class="hidden sm:table-cell">31/03/2024</td>
+                    <td>125</td>
+                    <td>1,299</td>
+                    <td class="hidden sm:table-cell">80,000</td>
+                    <td class="text-red-500 font-semibold tracking-wide hidden sm:table-cell">1,250</td>
+                    <td class="text-red-500 font-semibold tracking-wide">15%</td>
+                  </tr>
+                  <tr class="*:px-4 *:py-2">
+                    <th scope="row" class="font-medium">EUR / USD</th>
+                    <td>Sell</td>
+                    <td class="hidden sm:table-cell">01/07/2024</td>
+                    <td>125</td>
+                    <td>1,299</td>
+                    <td class="hidden sm:table-cell">51,000</td>
+                    <td class="text-green-500 font-semibold tracking-wide hidden sm:table-cell">1,250</td>
+                    <td class="text-green-500 font-semibold tracking-wide ">15%</td>
+                  </tr>
+                  <tr class="*:px-4 *:py-2">
+                    <th scope="row" class="font-medium">SPX</th>
+                    <td>Buy</td>
+                    <td class="hidden sm:table-cell">25/11/2011</td>
+                    <td>10</td>
+                    <td>2,899</td>
+                    <td class="hidden sm:table-cell">1,250,000</td>
+                    <td class="text-green-500 font-semibold tracking-wide hidden sm:table-cell">1,250</td>
+                    <td class="text-green-500 font-semibold tracking-wide">15%</td>
+                  </tr>
+                </tbody>
+                <caption class="h-8 w-full text-center caption-bottom font-medium cursor-pointer text-sky-50 bg-sky-800 hover:text-sky-800 hover:bg-sky-50">
+                    <a href="orders.html" class="h-full flex justify-center items-center">See more
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down ml-1">
+                      <path d="m6 9 6 6 6-6"/>
+                    </svg></a>
+                  </caption>
+                  <caption class="h-8 bg-sky-800 text-sky-50"><p class="h-full flex items-center justify-center text-lg font-semibold tracking-wider">Orders</p></caption>
+              </table>
+
+              
+            
+        </section>
+        
+    </main>
+    <script type="module" src="index.js"></script>
+
+</body>
+</html>

@@ -10,6 +10,7 @@ class OrderModal {
     this._price = document.getElementById("order-price");
     this._total = document.getElementById("order-total");
     this._gp = document.getElementById("order-gp");
+    this._note = document.getElementById("order-note");
     this._profit = document.getElementById("order-profit");
     this._submit = document.getElementById("order-submit");
     this.addEventListeners();
@@ -32,6 +33,7 @@ class OrderModal {
     this._profit.classList.add("hidden");
     this._profit.classList.remove("flex");
     this._gp.classList.remove("flex");
+    this._note.value = "";
   }
 
   isAllEmpty() {
