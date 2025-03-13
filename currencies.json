@@ -34,10 +34,13 @@
       { "symbol": "USD/HKD", "name": "Dollar Hong Kong Dollar", "price": 7.82, "change_24h": 0.02, "high": 7.83, "low": 7.81 }
     ],
     "index": [
-      { "symbol": "SPX", "name": "S&P 500", "price": 4800, "change_24h": -0.5, "market_cap": 40000000000000 },
-      { "symbol": "DAX", "name": "DAX 40", "price": 15700, "change_24h": 0.7, "market_cap": 1500000000000 },
-      { "symbol": "NASDAQ", "name": "NASDAQ Composite", "price": 15000, "change_24h": 1.2, "market_cap": 18000000000000 },
-      { "symbol": "FTSE", "name": "FTSE 100", "price": 7200, "change_24h": -0.3, "market_cap": 2500000000000 }
+      { "symbol": "SPY", "name": "SPDR S&P 500 ETF", "price": 480, "change_24h": -0.5, "market_cap": 450000000000 },
+      { "symbol": "DAXEX", "name": "DAX ETF", "price": 157, "change_24h": 0.7, "market_cap": 120000000000 },
+      { "symbol": "QQQ", "name": "Invesco QQQ Trust (NASDAQ 100)", "price": 375, "change_24h": 1.2, "market_cap": 190000000000 },
+      { "symbol": "VGK", "name": "Vanguard FTSE Europe ETF", "price": 65, "change_24h": -0.3, "market_cap": 25000000000 },
+      { "symbol": "VWO", "name": "Vanguard FTSE Emerging Markets ETF", "price": 42, "change_24h": 0.9, "market_cap": 80000000000 },
+      { "symbol": "IJR", "name": "iShares Core S&P Small-Cap ETF", "price": 110, "change_24h": 0.5, "market_cap": 65000000000 },
+      { "symbol": "EEM", "name": "iShares MSCI Emerging Markets ETF", "price": 38, "change_24h": 1.1, "market_cap": 72000000000 }
     ],
     "stocks": [
       { "symbol": "AAPL", "name": "Apple Inc.", "price": 175, "change_24h": 1.2, "volume_24h": 60000000, "market_cap": 2800000000000 },

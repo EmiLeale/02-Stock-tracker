@@ -5,26 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <link href="src/css/output.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/assets/logo/ico.png">
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
 
 </head>
 
 <body class="h-screen w-full bg-sky-900 ">
     
-    <header class="w-full h-20 bg-sky-50 flex justify-around sm:justify-evenly max-w-5xl m-auto"> <!-- Header -->
+    <header class="w-full h-20 bg-sky-50 flex justify-between sm:justify-evenly max-w-5xl m-auto">
 
         <a href="home.html"><img src="/assets/logo/logo-removebg-preview.png" alt="Logo" class="w-36 h-fit aspect-video"></a> <!-- Logo -->
 
-        <div class="relative w-fit h-full peer flex items-center sm:hidden"> <!-- Menu Container -->
+        <div class="relative w-36 h-full peer flex items-center justify-center sm:hidden "> <!-- Menu Container -->
             <input type="checkbox" name="nav-button" id="nav-button" class="absolute opacity-0 cursor-pointer">
             <label for="nav-button" class="cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu "><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg></label>
         </div>
 
         <nav class="h-8 w-full bg-sky-50 absolute top-0 peer-has-checked:top-20 transition-all -z-10 peer-has-checked:z-0 sm:static sm:z-0 sm:h-full sm:w-fit"> <!-- Sidebar/Navbar Container -->
-            <ul class="h-full flex justify-around sm:justify-center *:w-32 *:h-full *:text-center *:text-sm *:bg-sky-50 *:hover:bg-sky-200 *:active:bg-sky-300 *:flex *:justify-center *:items-center *:hover:font-semibold *:hover:tracking-wider *:transition-all" >
+            <ul class="h-full flex justify-around sm:justify-center *:w-fit *:sm:w-32 *:h-full *:text-center *:text-sm *:bg-sky-50 *:hover:bg-sky-200 *:active:bg-sky-300 *:flex *:justify-center *:items-center *:hover:font-semibold *:hover:tracking-wider *:transition-all" >
                 <a href="home.html"><li>Home</li></a>
-                <a href="wallet.html"><li>Wallet</li></a>
+                <a href="/src/html/wallet.html"><li>Wallet</li></a>
                 <a href="orders.html"><li>Orders</li></a>
+                <a href="performance.html">Performance</a>
             </ul>
         </nav>
 
@@ -34,7 +36,7 @@
         
         <section class="w-full h-fit flex flex-col items-center"> <!-- Add Order section -->
 
-            <h2 class="w-full p-2 m-4 bg-sky-50 text-center">Welcome user, do you want to add an order?</h2>
+            <h2 class="w-full p-2 m-4 mt-8 bg-sky-50 text-center">Welcome user, do you want to add an order?</h2>
 
             <button id="add-order" class="w-32 h-8 bg-sky-50 hover:bg-sky-200 active:bg-sky-300 text-sm hover:font-semibold hover:tracking-wider rounded-2xl cursor-pointer transition-all mb-4 shadow-md shadow-sky-200 active:shadow-sky-600 hover:shadow-sky-900">Add order</button>
 
@@ -67,9 +69,76 @@
 
         </section>
 
-        <section class="w-full h-fit flex flex-col lg:items-center bg-sky-50"> <!-- Portfolio section -->
+        <section class="w-full h-fit flex flex-col lg:items-center bg-sky-50 py-2"> <!-- Portfolio section -->
+          
+          
 
-            <table class="w-full lg:w-5/6 h-fit my-2 rounded-lg overflow-hidden text-sm text-center *:text-nowrap *:transition-all"> <!-- Wallet table -->
+            <div class="w-full lg:w-5/6 h-full mb-2 lg:rounded-lg text-sm text-center *:sm:text-nowrap *:transition-all bg-sky-100"> <!-- Performance section -->
+
+              <h2 class="h-8 w-full bg-sky-800 text-sky-50 lg:rounded-t-lg flex items-center justify-center text-lg font-semibold tracking-widest">PERFORMANCE</h2>
+
+              <div class="grid grid-cols-2 grid-rows-2 m-4">
+
+                <div class="col-span-2 sm:row-span-2 sm:col-span-1"> <!-- Performance charts -->
+                  <div class="h-full w-full rounded-full border">CHART de todas los activos</div>
+                </div>
+
+                <div class="col-span-2 sm:row-span-2 sm:col-span-1 grid grid-cols-2 grid-rows-3 *:p-4 *:sm:text-start"> <!-- Performance Data -->
+                  <div>
+                    <h3 class="text-center font-medium tracking-wider">Crypto</h3>
+                    <p>Total cost: 1f6sa489</p>
+                    <p>Actual value: 893164</p>
+                    <p>P & L: 14521</p>
+                    <p>P & L: 15%</p>
+                  </div>
+                  <div>
+                    <h3 class="text-center font-medium tracking-wider">ETF's</h3>
+                    <p>Total cost: 1f6sa489</p>
+                    <p>Actual value: 893164</p>
+                    <p>P & L: 14521</p>
+                    <p>P & L: 15%</p>
+                  </div>
+                  <div>
+                    <h3 class="text-center font-medium tracking-wider">Stocks</h3>
+                    <p>Total cost: 1f6sa489</p>
+                    <p>Actual value: 893164</p>
+                    <p>P & L: 14521</p>
+                    <p>P & L: 15%</p>
+                  </div>
+                  <div>
+                    <h3 class="text-center font-medium tracking-wider">Forex</h3>
+                    <p>Total cost: 1f6sa489</p>
+                    <p>Actual value: 893164</p>
+                    <p>P & L: 14521</p>
+                    <p>P & L: 15%</p>
+                  </div>
+                  <div>
+                    <h3 class="text-center font-medium tracking-wider">Other</h3>
+                    <p>Total cost: 1f6sa489</p>
+                    <p>Actual value: 893164</p>
+                    <p>P & L: 14521</p>
+                    <p>P & L: 15%</p>
+                  </div>
+                  <div>
+                    <h3 class="text-center font-medium tracking-wider">Total</h3>
+                    <p>Total cost: 1f6sa489</p>
+                    <p>Actual value: 893164</p>
+                    <p>P & L: 14521</p>
+                    <p>P & L: 15%</p>
+                  </div>
+                </div>
+
+              </div>
+              
+
+              <a href="/src/html/wallet.html" class="h-8 flex justify-center items-center text-xs sm:text-sm font-medium cursor-pointer text-sky-50 bg-sky-800 hover:text-sky-800 hover:bg-sky-50 lg:rounded-b-lg">See more
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down ml-1">
+                  <path d="m6 9 6 6 6-6"/>
+                </svg></a>
+                
+            </div>
+
+            <table class="w-full lg:w-5/6 h-fit my-2 lg:rounded-lg lg:overflow-hidden text-xs sm:text-sm text-center *:sm:text-nowrap *:transition-all"> <!-- Wallet table -->
                 <thead class="bg-sky-950 text-sky-50 *:text-sm *:tracking-wide ">
                   <tr class="*:w-20 *:h-16 *:px-4 *:py-2 *:font-medium ">
                     <th>Ticker</th>
@@ -111,20 +180,20 @@
                   </tr>
                 </tbody>
                 <caption class="h-8 w-full text-center caption-bottom font-medium cursor-pointer text-sky-50 bg-sky-800 hover:text-sky-800 hover:bg-sky-50">
-                    <a href="wallet.html" class="h-full flex justify-center items-center">See more
+                    <a href="/src/html/wallet.html" class="h-full flex justify-center items-center">See more
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down ml-1">
                       <path d="m6 9 6 6 6-6"/>
                     </svg></a>
                   </caption>
-                  <caption class="h-8 bg-sky-800 text-sky-50"><p class="h-full flex items-center justify-center text-lg font-semibold tracking-wider">Wallet</p></caption>
+                  <caption class="h-8 bg-sky-800 text-sky-50"><p class="h-full flex items-center justify-center text-lg font-semibold tracking-widest">WALLET</p></caption>
             </table>
             
-            <table class="w-full lg:w-5/6 h-fit my-2 rounded-lg overflow-hidden text-sm text-center *:text-nowrap *:transition-all"> <!-- Orders table -->
+            <table class="w-full lg:w-5/6  h-fit my-2 lg:rounded-lg lg:overflow-hidden text-xs sm:text-sm text-center *:sm:text-nowrap *:transition-all"> <!-- Orders table -->
                 <thead class="bg-sky-950 text-sky-50 *:text-sm *:tracking-wide ">
                   <tr class="*:w-20 *:h-16 *:px-4 *:py-2 *:font-medium ">
                     <th>Ticker</th>
                     <th>Type</th>
-                    <th class="hidden sm:table-cell">Date</th>
+                    <th class="hidden md:table-cell">Date</th>
                     <th>Units</th>
                     <th>Price</th>
                     <th class="hidden sm:table-cell">Total</th>
@@ -136,7 +205,7 @@
                   <tr class="*:px-4 *:py-2 ">
                     <th scope="row" class="font-medium">BTC</th>
                     <td>Buy</td>
-                    <td class="hidden sm:table-cell">31/03/2024</td>
+                    <td class="hidden md:table-cell">31/03/2024</td>
                     <td>125</td>
                     <td>1,299</td>
                     <td class="hidden sm:table-cell">80,000</td>
@@ -146,7 +215,7 @@
                   <tr class="*:px-4 *:py-2">
                     <th scope="row" class="font-medium">EUR / USD</th>
                     <td>Sell</td>
-                    <td class="hidden sm:table-cell">01/07/2024</td>
+                    <td class="hidden md:table-cell">01/07/2024</td>
                     <td>125</td>
                     <td>1,299</td>
                     <td class="hidden sm:table-cell">51,000</td>
@@ -156,7 +225,7 @@
                   <tr class="*:px-4 *:py-2">
                     <th scope="row" class="font-medium">SPX</th>
                     <td>Buy</td>
-                    <td class="hidden sm:table-cell">25/11/2011</td>
+                    <td class="hidden md:table-cell">25/11/2011</td>
                     <td>10</td>
                     <td>2,899</td>
                     <td class="hidden sm:table-cell">1,250,000</td>
@@ -170,14 +239,31 @@
                       <path d="m6 9 6 6 6-6"/>
                     </svg></a>
                   </caption>
-                  <caption class="h-8 bg-sky-800 text-sky-50"><p class="h-full flex items-center justify-center text-lg font-semibold tracking-wider">Orders</p></caption>
+                  <caption class="h-8 bg-sky-800 text-sky-50"><p class="h-full flex items-center justify-center text-lg font-semibold tracking-widest">ORDERS</p></caption>
               </table>
 
-              
-            
         </section>
-        
     </main>
+
+    <footer class="w-full max-w-5xl h-fit m-auto text-center bg-sky-100 pb-4 text-xs sm:text-sm">
+
+      <div class="flex items-center">
+        <a href="home.html" class="w-1/4"><img src="/assets/logo/logo-removebg-preview.png" alt="Logo" class="h-20 aspect-video m-auto"></a>
+
+        <nav class="w-3/4"> <!-- Sidebar/Navbar Container -->
+          <ul class="flex justify-around pr-4" >
+              <a href="home.html"><li>Home</li></a>
+              <a href="/src/html/wallet.html"><li>Wallet</li></a>
+              <a href="orders.html"><li>Orders</li></a>
+              <a href="performance.html">Performance</a>
+          </ul>
+        </nav>
+      </div>
+      
+
+      <p class="text-xs">Project designed and developed by <a href="https://github.com/EmiLeale" target="_blank">Emiliano Leale</a></p>
+    </footer>
+
     <script type="module" src="index.js"></script>
 
 </body>
