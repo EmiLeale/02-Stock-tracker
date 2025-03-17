@@ -81,9 +81,9 @@ class OrderModal {
 
   outsideClick(e) {
     if (
-      e.target === document.body &&
+      this._form.classList.contains("grid") &&
       this.isAllEmpty() &&
-      this._form.classList.contains("grid")
+      e.target === document.body
     ) {
       this.closeModal();
     }

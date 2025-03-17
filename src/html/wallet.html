@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wallet</title>
-    <link href="src/css/output.css" rel="stylesheet">
+    <link href="/src/css/output.css" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="/assets/logo/ico.png">
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
 
 </head>
 
-<body class="min-h-dvh h-full w-full bg-sky-900 grid grid-rows-[auto_1fr_auto]">
+<body class="min-h-dvh h-full w-full bg-sky-900 grid grid-rows-[auto_1fr_auto] ">
     
-    <header class="w-full max-w-5xl h-20 bg-sky-50 flex justify-between sm:justify-evenly  m-auto">
+    <header class="w-full max-w-5xl h-20 bg-sky-50 flex justify-between sm:justify-evenly m-auto">
 
         <a href="/home.html"><img src="/assets/logo/logo-removebg-preview.png" alt="Logo" class="w-36 h-fit aspect-video"></a> <!-- Logo -->
 
@@ -22,17 +22,17 @@
         </div>
 
         <nav class="h-8 w-full bg-sky-50 absolute top-0 peer-has-checked:top-20 transition-all -z-10 peer-has-checked:z-0 sm:static sm:z-0 sm:h-full sm:w-fit"> <!-- Sidebar/Navbar Container -->
-            <ul class="h-full flex justify-around sm:justify-center *:w-fit *:sm:w-32 *:h-full *:text-center *:text-sm *:bg-sky-50 *:hover:bg-sky-200 *:active:bg-sky-300 *:flex *:justify-center *:items-center *:hover:font-semibold *:hover:tracking-wider *:transition-all" >
+            <ul class="h-full flex justify-around sm:justify-center *:w-32 *:h-full *:text-center *:text-sm *:bg-sky-50 *:hover:bg-sky-200 *:active:bg-sky-300 *:flex *:justify-center *:items-center *:hover:font-semibold *:hover:tracking-wider *:transition-all" >
                 <a href="/home.html"><li>Home</li></a>
                 <a href="/src/html/wallet.html"><li>Wallet</li></a>
-                <a href="orders.html"><li>Orders</li></a>
+                <a href="/src/html/orders.html"><li>Orders</li></a>
                 <a href="performance.html">Performance</a>
             </ul>
         </nav>
 
     </header>
     
-    <main class="w-full max-w-5xl h-full m-auto bg-sky-900"> 
+    <main class="w-full max-w-5xl h-full m-auto bg-sky-900 overflow-x-auto"> 
         
         <section class="w-full h-fit flex flex-col items-center"> <!-- Add Order section -->
 
@@ -69,27 +69,37 @@
 
         </section>
 
-        <section class="w-full h-fit flex flex-col lg:items-center bg-sky-50 py-2 "> <!-- Portfolio section -->
-        
+        <section class="w-full h-fit flex flex-col lg:items-center bg-sky-50 p-2 "> <!-- Portfolio section -->
+          
+            <div class="h-8 w-full bg-sky-800 text-sky-50 rounded-t-lg">
+              <p class="h-full flex items-center justify-center text-lg font-semibold tracking-widest">WALLET <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-list-filter ml-2"><path d="M3 6h18"/><path d="M7 12h10"/><path d="M10 18h4"/></svg></p>
+            </div>
 
-            <table class="w-full lg:w-5/6 h-fit my-2 lg:rounded-lg lg:overflow-hidden text-xs sm:text-sm text-center *:sm:text-nowrap *:transition-all "> <!-- Wallet table -->
-                <thead class="bg-sky-950 text-sky-50 *:text-sm *:tracking-wide ">
-                  <tr class="*:w-20 *:h-16 *:px-4 *:py-2 *:font-medium ">
+          <div class="w-full overflow-x-auto rounded-b-lg"> <!-- Wallet table -->
+            <table class="w-full h-fit text-xs sm:text-sm text-center *:sm:text-nowrap *:transition-all whitespace-nowrap"> 
+                <thead class="bg-sky-950 text-sky-50 *:text-sm *:tracking-wide">
+                  <tr class="*:w-fit *:h-16 *:m-auto *:py-2 *:px-2 *:sm:px-1 *:font-medium">
                     <th>Ticker</th>
-                    <th >Name</th>
+                    <th>Name</th>
+                    <th>Category</th>
                     <th>Units</th>
-                    <th >Actual Price</th>
+                    <th>% Portfolio</th>
+                    <th>Actual Price</th>
+                    <th>Total Cost</th>
                     <th>Actual Value</th>
-                    <th >Profit</th>
-                    <th>Profit %</th>
+                    <th>Profit / Losses</th>
+                    <th >P / L %</th>
                   </tr>
                 </thead>
-                <tbody class="bg-sky-100 *:even:bg-sky-50 divide-y divide-sky-950 *:hover:bg-sky-200  *:font-light *:transition-all">
-                  <tr class="*:px-4 *:py-2 ">
+                <tbody class="bg-sky-50 *:even:bg-sky-100 divide-y divide-sky-950 *:hover:bg-sky-200  *:font-light *:transition-all">
+                  <tr class="*:m-auto *:py-2 ">
                     <th scope="row" class="font-medium">BTC</th>
                     <td >Bitcoin</td>
+                    <td>Crypto</td>
                     <td >125</td>
+                    <td>15%</td>
                     <td >1,299</td>
+                    <td>60,000</td>
                     <td >80,000</td>
                     <td class="text-red-500 font-semibold tracking-wide">1,250</td>
                     <td class="text-red-500 font-semibold tracking-wide">15%</td>
@@ -97,21 +107,26 @@
                   <tr class="*:px-4 *:py-2">
                     <th scope="row" class="font-medium">EUR / USD</th>
                     <td >Euro Canadian Dollar</td>
+                    <td>Forex</td>
                     <td >125</td>
+                    <td>10%</td>
                     <td >1,299</td>
+                    <td>50,000</td>
                     <td >51,000</td>
                     <td class="text-green-500 font-semibold tracking-wide">1,250</td>
                     <td class="text-green-500 font-semibold tracking-wide">15%</td>
                   </tr>
-                     
-                    
-                              
+    
                 </tbody>
                 
-                  <caption class="h-8 bg-sky-800 text-sky-50"><p class="h-full flex items-center justify-center text-lg font-semibold tracking-widest">WALLET</p></caption>
+                  
             </table>
-            
-            
+          </div>
+
+            <div class="w-full h-72 bg-amber-300 my-2 rounded-lg">
+              HERE WE WANT A GRAPH WITH EVERY Category invest and her %
+            </div>
+             
         </section>
     </main>
 
@@ -124,7 +139,7 @@
           <ul class="flex justify-around pr-4" >
               <a href="/home.html"><li>Home</li></a>
               <a href="/src/html/wallet.html"><li>Wallet</li></a>
-              <a href="orders.html"><li>Orders</li></a>
+              <a href="/src/html/orders.html"><li>Orders</li></a>
               <a href="performance.html">Performance</a>
           </ul>
         </nav>
@@ -134,7 +149,7 @@
       <p class="text-xs">Project designed and developed by <a href="https://github.com/EmiLeale" target="_blank">Emiliano Leale</a></p>
     </footer>
 
-    <script type="module" src="/index.js"></script>
+    <!-- <script type="module" src="/index.js"></script> -->
 
 </body>
 </html>

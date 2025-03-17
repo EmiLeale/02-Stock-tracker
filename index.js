@@ -2,6 +2,10 @@
 
 // new AddOrder();
 
-import ActualizeWallet from "./src/components/ActualizeWallet.js";
+// import ActualizeWallet from "./src/components/ActualizeWallet.js";
 
-new ActualizeWallet();
+// new ActualizeWallet();
+
+import ActualizeDataDOM from "./src/components/ActualizeDataDOM.js";
+
+new ActualizeDataDOM();

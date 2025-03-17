@@ -9,9 +9,16 @@ class ActualizeWallet extends AddOrder {
         {
           symbol: "BTC",
           name: "Bitcoin",
-          price: 62000,
+          price: 61000,
           units: 3,
-          total: 186000,
+          total: 183000,
+        },
+        {
+          symbol: "ETH",
+          name: "Etherum",
+          price: 1500,
+          units: 2,
+          total: 3000,
         },
       ],
       stocks: [
@@ -27,21 +34,22 @@ class ActualizeWallet extends AddOrder {
         {
           symbol: "EUR/USD",
           name: "Euro Dolar",
-          price: 1,
-          units: 150,
-          total: 150,
+          price: 0.96,
+          units: 1100,
+          total: 1145,
         },
       ],
       index: [
         {
-          symbol: "SPX",
+          symbol: "SPY",
           name: "S&P 500",
-          price: 4700,
+          price: 470,
           units: 1,
-          total: 4700,
+          total: 470,
         },
       ],
       others: [],
+      total: [],
     };
     localStorage.setItem("wallet", JSON.stringify(this._wallet));
     this.loadCurrencies();
@@ -50,7 +58,11 @@ class ActualizeWallet extends AddOrder {
 
   async loadCurrencies() {
     this._currencies = await CurrencyService.getCurrencies();
-    console.log(this._currencies);
+    if (this._currencies) {
+      this.actualValueWallet();
+    } else {
+      console.error("Error: The data could not be loaded.");
+    }
   }
 
   actualize() {
@@ -59,7 +71,6 @@ class ActualizeWallet extends AddOrder {
 
   isOnWallet() {
     const lastOrder = this._orders[this._orders.length - 1];
-
     this.verifySymbol(lastOrder);
   }
 
@@ -158,6 +169,43 @@ class ActualizeWallet extends AddOrder {
     }
   }
 
+  actualValueWallet() {
+    this._totalValue = 0;
+    this._totalCost = 0;
+    Object.keys(this._wallet).forEach((category) => {
+      this._wallet[category] = this._wallet[category].filter(
+        (item) => !(item.value !== undefined && item.cost !== undefined)
+      );
+
+      this._value = 0;
+      this._cost = 0;
+
+      this._wallet[category].forEach((element) => {
+        this._currencies[category].forEach((asset) => {
+          if (element.symbol === asset.symbol) {
+            this._cost += element.total;
+            let value = element.units * asset.price;
+            this._value += value;
+          }
+        });
+      });
+
+      this._wallet[category].push({
+        value: this._value,
+        cost: this._cost,
+      });
+
+      this._totalCost += this._cost;
+      this._totalValue += this._value;
+    });
+    this._wallet.total = [
+      {
+        value: this._totalCost,
+        cost: this._totalValue,
+      },
+    ];
+    localStorage.setItem("wallet", JSON.stringify(this._wallet));
+  }
   // addOrderToEmptyWallet(order) {
   //   this._wallet.push(order); NO ES UN ARRAY
   //   localStorage.setItem("wallet", JSON.stringify(this._wallet));
