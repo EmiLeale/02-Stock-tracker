@@ -17,7 +17,7 @@ CAPTURA !!
 
 ### Useful resources
 
-- MDN(https://developer.mozilla.org/en-US/) - This always helps me use anything I don't remember.
+- MDN (https://developer.mozilla.org/en-US/) - This always helps me use anything I don't remember.
 
 ### Built with
 
@@ -65,4 +65,4 @@ New Order Entry:
 
 ## Author
 
-- GitHub [@Emi-Leale](https://github.com/Emi-Leale)
+- GitHub [@Emi-Leale](https://github.com/EmiLeale)
