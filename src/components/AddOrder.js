@@ -54,6 +54,10 @@ class AddOrder extends OrderModal {
     this._price.addEventListener("input", this.actualizeTotal.bind(this));
     this._units.addEventListener("input", this.actualizeTotal.bind(this));
     this._type.addEventListener("change", this.sellSelected.bind(this));
+    this._ticker.addEventListener("change", this.newCurrencie.bind(this));
+    this._ticker.addEventListener("input", () => {
+      this._newCurrencieForm.classList.add("hidden");
+    });
   }
 
   sellSelected() {
@@ -84,19 +88,30 @@ class AddOrder extends OrderModal {
     }
   }
 
+  formatDate(date) {
+    const year = date.slice(0, 4);
+    const month = date.slice(5, 7);
+    const day = date.slice(8, 10);
+    date = `${day}/${month}/${year}`;
+    return date;
+  }
+
+  // tickerEventChange() {
+  //   this._ticker.addEventListener("change", this.newCurrencie);
+  // }
+
   submitOrder() {
     event.preventDefault();
     const formData = new FormData(this._form);
     const formDataObj = {
       type: formData.get("order-type"),
-      date: formData.get("order-date"),
+      date: this.formatDate(formData.get("order-date")),
       ticker: formData.get("order-ticker").toUpperCase(),
       units: Number(formData.get("order-units")),
       price: Number(formData.get("order-price")),
       note: formData.get("order-note"),
     };
     formDataObj.total = formDataObj.price * formDataObj.units;
-
     if (this.isEmpty()) {
       return;
     }
@@ -105,6 +120,7 @@ class AddOrder extends OrderModal {
     localStorage.setItem("orders", JSON.stringify(this._orders));
 
     this.cleanModal();
+    return true;
   }
 }
 

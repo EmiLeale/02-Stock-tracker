@@ -38,7 +38,11 @@
 
             <h2 class="w-full p-2 m-4 mt-8 bg-sky-50 text-center">Welcome user, do you want to add an order?</h2>
 
-            <button id="add-order" class="w-32 h-8 bg-sky-50 hover:bg-sky-200 active:bg-sky-300 text-sm hover:font-semibold hover:tracking-wider rounded-2xl cursor-pointer transition-all mb-4 shadow-md shadow-sky-200 active:shadow-sky-600 hover:shadow-sky-900">Add order</button>
+            <div class="w-1/2 flex justify-around">
+              <button id="add-order" class="w-32 h-8 bg-sky-50 hover:bg-sky-200 active:bg-sky-300 text-sm hover:font-semibold hover:tracking-wider rounded-2xl cursor-pointer transition-all mb-4 shadow-md shadow-sky-200 active:shadow-sky-600 hover:shadow-sky-900">Add order</button>
+
+              <button id="clear-wallet" class="w-32 h-8 bg-sky-50 hover:bg-sky-200 active:bg-sky-300 text-sm hover:font-semibold hover:tracking-wider rounded-2xl cursor-pointer transition-all mb-4 shadow-md shadow-sky-200 active:shadow-sky-600 hover:shadow-sky-900">Clear wallet</button>
+            </div>      
 
             <form id="order-form" class="hidden h-fit w-96 bg-sky-100 grid-cols-2 grid-rows-7 gap-2 p-4 mb-4 rounded-2xl *:w-full *:h-full *:text-xs *:m-auto  *:outline-none *:border-1 *:focus:border-2 *:rounded-sm *:text-center transition-all">
 
@@ -65,6 +69,23 @@
                     <input id="order-submit" type="submit" value="Save">
                     <button id="order-cancel">Cancel</button>
                 </div>
+            </form>
+
+            <form id="new-currencie-form" class="hidden h-fit w-fit bg-red-100 grid-cols-2 grid-rows-7 gap-2 p-4 mb-4 rounded-2xl *:w-full *:m-auto  *:outline-none  *:focus:border-2 transition-all absolute top-72"> <!-- New Currencie modal -->
+              <p class="w-full text-xs text-center pb-2">Add new Currencie</p>
+              <div class="w-fit h-fit flex items-center *:text-center *:rounded-sm text-xs">
+                <input name="new-currencie-name" id="new-currencie-name" type="text" placeholder="Name" maxlength="20" class="h-8 border-1 bg-amber-100 focus:bg-amber-200" >
+                <button id="new-currencie-submit" type="submit">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus cursor-pointer"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                </button>
+              </div>
+              
+              <div id="advice-new-currencie" class="hidden w-fit h-fit  items-center *:rounded-sm absolute left-0 top-0 bg-sky-200 p-4 rounded-2xl text-sm transition-all">
+                <p>You add Name Enterprise"" with the Ticker NEW"". The actual price is $$$""</p>
+                <p>The price will be updated automatically whenever a new investment is added. It can also be updated manually, alongside other prices.</p>
+              </div>
+              
+              
             </form>
 
         </section>
@@ -149,7 +170,7 @@
       <p class="text-xs">Project designed and developed by <a href="https://github.com/EmiLeale" target="_blank">Emiliano Leale</a></p>
     </footer>
 
-    <!-- <script type="module" src="/index.js"></script> -->
+    <script type="module" src="/src/components/WalletPage.js"></script>
 
 </body>
 </html>

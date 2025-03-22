@@ -1,6 +1,9 @@
 class OrderModal {
   constructor() {
     this._addOrderBtn = document.getElementById("add-order");
+    this._clearWalletBtn = document.getElementById("clear-wallet");
+
+    // Add order form
     this._form = document.getElementById("order-form");
     this._cancel = document.getElementById("order-cancel");
     this._type = document.getElementById("order-type");
@@ -13,13 +16,46 @@ class OrderModal {
     this._note = document.getElementById("order-note");
     this._profit = document.getElementById("order-profit");
     this._submit = document.getElementById("order-submit");
+
+    // New currencie form
+    this._newCurrencieForm = document.getElementById("new-currencie-form");
+    this._newCurrencieName = document.getElementById("new-currencie-name");
+    this._newCurrencieSubmit = document.getElementById("new-currencie-submit");
+    this._adviceNewCurrencie = document.getElementById("advice-new-currencie");
+
     this.addEventListeners();
   }
 
   addEventListeners() {
     this._addOrderBtn.addEventListener("click", this.openOrderModal.bind(this));
     this._cancel.addEventListener("click", this.closeModal.bind(this));
+    this._clearWalletBtn.addEventListener("click", this.clearWallet.bind(this));
     window.addEventListener("click", this.outsideClick.bind(this));
+  }
+
+  clearWallet() {
+    const alert = window.confirm(
+      "You're about to clean out your entire investment portfolio. Are you sure?"
+    );
+    if (!alert) {
+      return;
+    }
+
+    this._orders = [];
+    localStorage.setItem("orders", JSON.stringify(this._orders));
+
+    this._wallet = {
+      crypto: [],
+      stocks: [],
+      forex: [],
+      index: [],
+      others: [],
+      total: [],
+    };
+    this.actualValueWallet();
+    localStorage.setItem("wallet", JSON.stringify(this._wallet));
+
+    return true;
   }
 
   cleanModal() {
@@ -50,11 +86,10 @@ class OrderModal {
   isEmpty() {
     if (
       !this._units.value ||
-      !this._price.value
-      // ||
-      // !this._date.value ||
-      // !this._ticker.value ||
-      // this._type.value === "Select an operation"
+      !this._price.value ||
+      !this._date.value ||
+      !this._ticker.value ||
+      this._type.value === "Select an operation"
     ) {
       window.alert("Please, fill all form to submit.");
       return true;

@@ -35,8 +35,9 @@
     ],
     "index": [
       { "symbol": "SPY", "name": "SPDR S&P 500 ETF", "price": 480, "change_24h": -0.5, "market_cap": 450000000000 },
+      { "symbol": "SPY", "name": "SPDR S&P 500 ETF", "price": 480, "change_24h": -0.5, "market_cap": 450000000000 },
+
       { "symbol": "DAXEX", "name": "DAX ETF", "price": 157, "change_24h": 0.7, "market_cap": 120000000000 },
-      { "symbol": "QQQ", "name": "Invesco QQQ Trust (NASDAQ 100)", "price": 375, "change_24h": 1.2, "market_cap": 190000000000 },
       { "symbol": "VGK", "name": "Vanguard FTSE Europe ETF", "price": 65, "change_24h": -0.3, "market_cap": 25000000000 },
       { "symbol": "VWO", "name": "Vanguard FTSE Emerging Markets ETF", "price": 42, "change_24h": 0.9, "market_cap": 80000000000 },
       { "symbol": "IJR", "name": "iShares Core S&P Small-Cap ETF", "price": 110, "change_24h": 0.5, "market_cap": 65000000000 },
@@ -50,6 +51,9 @@
       { "symbol": "MELI", "name": "MercadoLibre Inc.", "price": 1600, "change_24h": 1.1, "volume_24h": 1200000, "market_cap": 80000000000 },
       { "symbol": "BABA", "name": "Alibaba Group", "price": 95, "change_24h": -0.5, "volume_24h": 18000000, "market_cap": 250000000000 },
       { "symbol": "MSFT", "name": "Microsoft Corp.", "price": 320, "change_24h": 0.7, "volume_24h": 35000000, "market_cap": 2400000000000 }
+    ],
+    "others": [
+      
     ]
   }
   
