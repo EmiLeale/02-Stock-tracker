@@ -15,6 +15,7 @@ class ActualizeHomePage extends ActualizeDataDOM {
         this.clearWalletHomePage.bind(this)
       );
     });
+    this._submit.addEventListener("click", this.actualizeHomePage.bind(this));
   }
 
   actualizeHomePage() {

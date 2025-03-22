@@ -7,7 +7,7 @@ class CurrencyService {
 
   async initializeCurrencies() {
     try {
-      const response = await fetch("currencies.json");
+      const response = await fetch("/src/data/currencies.json");
       if (!response.ok) {
         throw new Error("Error loading currency data");
       }
@@ -29,6 +29,10 @@ class CurrencyService {
       return;
     }
 
+    this.addDataList();
+  }
+
+  addDataList() {
     this._datalistSuggest.innerHTML = "";
 
     Object.values(this._currencies).forEach((category) => {

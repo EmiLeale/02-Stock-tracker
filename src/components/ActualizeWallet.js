@@ -53,7 +53,7 @@ class ActualizeWallet extends AddOrder {
     };
     localStorage.setItem("wallet", JSON.stringify(this._wallet));
     this.loadCurrencies();
-    this.actualize();
+    this._form.addEventListener("submit", this.isOnWallet.bind(this));
   }
 
   async loadCurrencies() {
@@ -63,10 +63,6 @@ class ActualizeWallet extends AddOrder {
     } else {
       console.error("Error: The data could not be loaded.");
     }
-  }
-
-  actualize() {
-    this._form.addEventListener("submit", this.isOnWallet.bind(this));
   }
 
   isOnWallet() {
@@ -103,6 +99,15 @@ class ActualizeWallet extends AddOrder {
       }
     }
 
+    for (const others of this._wallet.others) {
+      if (others.symbol === lastOrder.ticker) {
+        const data = this.searchSymbolJSON(lastOrder.ticker);
+        data.price = lastOrder.price;
+        this.actualizingItem(lastOrder, "others");
+        return true;
+      }
+    }
+
     this.addNewItem(lastOrder);
     return false;
   }
@@ -120,6 +125,7 @@ class ActualizeWallet extends AddOrder {
 
       localStorage.setItem("wallet", JSON.stringify(this._wallet));
     }
+    this.actualValueWallet();
   }
 
   addNewItem(lastOrder) {
@@ -164,9 +170,54 @@ class ActualizeWallet extends AddOrder {
         price: lastOrder.price,
         total: lastOrder.units * lastOrder.price,
       };
+      const existCurrencie = this.searchSymbolJSON(newItem.symbol);
+      if (existCurrencie) {
+        existCurrencie.price = newItem.price;
+      }
+
       this._wallet["others"].push(newItem);
       localStorage.setItem("wallet", JSON.stringify(this._wallet));
     }
+
+    this.actualValueWallet();
+  }
+
+  searchSymbolJSON(value) {
+    const data = this._currencies;
+    for (let category in data) {
+      let result = data[category].find((item) => item.symbol === value);
+      if (result) {
+        return result;
+      }
+    }
+    return null;
+  }
+
+  newCurrencie() {
+    if (
+      this.searchSymbolJSON(this._ticker.value) ||
+      this._ticker.value === ""
+    ) {
+      this._newCurrencieForm.classList.add("hidden");
+      return;
+    }
+
+    this._newCurrencieForm.classList.toggle("hidden");
+    let newCurrencie = {};
+
+    this._newCurrencieSubmit.addEventListener("click", () => {
+      if (this._newCurrencieName.value.length === 0) {
+        event.preventDefault();
+        window.alert("Add a name to the new currencie");
+      } else {
+        event.preventDefault();
+        newCurrencie.name = this._newCurrencieName.value;
+        newCurrencie.symbol = this._ticker.value.toUpperCase();
+        this._currencies.others.push(newCurrencie);
+        this._newCurrencieForm.classList.toggle("hidden");
+      }
+      CurrencyService.addDataList();
+    });
   }
 
   actualValueWallet() {
@@ -181,13 +232,19 @@ class ActualizeWallet extends AddOrder {
       this._cost = 0;
 
       this._wallet[category].forEach((element) => {
-        this._currencies[category].forEach((asset) => {
-          if (element.symbol === asset.symbol) {
-            this._cost += element.total;
-            let value = element.units * asset.price;
-            this._value += value;
-          }
-        });
+        if (category === "others") {
+          this._cost += element.total;
+          let value = element.units * element.price;
+          this._value += value;
+        } else {
+          this._currencies[category].forEach((asset) => {
+            if (element.symbol === asset.symbol) {
+              this._cost += element.total;
+              let value = element.units * asset.price;
+              this._value += value;
+            }
+          });
+        }
       });
 
       this._wallet[category].push({
@@ -200,12 +257,13 @@ class ActualizeWallet extends AddOrder {
     });
     this._wallet.total = [
       {
-        value: this._totalCost,
-        cost: this._totalValue,
+        cost: this._totalCost,
+        value: this._totalValue,
       },
     ];
     localStorage.setItem("wallet", JSON.stringify(this._wallet));
   }
+
   // addOrderToEmptyWallet(order) {
   //   this._wallet.push(order); NO ES UN ARRAY
   //   localStorage.setItem("wallet", JSON.stringify(this._wallet));
