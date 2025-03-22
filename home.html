@@ -10,7 +10,7 @@
 
 </head>
 
-<body class="h-screen w-full bg-sky-900 ">
+<body class="h-screen w-full bg-sky-900 text-black">
     
     <header class="w-full h-20 bg-sky-50 flex justify-between sm:justify-evenly max-w-5xl m-auto">
 
@@ -38,7 +38,11 @@
 
             <h2 class="w-full p-2 m-4 mt-8 bg-sky-50 text-center">Welcome user, do you want to add an order?</h2>
 
-            <button id="add-order" class="w-32 h-8 bg-sky-50 hover:bg-sky-200 active:bg-sky-300 text-sm hover:font-semibold hover:tracking-wider rounded-2xl cursor-pointer transition-all mb-4 shadow-md shadow-sky-200 active:shadow-sky-600 hover:shadow-sky-900">Add order</button>
+            <div class="w-1/2 flex justify-around">
+              <button id="add-order" class="w-32 h-8 bg-sky-50 hover:bg-sky-200 active:bg-sky-300 text-sm hover:font-semibold hover:tracking-wider rounded-2xl cursor-pointer transition-all mb-4 shadow-md shadow-sky-200 active:shadow-sky-600 hover:shadow-sky-900">Add order</button>
+
+              <button id="clear-wallet" class="w-32 h-8 bg-sky-50 hover:bg-sky-200 active:bg-sky-300 text-sm hover:font-semibold hover:tracking-wider rounded-2xl cursor-pointer transition-all mb-4 shadow-md shadow-sky-200 active:shadow-sky-600 hover:shadow-sky-900">Clear wallet</button>
+            </div>            
 
             <form id="order-form" class="hidden h-fit w-96 bg-sky-100 grid-cols-2 grid-rows-7 gap-2 p-4 mb-4 rounded-2xl *:w-full *:h-full *:text-xs *:m-auto  *:outline-none *:border-1 *:focus:border-2 *:rounded-sm *:text-center transition-all">
 
@@ -105,35 +109,7 @@
                     <th>Profit %</th>
                   </tr>
                 </thead>
-                <!-- <tbody class="bg-sky-100 *:even:bg-sky-50 divide-y divide-sky-950 *:hover:bg-sky-200  *:font-light *:transition-all">
-                  <tr class="*:px-4 *:py-2 ">
-                    <th scope="row" class="font-medium">BTC</th>
-                    <td class="hidden md:table-cell">Bitcoin</td>
-                    <td >125</td>
-                    <td class="hidden sm:table-cell">1,299</td>
-                    <td >80,000</td>
-                    <td class="text-red-500 font-semibold tracking-wide hidden sm:table-cell">1,250</td>
-                    <td class="text-red-500 font-semibold tracking-wide">15%</td>
-                  </tr>
-                  <tr class="*:px-4 *:py-2">
-                    <th scope="row" class="font-medium">EUR / USD</th>
-                    <td class="hidden md:table-cell">Euro Canadian Dollar</td>
-                    <td >125</td>
-                    <td class="hidden sm:table-cell">1,299</td>
-                    <td >51,000</td>
-                    <td class="text-green-500 font-semibold tracking-wide hidden sm:table-cell">1,250</td>
-                    <td class="text-green-500 font-semibold tracking-wide">15%</td>
-                  </tr>
-                  <tr class="*:px-4 *:py-2">
-                    <th scope="row" class="font-medium">SPX</th>
-                    <td class="hidden md:table-cell">Standar and Poor</td>
-                    <td >10</td>
-                    <td class="hidden sm:table-cell">2,899</td>
-                    <td >1,250,000</td>
-                    <td class="text-green-500 font-semibold tracking-wide hidden sm:table-cell">1,250</td>
-                    <td class="text-green-500 font-semibold tracking-wide">15%</td>
-                  </tr>
-                </tbody>-->
+                <tbody class="bg-sky-100 *:even:bg-sky-50 divide-y divide-sky-950 *:hover:bg-sky-200 font-light *:transition-all"></tbody>
                 <caption class="h-8 w-full text-center caption-bottom font-medium cursor-pointer text-sky-50 bg-sky-800 hover:text-sky-800 hover:bg-sky-50">
                     <a href="/src/html/wallet.html" class="h-full flex justify-center items-center">See more
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down ml-1">
@@ -143,50 +119,19 @@
                   <caption class="h-8 bg-sky-800 text-sky-50"><p class="h-full flex items-center justify-center text-lg font-semibold tracking-widest">WALLET</p></caption> 
             </table>
             
-            <table class="w-full lg:w-5/6  h-fit my-2 lg:rounded-lg lg:overflow-hidden text-xs sm:text-sm text-center *:sm:text-nowrap *:transition-all"> <!-- Orders table -->
+            <table id="orders-table" class="w-full lg:w-5/6  h-fit my-2 lg:rounded-lg lg:overflow-hidden text-xs sm:text-sm text-center *:sm:text-nowrap *:transition-all"> <!-- Orders table -->
                 <thead class="bg-sky-950 text-sky-50 *:text-sm *:tracking-wide ">
                   <tr class="*:w-20 *:h-16 *:px-4 *:py-2 *:font-medium ">
                     <th>Ticker</th>
                     <th>Type</th>
-                    <th class="hidden md:table-cell">Date</th>
+                    <th>Date</th>
                     <th>Units</th>
                     <th>Price</th>
                     <th class="hidden sm:table-cell">Total</th>
-                    <th class="hidden sm:table-cell">Profit</th>
-                    <th>Profit %</th>
                   </tr>
                 </thead>
-                <tbody class="bg-sky-100 *:even:bg-sky-50 divide-y divide-sky-950 *:hover:bg-sky-200  *:font-light *:transition-all">
-                  <tr class="*:px-4 *:py-2 ">
-                    <th scope="row" class="font-medium">BTC</th>
-                    <td>Buy</td>
-                    <td class="hidden md:table-cell">31/03/2024</td>
-                    <td>125</td>
-                    <td>1,299</td>
-                    <td class="hidden sm:table-cell">80,000</td>
-                    <td class="text-red-500 font-semibold tracking-wide hidden sm:table-cell">1,250</td>
-                    <td class="text-red-500 font-semibold tracking-wide">15%</td>
-                  </tr>
-                  <tr class="*:px-4 *:py-2">
-                    <th scope="row" class="font-medium">EUR / USD</th>
-                    <td>Sell</td>
-                    <td class="hidden md:table-cell">01/07/2024</td>
-                    <td>125</td>
-                    <td>1,299</td>
-                    <td class="hidden sm:table-cell">51,000</td>
-                    <td class="tracking-wide hidden sm:table-cell">-</td>
-                    <td class="tracking-wide">-</td>
-                  </tr>
-                  <tr class="*:px-4 *:py-2">
-                    <th scope="row" class="font-medium">SPX</th>
-                    <td>Buy</td>
-                    <td class="hidden md:table-cell">25/11/2011</td>
-                    <td>10</td>
-                    <td>2,899</td>
-                    <td class="hidden sm:table-cell">1,250,000</td>
-                    <td class="tracking-wide hidden sm:table-cell">-</td>
-                    <td class="tracking-wide">-</td>
-                  </tr>
+                <tbody class="bg-sky-100 *:even:bg-sky-50 divide-y divide-sky-950 *:hover:bg-sky-200 font-light *:transition-all">
+                  
                 </tbody>
                 <caption class="h-8 w-full text-center caption-bottom font-medium cursor-pointer text-sky-50 bg-sky-800 hover:text-sky-800 hover:bg-sky-50">
                     <a href="/src/html/orders.html" class="h-full flex justify-center items-center">See more
