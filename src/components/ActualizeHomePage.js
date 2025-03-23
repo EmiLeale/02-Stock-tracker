@@ -15,7 +15,17 @@ class ActualizeHomePage extends ActualizeDataDOM {
         this.clearWalletHomePage.bind(this)
       );
     });
-    this._submit.addEventListener("click", this.actualizeHomePage.bind(this));
+    this._form.addEventListener("submit", this.submitOrderFinish.bind(this));
+  }
+
+  submitOrderFinish() {
+    event.preventDefault();
+    if (this.isEmpty()) {
+      return;
+    }
+
+    this.isOnWallet();
+    this.actualizeHomePage();
   }
 
   actualizeHomePage() {
@@ -47,6 +57,22 @@ class ActualizeHomePage extends ActualizeDataDOM {
       let value =
         this._wallet[category][this._wallet[category].length - 1].value;
       let profit = value - cost;
+
+      if (category === "others" && this._currencies.others.length >= 1) {
+        const existCurrencie = this.searchSymbolJSON(
+          this._orders[this._orders.length - 1].ticker
+        );
+        if (existCurrencie) {
+          existCurrencie.price = this._orders[this._orders.length - 1].price;
+        }
+
+        this.actualValueWallet();
+        cost = this._wallet[category][this._wallet[category].length - 1].cost;
+        value = this._wallet[category][this._wallet[category].length - 1].value;
+        profit = value - cost;
+
+        console.log(this._currencies.others);
+      }
 
       pCost.textContent = `Total Cost: $${this.formatNumber(cost)}`;
       pValue.textContent = `Actual Value: $${this.formatNumber(value)}`;

@@ -50,11 +50,8 @@ class AddOrder extends OrderModal {
   }
 
   addEventListener() {
-    this._form.addEventListener("submit", this.submitOrder.bind(this));
     this._price.addEventListener("input", this.actualizeTotal.bind(this));
     this._units.addEventListener("input", this.actualizeTotal.bind(this));
-    this._type.addEventListener("change", this.sellSelected.bind(this));
-    this._ticker.addEventListener("change", this.newCurrencie.bind(this));
     this._ticker.addEventListener("input", () => {
       this._newCurrencieForm.classList.add("hidden");
     });
@@ -62,11 +59,12 @@ class AddOrder extends OrderModal {
 
   sellSelected() {
     if (this._type.value === "Sell") {
-      this._gp.classList.toggle("hidden");
-      this._profit.classList.toggle("hidden");
-      this._profit.classList.toggle("flex");
-      this._gp.classList.toggle("flex");
-      this._form.classList.toggle("grid-rows-8");
+      this._gp.classList.remove("hidden");
+      this._profit.classList.remove("hidden");
+      this._profit.classList.add("flex");
+      this._gp.classList.add("flex");
+      this._form.classList.add("grid-rows-8");
+      return true;
     } else {
       this._gp.classList.add("hidden");
       this._profit.classList.add("hidden");
@@ -96,12 +94,9 @@ class AddOrder extends OrderModal {
     return date;
   }
 
-  // tickerEventChange() {
-  //   this._ticker.addEventListener("change", this.newCurrencie);
-  // }
-
   submitOrder() {
     event.preventDefault();
+
     const formData = new FormData(this._form);
     const formDataObj = {
       type: formData.get("order-type"),
@@ -111,10 +106,8 @@ class AddOrder extends OrderModal {
       price: Number(formData.get("order-price")),
       note: formData.get("order-note"),
     };
+
     formDataObj.total = formDataObj.price * formDataObj.units;
-    if (this.isEmpty()) {
-      return;
-    }
 
     this._orders.push(formDataObj);
     localStorage.setItem("orders", JSON.stringify(this._orders));

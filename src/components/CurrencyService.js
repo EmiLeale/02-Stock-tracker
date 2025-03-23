@@ -29,19 +29,26 @@ class CurrencyService {
       return;
     }
 
-    this.addDataList();
+    this.addDataList(this._currencies);
   }
 
-  addDataList() {
+  addDataList(obj) {
+    // Limpiar el datalist antes de agregar nuevas opciones
     this._datalistSuggest.innerHTML = "";
 
-    Object.values(this._currencies).forEach((category) => {
-      category.forEach((item) => {
-        let option = document.createElement("option");
-        option.value = `${item.symbol}`;
-        option.innerText = `- ${item.name}`;
-        this._datalistSuggest.appendChild(option);
-      });
+    // Recorrer todas las categorías del objeto (crypto, stocks, forex, etc.)
+    Object.values(obj).forEach((category) => {
+      category
+        .filter((item) => "name" in item && "symbol" in item) // Filtrar solo los que tengan 'name' y 'symbol'
+        .forEach((item) => {
+          // Crear un elemento <option> para cada activo válido
+          let option = document.createElement("option");
+          option.value = item.symbol; // Valor del option es el símbolo
+          option.innerText = `- ${item.name}`; // Texto visible en la sugerencia
+
+          // Agregar el option al datalist
+          this._datalistSuggest.appendChild(option);
+        });
     });
   }
 }

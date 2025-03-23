@@ -70,6 +70,7 @@ class OrderModal {
     this._profit.classList.remove("flex");
     this._gp.classList.remove("flex");
     this._note.value = "";
+    this._form.classList.remove("grid-rows-8");
   }
 
   isAllEmpty() {
@@ -105,6 +106,8 @@ class OrderModal {
         return;
       }
     }
+    this._newCurrencieForm.classList.add("hidden");
+    this._newCurrencieName.value = "";
     this.openOrderModal();
     this.cleanModal();
   }

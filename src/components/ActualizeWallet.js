@@ -53,7 +53,13 @@ class ActualizeWallet extends AddOrder {
     };
     localStorage.setItem("wallet", JSON.stringify(this._wallet));
     this.loadCurrencies();
-    this._form.addEventListener("submit", this.isOnWallet.bind(this));
+
+    this._type.addEventListener("change", this.sellSelectedDatalist.bind(this));
+    this._ticker.addEventListener("change", this.newCurrencie.bind(this));
+    this._newCurrencieSubmit.addEventListener(
+      "click",
+      this.newCurrencieLock.bind(this)
+    );
   }
 
   async loadCurrencies() {
@@ -66,8 +72,47 @@ class ActualizeWallet extends AddOrder {
   }
 
   isOnWallet() {
+    if (!this.actualizeModalToSell()) {
+      return;
+    }
+    this.submitOrder();
     const lastOrder = this._orders[this._orders.length - 1];
     this.verifySymbol(lastOrder);
+    this.sellSelectedDatalist();
+  }
+
+  sellSelectedDatalist() {
+    // this.actualizeModalToSell();
+    if (this.sellSelected()) {
+      CurrencyService.addDataList(this._wallet);
+      this.actualizeModalToSell();
+    } else {
+      CurrencyService.addDataList(this._currencies);
+    }
+  }
+
+  actualizeModalToSell() {
+    let result = null;
+    let data = this._wallet;
+
+    if (this._type.value === "Sell") {
+      if (this._ticker.value !== "") {
+        for (let category in data) {
+          result = data[category].find(
+            (item) => item.symbol === this._ticker.value
+          );
+          if (result) {
+            this._units.setAttribute("max", result.units);
+            return true;
+          }
+        }
+
+        window.alert("The investment selected doesn't exist");
+        return false;
+      }
+    } else {
+      return true;
+    }
   }
 
   verifySymbol(lastOrder) {
@@ -118,13 +163,24 @@ class ActualizeWallet extends AddOrder {
     );
 
     if (index !== -1) {
-      this._wallet[type][index].units += lastOrder.units;
-      this._wallet[type][index].total += lastOrder.total;
-      this._wallet[type][index].price =
-        this._wallet[type][index].total / this._wallet[type][index].units;
-
+      if (this._orders[this._orders.length - 1].type === "Buy") {
+        this._wallet[type][index].units += lastOrder.units;
+        this._wallet[type][index].total += lastOrder.total;
+        this._wallet[type][index].price =
+          this._wallet[type][index].total / this._wallet[type][index].units;
+      } else if (this._orders[this._orders.length - 1].type === "Sell") {
+        this._wallet[type][index].units -= lastOrder.units;
+        this._wallet[type][index].total -= lastOrder.total;
+        this._wallet[type][index].price =
+          this._wallet[type][index].total / this._wallet[type][index].units;
+      }
+      if (this._wallet[type][index].units === 0) {
+        this._wallet[type][index].total = 0;
+        this._wallet[type][index].price = 0;
+      }
       localStorage.setItem("wallet", JSON.stringify(this._wallet));
     }
+
     this.actualValueWallet();
   }
 
@@ -170,10 +226,6 @@ class ActualizeWallet extends AddOrder {
         price: lastOrder.price,
         total: lastOrder.units * lastOrder.price,
       };
-      const existCurrencie = this.searchSymbolJSON(newItem.symbol);
-      if (existCurrencie) {
-        existCurrencie.price = newItem.price;
-      }
 
       this._wallet["others"].push(newItem);
       localStorage.setItem("wallet", JSON.stringify(this._wallet));
@@ -203,21 +255,25 @@ class ActualizeWallet extends AddOrder {
     }
 
     this._newCurrencieForm.classList.toggle("hidden");
-    let newCurrencie = {};
+  }
 
-    this._newCurrencieSubmit.addEventListener("click", () => {
-      if (this._newCurrencieName.value.length === 0) {
-        event.preventDefault();
-        window.alert("Add a name to the new currencie");
-      } else {
-        event.preventDefault();
-        newCurrencie.name = this._newCurrencieName.value;
-        newCurrencie.symbol = this._ticker.value.toUpperCase();
-        this._currencies.others.push(newCurrencie);
-        this._newCurrencieForm.classList.toggle("hidden");
-      }
-      CurrencyService.addDataList();
-    });
+  newCurrencieLock() {
+    let newCurrencie = {};
+    console.log(this._newCurrencieName.value);
+    if (this._newCurrencieName.value === "") {
+      event.preventDefault();
+      window.alert("Add a name to the new currencie");
+      return;
+    } else {
+      event.preventDefault();
+      newCurrencie.name = this._newCurrencieName.value;
+      newCurrencie.symbol = this._ticker.value.toUpperCase();
+      this._newCurrencieForm.classList.toggle("hidden");
+    }
+    this._currencies.others.push(newCurrencie);
+    this._newCurrencieName.value = "";
+    CurrencyService.addDataList();
+    this.actualValueWallet();
   }
 
   actualValueWallet() {
@@ -232,19 +288,13 @@ class ActualizeWallet extends AddOrder {
       this._cost = 0;
 
       this._wallet[category].forEach((element) => {
-        if (category === "others") {
-          this._cost += element.total;
-          let value = element.units * element.price;
-          this._value += value;
-        } else {
-          this._currencies[category].forEach((asset) => {
-            if (element.symbol === asset.symbol) {
-              this._cost += element.total;
-              let value = element.units * asset.price;
-              this._value += value;
-            }
-          });
-        }
+        this._currencies[category].forEach((asset) => {
+          if (element.symbol === asset.symbol) {
+            this._cost += element.total;
+            let value = element.units * asset.price;
+            this._value += value;
+          }
+        });
       });
 
       this._wallet[category].push({
@@ -263,11 +313,6 @@ class ActualizeWallet extends AddOrder {
     ];
     localStorage.setItem("wallet", JSON.stringify(this._wallet));
   }
-
-  // addOrderToEmptyWallet(order) {
-  //   this._wallet.push(order); NO ES UN ARRAY
-  //   localStorage.setItem("wallet", JSON.stringify(this._wallet));
-  // }
 }
 
 export default ActualizeWallet;
