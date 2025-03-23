@@ -33,20 +33,16 @@ class CurrencyService {
   }
 
   addDataList(obj) {
-    // Limpiar el datalist antes de agregar nuevas opciones
     this._datalistSuggest.innerHTML = "";
 
-    // Recorrer todas las categorías del objeto (crypto, stocks, forex, etc.)
     Object.values(obj).forEach((category) => {
       category
-        .filter((item) => "name" in item && "symbol" in item) // Filtrar solo los que tengan 'name' y 'symbol'
+        .filter((item) => "name" in item && "symbol" in item)
         .forEach((item) => {
-          // Crear un elemento <option> para cada activo válido
           let option = document.createElement("option");
-          option.value = item.symbol; // Valor del option es el símbolo
-          option.innerText = `- ${item.name}`; // Texto visible en la sugerencia
+          option.value = item.symbol;
+          option.innerText = `- ${item.name}`;
 
-          // Agregar el option al datalist
           this._datalistSuggest.appendChild(option);
         });
     });

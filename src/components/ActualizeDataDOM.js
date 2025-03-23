@@ -12,28 +12,6 @@ class ActualizeDataDOM extends ActualizeWallet {
     }
   }
 
-  formatNumber(num) {
-    if (isNaN(num) || num === undefined || num === null || num === 0) {
-      return ` -`;
-    }
-
-    num = parseFloat(num.toString().replace(/,/g, ""));
-
-    let formattedNumber = num.toFixed(2);
-
-    formattedNumber = formattedNumber.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
-    if (formattedNumber.endsWith(".00")) {
-      formattedNumber = formattedNumber.slice(0, -3);
-    }
-
-    if (formattedNumber[0] === "-") {
-      return formattedNumber.slice(1);
-    }
-
-    return formattedNumber;
-  }
-
   getTop3Items(obj) {
     this._allItems = [];
     if (Array.isArray(obj)) {

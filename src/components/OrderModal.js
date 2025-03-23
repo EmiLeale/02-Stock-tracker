@@ -115,6 +115,7 @@ class OrderModal {
   openOrderModal() {
     this._form.classList.toggle("hidden");
     this._form.classList.toggle("grid");
+    this._form.classList.add("opacity-100");
   }
 
   outsideClick(e) {

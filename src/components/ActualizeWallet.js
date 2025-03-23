@@ -60,6 +60,26 @@ class ActualizeWallet extends AddOrder {
       "click",
       this.newCurrencieLock.bind(this)
     );
+
+    this._price.addEventListener("input", this.actualizeGP.bind(this));
+    this._units.addEventListener("input", this.actualizeGP.bind(this));
+  }
+
+  actualizeGP() {
+    const ticker = this.searchSymbolWallet();
+    if (ticker) {
+      if (this._units.value > ticker.units) {
+        return;
+      }
+      const gp =
+        this._units.value * this._price.value -
+        this._units.value * ticker.price;
+      const gpPercentage = gp / (this._units.value * ticker.price);
+      this._gp.textContent = "$ " + this.formatNumber(gp);
+      this._profit.textContent = this.limitNumber(gpPercentage * 100) + " %";
+    }
+
+    this.actualizeTotal();
   }
 
   async loadCurrencies() {
@@ -92,26 +112,32 @@ class ActualizeWallet extends AddOrder {
   }
 
   actualizeModalToSell() {
-    let result = null;
-    let data = this._wallet;
-
     if (this._type.value === "Sell") {
       if (this._ticker.value !== "") {
-        for (let category in data) {
-          result = data[category].find(
-            (item) => item.symbol === this._ticker.value
-          );
-          if (result) {
-            this._units.setAttribute("max", result.units);
-            return true;
-          }
+        if (this.searchSymbolWallet()) {
+          return true;
+        } else {
+          window.alert("The investment selected doesn't exist");
+          return false;
         }
-
-        window.alert("The investment selected doesn't exist");
-        return false;
       }
     } else {
       return true;
+    }
+  }
+
+  searchSymbolWallet() {
+    let result = null;
+    let data = this._wallet;
+    for (let category in data) {
+      result = data[category].find(
+        (item) => item.symbol === this._ticker.value
+      );
+      if (result) {
+        this._units.setAttribute("max", result.units);
+
+        return true, result;
+      }
     }
   }
 
@@ -247,19 +273,24 @@ class ActualizeWallet extends AddOrder {
 
   newCurrencie() {
     if (
+      (this.searchSymbolJSON(this._ticker.value) ||
+        this._ticker.value === "") &&
+      this._type.value !== "Buy"
+    ) {
+      this._newCurrencieForm.classList.add("hidden");
+      return;
+    } else if (
       this.searchSymbolJSON(this._ticker.value) ||
-      this._ticker.value === ""
+      this._type.value !== "Buy"
     ) {
       this._newCurrencieForm.classList.add("hidden");
       return;
     }
-
     this._newCurrencieForm.classList.toggle("hidden");
   }
 
   newCurrencieLock() {
     let newCurrencie = {};
-    console.log(this._newCurrencieName.value);
     if (this._newCurrencieName.value === "") {
       event.preventDefault();
       window.alert("Add a name to the new currencie");
@@ -272,7 +303,7 @@ class ActualizeWallet extends AddOrder {
     }
     this._currencies.others.push(newCurrencie);
     this._newCurrencieName.value = "";
-    CurrencyService.addDataList();
+    CurrencyService.addDataList(this._currencies);
     this.actualValueWallet();
   }
 
