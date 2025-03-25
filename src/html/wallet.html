@@ -34,121 +34,61 @@
     
     <main class="w-full max-w-5xl h-full m-auto bg-sky-900 overflow-x-auto"> 
         
-        <section class="w-full h-fit flex flex-col items-center"> <!-- Add Order section -->
+      <section class="w-full h-fit flex flex-col items-center transition-all" id="order-section"> <!-- Add Order section -->
 
-            <h2 class="w-full p-2 m-4 mt-8 bg-sky-50 text-center">Welcome user, do you want to add an order?</h2>
+        <h2 class="w-full p-2 m-4 mt-8 bg-sky-50 text-center">Welcome user, do you want to add an order?</h2>
 
-            <div class="w-1/2 flex justify-around">
-              <button id="add-order" class="w-32 h-8 bg-sky-50 hover:bg-sky-200 active:bg-sky-300 text-sm hover:font-semibold hover:tracking-wider rounded-2xl cursor-pointer transition-all mb-4 shadow-md shadow-sky-200 active:shadow-sky-600 hover:shadow-sky-900">Add order</button>
+        <div class="w-3/4 sm:w-1/2 flex justify-around">
+          <button id="add-order" class="w-32 h-8 bg-sky-50 hover:bg-sky-200 active:bg-sky-300 text-sm hover:font-semibold hover:tracking-wider rounded-2xl cursor-pointer transition-all mb-4 shadow-md shadow-sky-200 active:shadow-sky-600 hover:shadow-sky-900">Add order</button>
 
-              <button id="clear-wallet" class="w-32 h-8 bg-sky-50 hover:bg-sky-200 active:bg-sky-300 text-sm hover:font-semibold hover:tracking-wider rounded-2xl cursor-pointer transition-all mb-4 shadow-md shadow-sky-200 active:shadow-sky-600 hover:shadow-sky-900">Clear wallet</button>
-            </div>      
+          <button id="clear-wallet" class="w-32 h-8 bg-sky-50 hover:bg-sky-200 active:bg-sky-300 text-sm hover:font-semibold hover:tracking-wider rounded-2xl cursor-pointer transition-all mb-4 shadow-md shadow-sky-200 active:shadow-sky-600 hover:shadow-sky-900">Clear wallet</button>
+        </div>            
 
-            <form id="order-form" class="hidden h-fit w-96 bg-sky-100 grid-cols-2 grid-rows-7 gap-2 p-4 mb-4 rounded-2xl *:w-full *:h-full *:text-xs *:m-auto  *:outline-none *:border-1 *:focus:border-2 *:rounded-sm *:text-center transition-all">
+        <form id="order-form" class="hidden h-fit w-96 bg-sky-300 grid-cols-2 grid-rows-7 gap-2 p-4 mb-4 rounded-2xl *:w-full *:h-full *:text-xs *:m-auto  *:outline-none *:border-1 *:focus:border-2 *:rounded-sm *:text-center absolute opacity-0 transition-all">
 
-                <select name="order-type" id="order-type" class="focus:bg-sky-50">
-                    <option disabled selected="true">Select an operation</option>
-                    <option value="Buy">Buy</option>
-                    <option value="Sell">Sell</option>
-                </select>
-                <input name="order-date" id="order-date" type="date" class="px-2 focus:bg-sky-50">
-        
-                <input list="order-suggests" name="order-ticker" id="order-ticker" type="search" placeholder="Ticker" maxlength="10" class="w-full h-full bg-amber-100 focus:bg-amber-200">
-                <datalist id="order-suggests"></datalist>
-                <input name="order-units" id="order-units" type="number" placeholder="Units" max="999999999999999" min="0" step="any" class="bg-amber-100 focus:bg-amber-200">
-        
-                <input name="order-price" id="order-price" type="number" placeholder="Price" max="999999999999999" min="0" step="any" class="col-span-2 bg-amber-100 focus:bg-amber-200" >
-                <div id="order-total" placeholder="Total" class="col-span-2 bg-amber-50 flex items-center justify-center">Total</div>
-        
-                <div id="order-gp" class="hidden bg-amber-50 items-center justify-center">G / P</div>
-                <div id="order-profit" class="hidden bg-amber-50 items-center justify-center">Profit (%)</div>
-        
-                <textarea name="order-note" id="order-note" placeholder="Notes here..." class="p-2 resize-none col-span-2 row-span-2 bg-amber-100 focus:bg-amber-200"></textarea>
-
-                <div class="col-span-2 flex items-end justify-around border-none *:cursor-pointer *:w-32 *:h-8 *:bg-sky-50 *:hover:bg-sky-200 *:active:bg-sky-300 *:rounded-2xl *:transition-all *:text-sm *:hover:font-semibold *:hover:tracking-wider *:shadow-md *:shadow-sky-900 *:active:shadow-sky-600 *:hover:shadow-sky-200">
-                    <input id="order-submit" type="submit" value="Save">
-                    <button id="order-cancel">Cancel</button>
-                </div>
-            </form>
-
-            <form id="new-currencie-form" class="hidden h-fit w-fit bg-red-100 grid-cols-2 grid-rows-7 gap-2 p-4 mb-4 rounded-2xl *:w-full *:m-auto  *:outline-none  *:focus:border-2 transition-all absolute top-72"> <!-- New Currencie modal -->
-              <p class="w-full text-xs text-center pb-2">Add new Currencie</p>
-              <div class="w-fit h-fit flex items-center *:text-center *:rounded-sm text-xs">
-                <input name="new-currencie-name" id="new-currencie-name" type="text" placeholder="Name" maxlength="20" class="h-8 border-1 bg-amber-100 focus:bg-amber-200" >
-                <button id="new-currencie-submit" type="submit">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus cursor-pointer"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-                </button>
-              </div>
-              
-              <div id="advice-new-currencie" class="hidden w-fit h-fit  items-center *:rounded-sm absolute left-0 top-0 bg-sky-200 p-4 rounded-2xl text-sm transition-all">
-                <p>You add Name Enterprise"" with the Ticker NEW"". The actual price is $$$""</p>
-                <p>The price will be updated automatically whenever a new investment is added. It can also be updated manually, alongside other prices.</p>
-              </div>
-              
-              
-            </form>
-
-        </section>
-
-        <section class="w-full h-fit flex flex-col lg:items-center bg-sky-50 p-2 "> <!-- Portfolio section -->
-          
-            <div class="h-8 w-full bg-sky-800 text-sky-50 rounded-t-lg">
-              <p class="h-full flex items-center justify-center text-lg font-semibold tracking-widest">WALLET <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-list-filter ml-2"><path d="M3 6h18"/><path d="M7 12h10"/><path d="M10 18h4"/></svg></p>
-            </div>
-
-          <div class="w-full overflow-x-auto rounded-b-lg"> <!-- Wallet table -->
-            <table class="w-full h-fit text-xs sm:text-sm text-center *:sm:text-nowrap *:transition-all whitespace-nowrap"> 
-                <thead class="bg-sky-950 text-sky-50 *:text-sm *:tracking-wide">
-                  <tr class="*:w-fit *:h-16 *:m-auto *:py-2 *:px-2 *:sm:px-1 *:font-medium">
-                    <th>Ticker</th>
-                    <th>Name</th>
-                    <th>Category</th>
-                    <th>Units</th>
-                    <th>% Portfolio</th>
-                    <th>Actual Price</th>
-                    <th>Total Cost</th>
-                    <th>Actual Value</th>
-                    <th>Profit / Losses</th>
-                    <th >P / L %</th>
-                  </tr>
-                </thead>
-                <tbody class="bg-sky-50 *:even:bg-sky-100 divide-y divide-sky-950 *:hover:bg-sky-200  *:font-light *:transition-all">
-                  <tr class="*:m-auto *:py-2 ">
-                    <th scope="row" class="font-medium">BTC</th>
-                    <td >Bitcoin</td>
-                    <td>Crypto</td>
-                    <td >125</td>
-                    <td>15%</td>
-                    <td >1,299</td>
-                    <td>60,000</td>
-                    <td >80,000</td>
-                    <td class="text-red-500 font-semibold tracking-wide">1,250</td>
-                    <td class="text-red-500 font-semibold tracking-wide">15%</td>
-                  </tr>
-                  <tr class="*:px-4 *:py-2">
-                    <th scope="row" class="font-medium">EUR / USD</th>
-                    <td >Euro Canadian Dollar</td>
-                    <td>Forex</td>
-                    <td >125</td>
-                    <td>10%</td>
-                    <td >1,299</td>
-                    <td>50,000</td>
-                    <td >51,000</td>
-                    <td class="text-green-500 font-semibold tracking-wide">1,250</td>
-                    <td class="text-green-500 font-semibold tracking-wide">15%</td>
-                  </tr>
+            <select name="order-type" id="order-type" class="focus:bg-sky-50">
+                <option disabled selected="true">Select an operation</option>
+                <option value="Buy">Buy</option>
+                <option value="Sell">Sell</option>
+            </select>
+            <input name="order-date" id="order-date" type="date" class="px-2 focus:bg-sky-50">
     
-                </tbody>
-                
-                  
-            </table>
-          </div>
+            <input list="order-suggests" name="order-ticker" id="order-ticker" type="search" placeholder="Ticker" maxlength="10" class="w-full h-full bg-amber-100 focus:bg-amber-200">
+            <datalist id="order-suggests"></datalist>
+            <input name="order-units" id="order-units" type="number" placeholder="Units" max="999999999999999" min="0" step="any" class="bg-amber-100 focus:bg-amber-200">
+    
+            <input name="order-price" id="order-price" type="number" placeholder="Price" max="999999999999999" min="0" step="any" class="col-span-2 bg-amber-100 focus:bg-amber-200" >
+            <div id="order-total" placeholder="Total" class="col-span-2 bg-amber-50 flex items-center justify-center">Total</div>
+    
+            <div id="order-gp" class="hidden bg-amber-50 items-center justify-center">G / P</div>
+            <div id="order-profit" class="hidden bg-amber-50 items-center justify-center">Profit (%)</div>
+    
+            <textarea name="order-note" id="order-note" placeholder="Notes here..." class="p-2 resize-none col-span-2 row-span-2 bg-amber-100 focus:bg-amber-200"></textarea>
 
-            <div class="w-full h-72 bg-amber-300 my-2 rounded-lg">
-              HERE WE WANT A GRAPH WITH EVERY Category invest and her %
+            <div class="col-span-2 flex items-end justify-around border-none *:cursor-pointer *:w-32 *:h-8 *:bg-sky-50 *:hover:bg-sky-200 *:active:bg-sky-300 *:rounded-2xl *:transition-all *:text-sm *:hover:font-semibold *:hover:tracking-wider *:shadow-md *:shadow-sky-900 *:active:shadow-sky-600 *:hover:shadow-sky-200">
+                <input id="order-submit" type="submit" value="Save">
+                <button id="order-cancel">Cancel</button>
             </div>
-             
-        </section>
+        </form>
+
+        <form id="new-currencie-form" class="hidden h-fit w-fit bg-red-100 grid-cols-2 grid-rows-7 gap-2 p-4 mb-4 rounded-2xl *:w-full *:m-auto  *:outline-none  *:focus:border-2 transition-all absolute top-72"> <!-- New Currencie modal -->
+          <p class="w-full text-xs text-center pb-2">Add new Currencie</p>
+          <div class="w-fit h-fit flex items-center *:text-center *:rounded-sm text-xs">
+            <input name="new-currencie-name" id="new-currencie-name" type="text" placeholder="Name" maxlength="20" class="h-8 border-1 bg-amber-100 focus:bg-amber-200" >
+            <button id="new-currencie-submit" type="submit">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus cursor-pointer"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+            </button>
+          </div>
+          
+          <div id="advice-new-currencie" class="hidden w-fit h-fit  items-center *:rounded-sm absolute left-0 top-0 bg-sky-200 p-4 rounded-2xl text-sm transition-all">
+            <p>You add Name Enterprise"" with the Ticker NEW"". The actual price is $$$""</p>
+            <p>The price will be updated automatically whenever a new investment is added. It can also be updated manually, alongside other prices.</p>
+          </div>
+          
+          
+        </form>
+
+      </section>
     </main>
 
     <footer class="w-full max-w-5xl h-fit m-auto text-center bg-sky-100 pb-4 text-xs sm:text-sm mt-8">
