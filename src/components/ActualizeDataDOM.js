@@ -35,6 +35,28 @@ class ActualizeDataDOM extends ActualizeWallet {
     return this._allItems.slice(0, 3);
   }
 
+  orderItems(obj) {
+    this._allItems = [];
+    if (Array.isArray(obj)) {
+      this._allItems = obj.filter(
+        (item) => item.units * item.price !== undefined
+      );
+      this._allItems.sort((a, b) => b.units * b.price - a.units * a.price);
+    } else {
+      Object.keys(obj).forEach((category) => {
+        if (Array.isArray(obj[category])) {
+          obj[category].forEach((item) => {
+            item.category = category;
+            if (item.total !== undefined) {
+              this._allItems.push(item);
+            }
+          });
+        }
+      });
+    }
+    return this._allItems;
+  }
+
   actualValue(units, ticker) {
     let value = 0;
     Object.keys(this._currencies).forEach((category) => {

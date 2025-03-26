@@ -89,6 +89,39 @@
         </form>
 
       </section>
+
+      <section class="w-full h-fit flex flex-col lg:items-center bg-sky-50 p-2 "> <!-- Wallet section -->
+          
+            <div class="h-8 w-full bg-sky-800 text-sky-50 rounded-t-lg">
+              <p class="h-full flex items-center justify-center text-lg font-semibold tracking-widest">WALLET <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-list-filter ml-2"><path d="M3 6h18"/><path d="M7 12h10"/><path d="M10 18h4"/></svg></p>
+            </div>
+
+          <div class="w-full overflow-x-auto rounded-b-lg">
+            <table id="wallet-table" class="w-full h-fit text-xs sm:text-sm text-center *:sm:text-nowrap *:transition-all whitespace-nowrap"> <!-- Wallet table -->
+                <thead class="bg-sky-950 text-sky-50 *:text-sm *:tracking-wide">
+                  <tr class="*:w-fit *:h-16 *:m-auto *:py-2 *:px-2 *:font-medium">
+                    <th>Ticker</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Units</th>
+                    <th>Total Cost</th>
+                    <th>Actual Value</th>
+                    <th class="tracking-wide hidden sm:table-cell">P / L</th>
+                    <th >P / L %</th>
+                  </tr>
+                </thead>
+                <tbody class="bg-sky-100 *:even:bg-sky-50 divide-y divide-sky-950 *:hover:bg-sky-200  *:font-light *:transition-all">
+                  
+                </tbody>
+            </table>
+          </div>
+
+            <div class="w-full h-72 bg-amber-300 my-2 rounded-lg">
+              HERE WE WANT A GRAPH WITH EVERY Category invest and her %
+            </div>
+             
+        </section>
+      
     </main>
 
     <footer class="w-full max-w-5xl h-fit m-auto text-center bg-sky-100 pb-4 text-xs sm:text-sm mt-8">

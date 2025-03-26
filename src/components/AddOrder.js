@@ -133,6 +133,7 @@ class AddOrder extends OrderModal {
     localStorage.setItem("orders", JSON.stringify(this._orders));
 
     this.cleanModal();
+    this.openOrderModal();
     return true;
   }
 }
