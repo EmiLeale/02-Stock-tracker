@@ -3,11 +3,12 @@ import ActualizeDataDOM from "./ActualizeDataDOM.js";
 class ActualizeWalletPage extends ActualizeDataDOM {
   constructor() {
     super();
-    // this._perfoDataCont = document.getElementById("performance-data-container");
+    this._currentOrder = null;
+    this._filterWallet = document.getElementById("filter-wallet");
+    this._lessFilter = document.getElementById("filter-less");
+    this._greaterFilter = document.getElementById("filter-greater");
     this._walletTable = document.getElementById("wallet-table");
-    // this._ordersTable = document.getElementById("orders-table");
     this._tbodyWallet = document.querySelector("#wallet-table tbody");
-    // this._tbodyOrders = document.querySelector("#orders-table tbody");
     this.waitForWalletUpdate().then(() => {
       this.actualizeListWallet();
       this._clearWalletBtn.addEventListener(
@@ -16,6 +17,7 @@ class ActualizeWalletPage extends ActualizeDataDOM {
       );
     });
     this._form.addEventListener("submit", this.submitOrderFinish.bind(this));
+    this._filterWallet.addEventListener("click", this.clickFilter.bind(this));
   }
 
   submitOrderFinish() {
@@ -28,7 +30,7 @@ class ActualizeWalletPage extends ActualizeDataDOM {
     this.actualizeListWallet();
   }
 
-  actualizeListWallet() {
+  actualizeListWallet(arr, order) {
     if (
       Object.keys(this._wallet).every((key) => this._wallet[key].length === 1)
     ) {
@@ -46,14 +48,15 @@ class ActualizeWalletPage extends ActualizeDataDOM {
     }
 
     this._tbodyWallet.innerHTML = "";
-    this._newWallet = this.orderItems(this._wallet);
+    this._newWallet = arr || this.orderItems(this._wallet);
+    this._currentOrder = order || "Total Cost";
     for (let i = 0; i < this._newWallet.length; i++) {
       if (i >= this._newWallet.length) break;
       const tr = document.createElement("tr");
       tr.classList.add("*:px-4", "*:py-2");
       const th = document.createElement("th");
       th.setAttribute("scope", "row");
-      th.classList.add("font-medium");
+      th.classList.add("font-light");
       th.textContent = this._newWallet[i].symbol;
       const tdName = document.createElement("td");
       const tdCategory = document.createElement("td");
@@ -65,8 +68,8 @@ class ActualizeWalletPage extends ActualizeDataDOM {
       tdName.classList.add("hidden", "md:table-cell");
       tdCategory.classList.add("hidden", "md:table-cell");
       tdValue.classList.add("hidden", "sm:table-cell");
-      tdProfit.classList.add("hidden", "sm:table-cell", "font-semibold");
-      tdProfitPer.classList.add("font-semibold");
+      tdProfit.classList.add("hidden", "sm:table-cell", "font-medium");
+      tdProfitPer.classList.add("font-medium");
       tdName.textContent = this._newWallet[i].name;
       tdCategory.textContent =
         this._newWallet[i].category.slice(0, 1).toUpperCase() +
@@ -76,6 +79,7 @@ class ActualizeWalletPage extends ActualizeDataDOM {
       let profit =
         this.actualValue(this._newWallet[i].units, this._newWallet[i].symbol) -
         this._newWallet[i].total;
+
       tdValue.textContent =
         "$" +
         this.formatNumber(
@@ -97,6 +101,22 @@ class ActualizeWalletPage extends ActualizeDataDOM {
       tdProfitPer.classList.add(
         profit >= 0 ? "text-green-500" : "text-red-500"
       );
+
+      this._currentOrder === "Ticker" &&
+        th.classList.add("bg-sky-200", "font-semibold");
+      this._currentOrder === "Name" &&
+        tdName.classList.add("bg-sky-200", "font-semibold");
+      this._currentOrder === "Category" &&
+        tdCategory.classList.add("bg-sky-200", "font-semibold");
+      this._currentOrder === "Total Cost" &&
+        tdPrice.classList.add("bg-sky-200", "font-semibold");
+      this._currentOrder === "Actual Value" &&
+        tdValue.classList.add("bg-sky-200", "font-semibold");
+      this._currentOrder === "P / L" &&
+        tdProfit.classList.add("bg-sky-200", "font-semibold");
+      this._currentOrder === "P / L %" &&
+        tdProfitPer.classList.add("bg-sky-200", "font-semibold");
+
       tr.append(
         th,
         tdName,
@@ -111,7 +131,76 @@ class ActualizeWalletPage extends ActualizeDataDOM {
     }
   }
 
-  // METODO PARA ORDENAR CON EL FILTRO!!!!!!!!!
+  clickFilter() {
+    event.preventDefault();
+    const order = event.target.textContent;
+    const idFilter = event.target.parentElement.parentElement;
+
+    this._newWallet.forEach((item) => {
+      const profit = this.actualValue(item.units, item.symbol) - item.total;
+      const profitPer =
+        ((this.actualValue(item.units, item.symbol) - item.total) /
+          item.total) *
+        100;
+      item.profit = profit;
+      item.profitPer = profitPer;
+      item.value = item.profit + item.total;
+    });
+
+    if (idFilter === this._lessFilter) {
+      switch (order) {
+        case "Ticker":
+          this._newWallet.sort((a, b) => a.symbol.localeCompare(b.symbol));
+          break;
+        case "Name":
+          this._newWallet.sort((a, b) => a.name.localeCompare(b.name));
+          break;
+        case "Category":
+          this._newWallet.sort((a, b) => a.category.localeCompare(b.category));
+          break;
+        case "Total Cost":
+          this._newWallet.sort((a, b) => a.total - b.total);
+          break;
+        case "Actual Value":
+          this._newWallet.sort((a, b) => a.value - b.value);
+          break;
+        case "P / L":
+          this._newWallet.sort((a, b) => a.profit - b.profit);
+          break;
+        case "P / L %":
+          this._newWallet.sort((a, b) => a.profitPer - b.profitPer);
+          break;
+      }
+    } else if (idFilter === this._greaterFilter) {
+      switch (order) {
+        case "Ticker":
+          this._newWallet.sort((a, b) => b.symbol.localeCompare(a.symbol));
+          break;
+        case "Name":
+          this._newWallet.sort((a, b) => b.name.localeCompare(a.name));
+          break;
+        case "Category":
+          this._newWallet.sort((a, b) => b.category.localeCompare(a.category));
+          break;
+        case "Total Cost":
+          this._newWallet.sort((a, b) => b.total - a.total);
+          break;
+        case "Actual Value":
+          this._newWallet.sort((a, b) => b.value - a.value);
+          break;
+        case "P / L":
+          this._newWallet.sort((a, b) => b.profit - a.profit);
+          break;
+        case "P / L %":
+          this._newWallet.sort((a, b) => b.profitPer - a.profitPer);
+          break;
+      }
+    } else {
+      return;
+    }
+
+    this.actualizeListWallet(this._newWallet, order);
+  }
 }
 
 export default ActualizeWalletPage;

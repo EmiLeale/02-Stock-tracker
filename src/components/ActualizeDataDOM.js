@@ -37,23 +37,23 @@ class ActualizeDataDOM extends ActualizeWallet {
 
   orderItems(obj) {
     this._allItems = [];
-    if (Array.isArray(obj)) {
-      this._allItems = obj.filter(
+
+    Object.keys(obj).forEach((category) => {
+      if (Array.isArray(obj[category])) {
+        obj[category].forEach((item) => {
+          item.category = category;
+          if (item.total !== undefined) {
+            this._allItems.push(item);
+          }
+        });
+      }
+    });
+    if (Array.isArray(this._allItems)) {
+      this._allItems = this._allItems.filter(
         (item) => item.units * item.price !== undefined
       );
-      this._allItems.sort((a, b) => b.units * b.price - a.units * a.price);
-    } else {
-      Object.keys(obj).forEach((category) => {
-        if (Array.isArray(obj[category])) {
-          obj[category].forEach((item) => {
-            item.category = category;
-            if (item.total !== undefined) {
-              this._allItems.push(item);
-            }
-          });
-        }
-      });
     }
+    this._allItems.sort((a, b) => b.total - a.total);
     return this._allItems;
   }
 
