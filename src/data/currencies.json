@@ -36,7 +36,6 @@
     "index": [
       { "symbol": "SPY", "name": "SPDR S&P 500 ETF", "price": 480, "change_24h": -0.5, "market_cap": 450000000000 },
       { "symbol": "SPY", "name": "SPDR S&P 500 ETF", "price": 480, "change_24h": -0.5, "market_cap": 450000000000 },
-
       { "symbol": "DAXEX", "name": "DAX ETF", "price": 157, "change_24h": 0.7, "market_cap": 120000000000 },
       { "symbol": "VGK", "name": "Vanguard FTSE Europe ETF", "price": 65, "change_24h": -0.3, "market_cap": 25000000000 },
       { "symbol": "VWO", "name": "Vanguard FTSE Emerging Markets ETF", "price": 42, "change_24h": 0.9, "market_cap": 80000000000 },

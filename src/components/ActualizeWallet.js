@@ -17,17 +17,17 @@ class ActualizeWallet extends AddOrder {
           symbol: "ETH",
           name: "Etherum",
           price: 1500,
-          units: 2,
-          total: 3000,
+          units: 1,
+          total: 1500,
         },
       ],
       stocks: [
         {
           symbol: "AAPL",
           name: "Apple Inc.",
-          price: 115,
+          price: 100,
           units: 1,
-          total: 115,
+          total: 100,
         },
       ],
       forex: [
@@ -51,7 +51,10 @@ class ActualizeWallet extends AddOrder {
       others: [],
       total: [],
     };
-    localStorage.setItem("wallet", JSON.stringify(this._wallet));
+
+    this._wallet = JSON.parse(localStorage.getItem("wallet")) || this._wallet;
+    this._orders = JSON.parse(localStorage.getItem("orders")) || this._orders;
+
     this.loadCurrencies();
 
     this._type.addEventListener("change", this.sellSelectedDatalist.bind(this));
@@ -92,6 +95,8 @@ class ActualizeWallet extends AddOrder {
   }
 
   isOnWallet() {
+    this._units.setAttribute("max", Infinity);
+
     if (!this.actualizeModalToSell()) {
       return;
     }
@@ -102,7 +107,6 @@ class ActualizeWallet extends AddOrder {
   }
 
   sellSelectedDatalist() {
-    // this.actualizeModalToSell();
     if (this.sellSelected()) {
       CurrencyService.addDataList(this._wallet);
       this.actualizeModalToSell();
@@ -135,7 +139,6 @@ class ActualizeWallet extends AddOrder {
       );
       if (result) {
         this._units.setAttribute("max", result.units);
-
         return true, result;
       }
     }
@@ -343,6 +346,29 @@ class ActualizeWallet extends AddOrder {
       },
     ];
     localStorage.setItem("wallet", JSON.stringify(this._wallet));
+  }
+
+  midPrice(ticker, units) {
+    const orders = this._orders.filter(
+      (order) => order.ticker === ticker && order.type === "Buy"
+    );
+
+    if (orders.length > 0) {
+      const sumOfPrices = orders.reduce(
+        (accumulator, order) => accumulator + order.total,
+
+        0
+      );
+      const sumOfUnits = orders.reduce(
+        (accumulator, order) => accumulator + order.units,
+        0
+      );
+      const averagePrice = (sumOfPrices / sumOfUnits) * units;
+
+      return averagePrice;
+    } else {
+      return Error;
+    }
   }
 }
 

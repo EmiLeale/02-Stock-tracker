@@ -70,8 +70,6 @@ class ActualizeHomePage extends ActualizeDataDOM {
         cost = this._wallet[category][this._wallet[category].length - 1].cost;
         value = this._wallet[category][this._wallet[category].length - 1].value;
         profit = value - cost;
-
-        console.log(this._currencies.others);
       }
 
       pCost.textContent = `Total Cost: $${this.formatNumber(cost)}`;
@@ -202,14 +200,8 @@ class ActualizeHomePage extends ActualizeDataDOM {
       tdDate.textContent = top3Orders[i].date;
       tdUnits.textContent = this.formatNumber(top3Orders[i].units);
       tdPrice.textContent = "$" + this.formatNumber(top3Orders[i].price);
-      let profit =
-        this.actualValue(top3Orders[i].units, top3Orders[i].ticker) -
-        top3Orders[i].total;
       tdValue.textContent =
-        "$" +
-        this.formatNumber(
-          this.actualValue(top3Orders[i].units, top3Orders[i].ticker)
-        );
+        "$" + this.formatNumber(top3Orders[i].units * top3Orders[i].price);
 
       tr.append(th, tdType, tdDate, tdUnits, tdPrice, tdValue);
       this._tbodyOrders.appendChild(tr);

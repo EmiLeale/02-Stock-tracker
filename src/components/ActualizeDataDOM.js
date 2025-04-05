@@ -57,6 +57,47 @@ class ActualizeDataDOM extends ActualizeWallet {
     return this._allItems;
   }
 
+  orderOrders(arr) {
+    this._allItems = [];
+
+    if (
+      Array.isArray(arr) &&
+      typeof this._currencies === "object" &&
+      this._currencies !== null
+    ) {
+      arr.forEach((item) => {
+        let foundCategory = null;
+        for (const category in this._currencies) {
+          if (
+            this._currencies.hasOwnProperty(category) &&
+            Array.isArray(this._currencies[category])
+          ) {
+            if (
+              this._currencies[category].some(
+                (dbItem) => dbItem.symbol === item.ticker
+              )
+            ) {
+              foundCategory = category;
+              break;
+            }
+          }
+        }
+
+        if (foundCategory) {
+          item.category = foundCategory;
+          item.total = item.price * item.units;
+          this._allItems.push(item);
+        } else {
+          item.category = "others";
+          item.total = item.price * item.units;
+          this._allItems.push(item);
+        }
+      });
+    }
+    this._allItems.sort((a, b) => b.total - a.total);
+    return this._allItems;
+  }
+
   actualValue(units, ticker) {
     let value = 0;
     Object.keys(this._currencies).forEach((category) => {
