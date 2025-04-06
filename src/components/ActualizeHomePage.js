@@ -143,24 +143,34 @@ class ActualizeHomePage extends ActualizeDataDOM {
       let profit =
         this.actualValue(top3Wallet[i].units, top3Wallet[i].symbol) -
         top3Wallet[i].total;
+
       tdValue.textContent =
         "$" +
         this.formatNumber(
           this.actualValue(top3Wallet[i].units, top3Wallet[i].symbol)
         );
+      if (this.actualValue(top3Wallet[i].units, top3Wallet[i].symbol) === 0) {
+        tdValue.textContent = "$" + this.formatNumber(top3Wallet[i].total);
+        profit = 0;
+
+        tdProfitPer.textContent = "% -";
+      } else {
+        tdProfitPer.textContent =
+          this.formatNumber(
+            ((this.actualValue(top3Wallet[i].units, top3Wallet[i].symbol) -
+              top3Wallet[i].total) /
+              top3Wallet[i].total) *
+              100
+          ) + " %";
+      }
+
       tdProfit.textContent = "$" + this.formatNumber(profit);
       tdProfit.classList.add(profit >= 0 ? "text-green-500" : "text-red-500");
 
-      tdProfitPer.textContent =
-        this.formatNumber(
-          ((this.actualValue(top3Wallet[i].units, top3Wallet[i].symbol) -
-            top3Wallet[i].total) /
-            top3Wallet[i].total) *
-            100
-        ) + " %";
       tdProfitPer.classList.add(
         profit >= 0 ? "text-green-500" : "text-red-500"
       );
+
       tr.append(th, tdName, tdUnits, tdPrice, tdValue, tdProfit, tdProfitPer);
       this._tbodyWallet.appendChild(tr);
     }

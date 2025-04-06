@@ -61,6 +61,7 @@ class AddOrder extends OrderModal {
         note: "The best investment of all times",
       },
     ];
+    // localStorage.setItem("orders", JSON.stringify(this._orders)); // Eliminar para que se guarden las orders en memoria
     this.addEventListener();
   }
 
@@ -78,7 +79,9 @@ class AddOrder extends OrderModal {
       this._gp.classList.add("flex");
       this._form.classList.add("grid-rows-8");
       return true;
-    } else {
+    } else if (this._type.value === "Buy") {
+      this._units.setAttribute("max", Infinity);
+      this._ticker.value = "";
       this._gp.classList.add("hidden");
       this._profit.classList.add("hidden");
       this._profit.classList.remove("flex");

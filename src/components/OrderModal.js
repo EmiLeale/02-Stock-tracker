@@ -90,7 +90,8 @@ class OrderModal {
       !this._price.value ||
       !this._date.value ||
       !this._ticker.value ||
-      this._type.value === "Select an operation"
+      this._type.value === "Select an operation" ||
+      this._units.value === "0"
     ) {
       window.alert("Please, fill all form to submit.");
       return true;

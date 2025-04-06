@@ -31,31 +31,42 @@ class ActualizeOrdersPage extends ActualizeDataDOM {
     this.actualizeListOrders();
   }
 
-  emptyTables() {
+  emptyTableBuy() {
     this._tbodyOrders.innerHTML = "";
+    const tr = document.createElement("tr");
+    tr.classList.add(
+      ":w-20",
+      "*:h16",
+      "*:px-4",
+      "*:py-2",
+      "*:font-medium",
+      "*:bg-sky-200"
+    );
+    const th = document.createElement("th");
+    th.textContent = "You don't have any investments at this time";
+    th.setAttribute("colspan", "8");
+    tr.appendChild(th);
+    this._tbodyOrders.classList.remove("*:hover:bg-sky-200");
+    this._tbodyOrders.appendChild(tr);
+  }
+
+  emptyTableSell() {
     this._tbodyOrdersSell.innerHTML = "";
-    for (let i = 0; i < 2; i++) {
-      const tr = document.createElement("tr");
-      tr.classList.add(
-        ":w-20",
-        "*:h16",
-        "*:px-4",
-        "*:py-2",
-        "*:font-medium",
-        "*:bg-sky-200"
-      );
-      const th = document.createElement("th");
-      th.textContent = "You don't have any investments at this time";
-      th.setAttribute("colspan", "8");
-      tr.appendChild(th);
-      if (i === 0) {
-        this._tbodyOrders.classList.remove("*:hover:bg-sky-200");
-        this._tbodyOrders.appendChild(tr);
-      } else {
-        this._tbodyOrdersSell.classList.remove("*:hover:bg-sky-200");
-        this._tbodyOrdersSell.appendChild(tr);
-      }
-    }
+    const tr = document.createElement("tr");
+    tr.classList.add(
+      ":w-20",
+      "*:h16",
+      "*:px-4",
+      "*:py-2",
+      "*:font-medium",
+      "*:bg-sky-200"
+    );
+    const th = document.createElement("th");
+    th.textContent = "You don't have any investments at this time";
+    th.setAttribute("colspan", "8");
+    tr.appendChild(th);
+    this._tbodyOrdersSell.classList.remove("*:hover:bg-sky-200");
+    this._tbodyOrdersSell.appendChild(tr);
   }
 
   actualizeListOrders(arr, order) {
@@ -65,35 +76,9 @@ class ActualizeOrdersPage extends ActualizeDataDOM {
     if (
       Object.keys(this._orders).every((key) => this._orders[key].length === 1)
     ) {
-      this.emptyTables();
+      this.emptyTableBuy();
+      this.emptyTableSell();
       return;
-    }
-
-    if (contSell === 0) {
-      this._tbodyOrders.innerHTML = "";
-      this._tbodyOrdersSell.innerHTML = "";
-      for (let i = 0; i < 2; i++) {
-        const tr = document.createElement("tr");
-        tr.classList.add(
-          ":w-20",
-          "*:h16",
-          "*:px-4",
-          "*:py-2",
-          "*:font-medium",
-          "*:bg-sky-200"
-        );
-        const th = document.createElement("th");
-        th.textContent = "You don't have any investments at this time";
-        th.setAttribute("colspan", "8");
-        tr.appendChild(th);
-        if (i === 0) {
-          this._tbodyOrders.classList.remove("*:hover:bg-sky-200");
-          this._tbodyOrders.appendChild(tr);
-        } else {
-          this._tbodyOrdersSell.classList.remove("*:hover:bg-sky-200");
-          this._tbodyOrdersSell.appendChild(tr);
-        }
-      }
     }
 
     this._tbodyOrders.innerHTML = "";
@@ -148,7 +133,7 @@ class ActualizeOrdersPage extends ActualizeDataDOM {
         const tdCost = document.createElement("td");
         const tdPL = document.createElement("td");
         tdCost.classList.add("hidden", "md:table-cell");
-        tdPL.classList.add("hidden", "md:table-cell");
+        tdPL.classList.add("hidden", "md:table-cell", "font-medium");
 
         let profit = this.midPrice(
           this._newOrders[i].ticker,
@@ -160,6 +145,14 @@ class ActualizeOrdersPage extends ActualizeDataDOM {
             ((this._newOrders[i].total - profit) / this._newOrders[i].total) *
               100
           ) + "%";
+
+        tdPL.classList.add(
+          ((this._newOrders[i].total - profit) / this._newOrders[i].total) *
+            100 >=
+            0
+            ? "text-green-500"
+            : "text-red-500"
+        );
 
         tr.append(
           th,
@@ -173,6 +166,13 @@ class ActualizeOrdersPage extends ActualizeDataDOM {
         );
         this._tbodyOrdersSell.appendChild(tr);
       }
+    }
+
+    if (contSell === 0) {
+      this.emptyTableSell();
+    }
+    if (contBuy === 0) {
+      this.emptyTableBuy();
     }
   }
 

@@ -78,8 +78,13 @@ class ActualizeWallet extends AddOrder {
         this._units.value * this._price.value -
         this._units.value * ticker.price;
       const gpPercentage = gp / (this._units.value * ticker.price);
+
       this._gp.textContent = "$ " + this.formatNumber(gp);
       this._profit.textContent = this.limitNumber(gpPercentage * 100) + " %";
+
+      if (this._units.value === "0") {
+        this._profit.textContent = this.formatNumber(gp) + " %";
+      }
     }
 
     this.actualizeTotal();
@@ -133,11 +138,12 @@ class ActualizeWallet extends AddOrder {
   searchSymbolWallet() {
     let result = null;
     let data = this._wallet;
+
     for (let category in data) {
       result = data[category].find(
         (item) => item.symbol === this._ticker.value
       );
-      if (result) {
+      if (result && this._type.value === "Sell") {
         this._units.setAttribute("max", result.units);
         return true, result;
       }
@@ -206,6 +212,7 @@ class ActualizeWallet extends AddOrder {
       if (this._wallet[type][index].units === 0) {
         this._wallet[type][index].total = 0;
         this._wallet[type][index].price = 0;
+        this._wallet[type].splice(index, 1);
       }
       localStorage.setItem("wallet", JSON.stringify(this._wallet));
     }
@@ -300,7 +307,10 @@ class ActualizeWallet extends AddOrder {
       return;
     } else {
       event.preventDefault();
-      newCurrencie.name = this._newCurrencieName.value;
+
+      newCurrencie.name =
+        this._newCurrencieName.value.charAt(0).toUpperCase() +
+        this._newCurrencieName.value.slice(1);
       newCurrencie.symbol = this._ticker.value.toUpperCase();
       this._newCurrencieForm.classList.toggle("hidden");
     }
