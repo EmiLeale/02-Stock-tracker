@@ -205,7 +205,11 @@ class ActualizeWallet extends AddOrder {
           this._wallet[type][index].total / this._wallet[type][index].units;
       } else if (this._orders[this._orders.length - 1].type === "Sell") {
         this._wallet[type][index].units -= lastOrder.units;
-        this._wallet[type][index].total -= lastOrder.total;
+        let cost = this.midPrice(
+          this._wallet[type][index].symbol,
+          this._wallet[type][index].units
+        );
+        this._wallet[type][index].total -= cost;
         this._wallet[type][index].price =
           this._wallet[type][index].total / this._wallet[type][index].units;
       }
