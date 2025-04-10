@@ -127,6 +127,10 @@ class ActualizeOrdersPage extends ActualizeDataDOM {
         tdCategory.classList.add("bg-sky-200", "font-semibold");
 
       if (this._newOrders[i].type === "Buy") {
+        this._currentOrder === "Cost" &&
+          tdTotal.classList.add("bg-sky-200", "font-semibold");
+        this._currentOrder === "P / L" &&
+          tdTotal.classList.add("bg-sky-200", "font-semibold");
         tr.append(th, tdDate, tdCategory, tdUnits, tdPrice, tdTotal);
         this._tbodyOrders.appendChild(tr);
       } else {
@@ -135,24 +139,31 @@ class ActualizeOrdersPage extends ActualizeDataDOM {
         tdCost.classList.add("hidden", "md:table-cell");
         tdPL.classList.add("hidden", "md:table-cell", "font-medium");
 
-        let profit = this.midPrice(
-          this._newOrders[i].ticker,
-          this._newOrders[i].units
-        );
-        tdCost.textContent = "$" + this.formatNumber(profit);
-        tdPL.textContent =
-          this.formatNumber(
-            ((this._newOrders[i].total - profit) / this._newOrders[i].total) *
-              100
-          ) + "%";
+        this._currentOrder === "Cost" &&
+          tdCost.classList.add("bg-sky-200", "font-semibold");
+        this._currentOrder === "P / L" &&
+          tdPL.classList.add("bg-sky-200", "font-semibold");
 
-        tdPL.classList.add(
-          ((this._newOrders[i].total - profit) / this._newOrders[i].total) *
-            100 >=
-            0
-            ? "text-green-500"
-            : "text-red-500"
-        );
+        let cost = this._newOrders[i].cost;
+        let pl = this._newOrders[i].pl;
+
+        if (cost === undefined || pl === undefined) {
+          cost = this.midPrice(
+            this._newOrders[i].ticker,
+            this._newOrders[i].units
+          );
+          pl =
+            ((this._newOrders[i].total - cost) / this._newOrders[i].total) *
+            100;
+
+          this._newOrders[i].cost = cost;
+          this._newOrders[i].pl = pl;
+        }
+
+        tdCost.textContent = "$" + this.formatNumber(cost);
+        tdPL.textContent = this.formatNumber(pl) + "%";
+
+        tdPL.classList.add(pl >= 0 ? "text-green-500" : "text-red-500");
 
         tr.append(
           th,
@@ -164,16 +175,13 @@ class ActualizeOrdersPage extends ActualizeDataDOM {
           tdCost,
           tdPL
         );
+
         this._tbodyOrdersSell.appendChild(tr);
       }
     }
 
-    if (contSell === 0) {
-      this.emptyTableSell();
-    }
-    if (contBuy === 0) {
-      this.emptyTableBuy();
-    }
+    if (contSell === 0) this.emptyTableSell();
+    if (contBuy === 0) this.emptyTableBuy();
   }
 
   clickFilter() {
@@ -201,6 +209,12 @@ class ActualizeOrdersPage extends ActualizeDataDOM {
         case "Type":
           this._newOrders.sort((a, b) => a.type.localeCompare(b.type));
           break;
+        case "Cost":
+          this._newOrders.sort((a, b) => a.cost - b.cost);
+          break;
+        case "P / L":
+          this._newOrders.sort((a, b) => a.pl - b.pl);
+          break;
       }
     } else if (idFilter === this._greaterFilter) {
       switch (order) {
@@ -221,6 +235,12 @@ class ActualizeOrdersPage extends ActualizeDataDOM {
           break;
         case "Type":
           this._newOrders.sort((a, b) => b.type.localeCompare(a.type));
+          break;
+        case "Cost":
+          this._newOrders.sort((a, b) => b.cost - a.cost);
+          break;
+        case "P / L":
+          this._newOrders.sort((a, b) => b.pl - a.pl);
           break;
       }
     } else {
