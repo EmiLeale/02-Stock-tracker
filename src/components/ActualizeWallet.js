@@ -192,6 +192,46 @@ class ActualizeWallet extends AddOrder {
     return false;
   }
 
+  actualizeEditMode(editOrder, category, editMode) {
+    if (editMode) {
+      const index = this._wallet[category].findIndex(
+        (item) => item.symbol === editOrder.ticker
+      );
+      console.log("hola", editOrder.type);
+
+      if (index !== -1) {
+        if (editOrder.type === "Buy") {
+          this._wallet[category][index].units -= editOrder.units;
+          this._wallet[category][index].total =
+            this._wallet[category][index].price *
+            this._wallet[category][index].units;
+          this._wallet[category][index].price =
+            this._wallet[category][index].total /
+            this._wallet[category][index].units;
+        } else if (editOrder.type === "Sell") {
+          this._wallet[category][index].units += editOrder.units;
+
+          let cost = this.midPrice(
+            this._wallet[category][index].symbol,
+            this._wallet[category][index].units
+          );
+          this._wallet[category][index].total = cost;
+          this._wallet[category][index].price =
+            this._wallet[category][index].total /
+            this._wallet[category][index].units;
+        }
+        if (this._wallet[category][index].units === 0) {
+          this._wallet[category][index].total = 0;
+          this._wallet[category][index].price = 0;
+          this._wallet[category].splice(index, 1);
+        }
+        localStorage.setItem("wallet", JSON.stringify(this._wallet));
+      }
+
+      // this.actualValueWallet();
+    }
+  }
+
   actualizingItem(lastOrder, type) {
     const index = this._wallet[type].findIndex(
       (item) => item.symbol === lastOrder.ticker

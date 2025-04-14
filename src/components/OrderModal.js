@@ -69,6 +69,8 @@ class OrderModal {
     this._profit.classList.add("hidden");
     this._profit.classList.remove("flex");
     this._gp.classList.remove("flex");
+    this._gp.textContent = "G / P";
+    this._profit.textContent = "Profit (%)";
     this._note.value = "";
     this._form.classList.remove("grid-rows-8");
   }
@@ -91,7 +93,8 @@ class OrderModal {
       !this._date.value ||
       !this._ticker.value ||
       this._type.value === "Select an operation" ||
-      this._units.value === "0"
+      this._units.value === "0" ||
+      this._price.value === "0"
     ) {
       window.alert("Please, fill all form to submit.");
       return true;

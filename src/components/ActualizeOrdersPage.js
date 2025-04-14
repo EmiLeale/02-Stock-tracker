@@ -4,6 +4,7 @@ class ActualizeOrdersPage extends ActualizeDataDOM {
   constructor() {
     super();
     this._currentOrder = null;
+    this._editMode = null;
     this._filterWallet = document.getElementById("filter-orders");
     this._lessFilter = document.getElementById("filter-less");
     this._greaterFilter = document.getElementById("filter-greater");
@@ -16,17 +17,67 @@ class ActualizeOrdersPage extends ActualizeDataDOM {
         "click",
         this.actualizeListOrders.bind(this)
       );
+      this._allButtons = document.querySelectorAll('button[id^="edit-"]');
+      this._allButtons.forEach((button) => {
+        button.addEventListener("click", this.editOrder.bind(this));
+      });
     });
     this._form.addEventListener("submit", this.submitOrderFinish.bind(this));
     this._filterWallet.addEventListener("click", this.clickFilter.bind(this));
   }
 
-  submitOrderFinish() {
-    event.preventDefault();
-    if (this.isEmpty()) {
+  editOrder(event) {
+    this._editMode = true;
+    this._idOrder = parseInt(
+      event.srcElement.parentElement.id.replace("edit-", "")
+    );
+    if (this._idOrder === NaN) {
       return;
     }
 
+    this.openOrderModal();
+
+    this._type.value = this._orders[this._idOrder].type;
+    this._date.value =
+      this._orders[this._idOrder].date.slice(6, 12) +
+      "-" +
+      this._orders[this._idOrder].date.slice(3, 5) +
+      "-" +
+      this._orders[this._idOrder].date.slice(0, 2);
+    this._units.value = this._orders[this._idOrder].units;
+    this._price.value = this._orders[this._idOrder].price;
+    this._total.innerText =
+      "$" + this.formatNumber(this._orders[this._idOrder].total);
+    this._note.value = this._orders[this._idOrder].note;
+
+    this.sellSelected();
+
+    if (this._type.value === "Sell") {
+      this._gp.textContent =
+        "$ " + this.formatNumber(this._orders[this._idOrder].cost);
+      this._profit.textContent =
+        this.limitNumber(this._orders[this._idOrder].pl) + " %";
+    }
+
+    this._ticker.value = this._orders[this._idOrder].ticker;
+  }
+
+  submitOrderFinish() {
+    event.preventDefault();
+    console.log(this._editMode);
+    if (this._editMode) {
+      const editOrder = this._orders[this._idOrder];
+
+      this._orders.splice(this._idOrder, 1);
+
+      this.actualizeEditMode(editOrder, editOrder.category, this._editMode);
+
+      this._editMode = false;
+    }
+
+    if (this.isEmpty()) {
+      return;
+    }
     this.isOnWallet();
     this.actualizeListOrders();
   }
@@ -83,19 +134,21 @@ class ActualizeOrdersPage extends ActualizeDataDOM {
 
     this._tbodyOrders.innerHTML = "";
     this._tbodyOrdersSell.innerHTML = "";
-    this._newOrders = arr || this.orderOrders(this._orders);
+    this._orders = arr || this.orderOrders(this._orders);
     this._currentOrder = order || "Total";
 
-    for (let i = 0; i < this._newOrders.length; i++) {
-      if (i >= this._newOrders.length) break;
-      if (this._newOrders[i].type === "Buy") contBuy++;
-      if (this._newOrders[i].type === "Sell") contSell++;
+    for (let i = 0; i < this._orders.length; i++) {
+      if (i >= this._orders.length) break;
+      if (this._orders[i].type === "Buy") contBuy++;
+      if (this._orders[i].type === "Sell") contSell++;
       const tr = document.createElement("tr");
       tr.classList.add("*:px-4", "*:py-2");
       const th = document.createElement("th");
       th.setAttribute("scope", "row");
-      th.classList.add("font-light");
-      th.textContent = this._newOrders[i].ticker;
+      th.classList.add("font-light", "flex", "items-center", "justify-around");
+      th.innerHTML =
+        this._orders[i].ticker +
+        `<button id="edit-${i}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-pen-icon lucide-square-pen cursor-pointer"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/></svg></button>`;
       const tdDate = document.createElement("td");
       const tdCategory = document.createElement("td");
       const tdUnits = document.createElement("td");
@@ -104,13 +157,13 @@ class ActualizeOrdersPage extends ActualizeDataDOM {
       tdDate.classList.add("hidden", "md:table-cell");
       tdCategory.classList.add("hidden", "md:table-cell");
       tdTotal.classList.add("hidden", "sm:table-cell");
-      tdDate.textContent = this._newOrders[i].date;
+      tdDate.textContent = this._orders[i].date;
       tdCategory.textContent =
-        this._newOrders[i].category.slice(0, 1).toUpperCase() +
-        this._newOrders[i].category.slice(1);
-      tdUnits.textContent = this.formatNumber(this._newOrders[i].units);
-      tdPrice.textContent = "$" + this.formatNumber(this._newOrders[i].price);
-      tdTotal.textContent = "$" + this.formatNumber(this._newOrders[i].total);
+        this._orders[i].category.slice(0, 1).toUpperCase() +
+        this._orders[i].category.slice(1);
+      tdUnits.textContent = this.formatNumber(this._orders[i].units);
+      tdPrice.textContent = "$" + this.formatNumber(this._orders[i].price);
+      tdTotal.textContent = "$" + this.formatNumber(this._orders[i].total);
 
       if (contSell === 1) tr.classList.add("bg-sky-100");
       if (contBuy === 1) tr.classList.add("bg-sky-100");
@@ -126,7 +179,7 @@ class ActualizeOrdersPage extends ActualizeDataDOM {
       this._currentOrder === "Category" &&
         tdCategory.classList.add("bg-sky-200", "font-semibold");
 
-      if (this._newOrders[i].type === "Buy") {
+      if (this._orders[i].type === "Buy") {
         this._currentOrder === "Cost" &&
           tdTotal.classList.add("bg-sky-200", "font-semibold");
         this._currentOrder === "P / L" &&
@@ -144,20 +197,15 @@ class ActualizeOrdersPage extends ActualizeDataDOM {
         this._currentOrder === "P / L" &&
           tdPL.classList.add("bg-sky-200", "font-semibold");
 
-        let cost = this._newOrders[i].cost;
-        let pl = this._newOrders[i].pl;
+        let cost = this._orders[i].cost;
+        let pl = this._orders[i].pl;
 
         if (cost === undefined || pl === undefined) {
-          cost = this.midPrice(
-            this._newOrders[i].ticker,
-            this._newOrders[i].units
-          );
-          pl =
-            ((this._newOrders[i].total - cost) / this._newOrders[i].total) *
-            100;
+          cost = this.midPrice(this._orders[i].ticker, this._orders[i].units);
+          pl = ((this._orders[i].total - cost) / this._orders[i].total) * 100;
 
-          this._newOrders[i].cost = cost;
-          this._newOrders[i].pl = pl;
+          this._orders[i].cost = cost;
+          this._orders[i].pl = pl;
         }
 
         tdCost.textContent = "$" + this.formatNumber(cost);
@@ -192,61 +240,61 @@ class ActualizeOrdersPage extends ActualizeDataDOM {
     if (idFilter === this._lessFilter) {
       switch (order) {
         case "Ticker":
-          this._newOrders.sort((a, b) => a.ticker.localeCompare(b.ticker));
+          this._orders.sort((a, b) => a.ticker.localeCompare(b.ticker));
           break;
         case "Date":
-          this._newOrders.sort((a, b) => b.date.localeCompare(a.date));
+          this._orders.sort((a, b) => b.date.localeCompare(a.date));
           break;
         case "Category":
-          this._newOrders.sort((a, b) => a.category.localeCompare(b.category));
+          this._orders.sort((a, b) => a.category.localeCompare(b.category));
           break;
         case "Total":
-          this._newOrders.sort((a, b) => a.total - b.total);
+          this._orders.sort((a, b) => a.total - b.total);
           break;
         case "Unit Price":
-          this._newOrders.sort((a, b) => a.price - b.price);
+          this._orders.sort((a, b) => a.price - b.price);
           break;
         case "Type":
-          this._newOrders.sort((a, b) => a.type.localeCompare(b.type));
+          this._orders.sort((a, b) => a.type.localeCompare(b.type));
           break;
         case "Cost":
-          this._newOrders.sort((a, b) => a.cost - b.cost);
+          this._orders.sort((a, b) => a.cost - b.cost);
           break;
         case "P / L":
-          this._newOrders.sort((a, b) => a.pl - b.pl);
+          this._orders.sort((a, b) => a.pl - b.pl);
           break;
       }
     } else if (idFilter === this._greaterFilter) {
       switch (order) {
         case "Ticker":
-          this._newOrders.sort((a, b) => b.ticker.localeCompare(a.ticker));
+          this._orders.sort((a, b) => b.ticker.localeCompare(a.ticker));
           break;
         case "Date":
-          this._newOrders.sort((a, b) => a.date.localeCompare(b.date));
+          this._orders.sort((a, b) => a.date.localeCompare(b.date));
           break;
         case "Category":
-          this._newOrders.sort((a, b) => b.category.localeCompare(a.category));
+          this._orders.sort((a, b) => b.category.localeCompare(a.category));
           break;
         case "Total":
-          this._newOrders.sort((a, b) => b.total - a.total);
+          this._orders.sort((a, b) => b.total - a.total);
           break;
         case "Unit Price":
-          this._newOrders.sort((a, b) => b.price - a.price);
+          this._orders.sort((a, b) => b.price - a.price);
           break;
         case "Type":
-          this._newOrders.sort((a, b) => b.type.localeCompare(a.type));
+          this._orders.sort((a, b) => b.type.localeCompare(a.type));
           break;
         case "Cost":
-          this._newOrders.sort((a, b) => b.cost - a.cost);
+          this._orders.sort((a, b) => b.cost - a.cost);
           break;
         case "P / L":
-          this._newOrders.sort((a, b) => b.pl - a.pl);
+          this._orders.sort((a, b) => b.pl - a.pl);
           break;
       }
     } else {
       return;
     }
-    this.actualizeListOrders(this._newOrders, order);
+    this.actualizeListOrders(this._orders, order);
   }
 }
 
