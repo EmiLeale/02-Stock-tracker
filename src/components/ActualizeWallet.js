@@ -192,33 +192,31 @@ class ActualizeWallet extends AddOrder {
     return false;
   }
 
-  actualizeEditMode(editOrder, category, editMode) {
+  actualizeEditMode(editOrder, category, editMode, deleteMode) {
     if (editMode) {
       const index = this._wallet[category].findIndex(
         (item) => item.symbol === editOrder.ticker
       );
-      console.log("hola", editOrder.type);
 
       if (index !== -1) {
         if (editOrder.type === "Buy") {
           this._wallet[category][index].units -= editOrder.units;
-          this._wallet[category][index].total =
-            this._wallet[category][index].price *
-            this._wallet[category][index].units;
-          this._wallet[category][index].price =
-            this._wallet[category][index].total /
-            this._wallet[category][index].units;
-        } else if (editOrder.type === "Sell") {
-          this._wallet[category][index].units += editOrder.units;
-
-          let cost = this.midPrice(
-            this._wallet[category][index].symbol,
+          this._wallet[category][index].total -= editOrder.total;
+          this._wallet[category][index].price = this.midPrice(
+            editOrder.ticker,
             this._wallet[category][index].units
           );
-          this._wallet[category][index].total = cost;
-          this._wallet[category][index].price =
-            this._wallet[category][index].total /
-            this._wallet[category][index].units;
+          if (deleteMode) {
+            this._wallet[category][index].price =
+              this.midPrice(
+                editOrder.ticker,
+                this._wallet[category][index].units
+              ) / 100;
+          }
+        } else if (editOrder.type === "Sell") {
+          this._wallet[category][index].units += editOrder.units;
+          this._wallet[category][index].total +=
+            editOrder.units * this._wallet[category][index].price;
         }
         if (this._wallet[category][index].units === 0) {
           this._wallet[category][index].total = 0;
@@ -227,8 +225,6 @@ class ActualizeWallet extends AddOrder {
         }
         localStorage.setItem("wallet", JSON.stringify(this._wallet));
       }
-
-      // this.actualValueWallet();
     }
   }
 
@@ -245,13 +241,8 @@ class ActualizeWallet extends AddOrder {
           this._wallet[type][index].total / this._wallet[type][index].units;
       } else if (this._orders[this._orders.length - 1].type === "Sell") {
         this._wallet[type][index].units -= lastOrder.units;
-        let cost = this.midPrice(
-          this._wallet[type][index].symbol,
-          this._wallet[type][index].units
-        );
-        this._wallet[type][index].total -= cost;
-        this._wallet[type][index].price =
-          this._wallet[type][index].total / this._wallet[type][index].units;
+        this._wallet[type][index].total -=
+          lastOrder.units * this._wallet[type][index].price;
       }
       if (this._wallet[type][index].units === 0) {
         this._wallet[type][index].total = 0;

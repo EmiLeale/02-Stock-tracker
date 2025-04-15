@@ -17,20 +17,54 @@ class ActualizeOrdersPage extends ActualizeDataDOM {
         "click",
         this.actualizeListOrders.bind(this)
       );
-      this._allButtons = document.querySelectorAll('button[id^="edit-"]');
-      this._allButtons.forEach((button) => {
+      this._editButtons = document.querySelectorAll('button[id^="edit-"]');
+      this._editButtons.forEach((button) => {
         button.addEventListener("click", this.editOrder.bind(this));
+      });
+      this._deleteButtons = document.querySelectorAll('button[id^="delete-"]');
+      this._deleteButtons.forEach((button) => {
+        button.addEventListener("click", this.deleteOrder.bind(this));
       });
     });
     this._form.addEventListener("submit", this.submitOrderFinish.bind(this));
     this._filterWallet.addEventListener("click", this.clickFilter.bind(this));
   }
 
+  deleteOrder() {
+    this._editMode = true;
+    this._deleteMode = true;
+    this._idOrderDelete = parseInt(event.srcElement.id.replace("delete-", ""));
+
+    console.log(this._idOrderDelete);
+
+    const alert = window.confirm(
+      "Are you sure you want to delete this order? If you delete the order, your wallet will be updated."
+    );
+    if (!alert) {
+      return;
+    }
+    const deleteOrder = this._orders[this._idOrderDelete];
+
+    this._orders.splice(this._idOrderDelete, 1);
+
+    localStorage.setItem("orders", JSON.stringify(this._orders));
+
+    this.actualizeEditMode(
+      deleteOrder,
+      deleteOrder.category,
+      this._editMode,
+      this._deleteMode
+    );
+
+    this._editMode = false;
+    this._deleteMode = false;
+
+    location.reload();
+  }
+
   editOrder(event) {
     this._editMode = true;
-    this._idOrder = parseInt(
-      event.srcElement.parentElement.id.replace("edit-", "")
-    );
+    this._idOrder = parseInt(event.srcElement.id.replace("edit-", ""));
     if (this._idOrder === NaN) {
       return;
     }
@@ -64,7 +98,7 @@ class ActualizeOrdersPage extends ActualizeDataDOM {
 
   submitOrderFinish() {
     event.preventDefault();
-    console.log(this._editMode);
+
     if (this._editMode) {
       const editOrder = this._orders[this._idOrder];
 
@@ -75,11 +109,14 @@ class ActualizeOrdersPage extends ActualizeDataDOM {
       this._editMode = false;
     }
 
-    if (this.isEmpty()) {
+    if (this.isEmpty() || !this.actualizeModalToSell()) {
       return;
     }
+
     this.isOnWallet();
     this.actualizeListOrders();
+
+    location.reload();
   }
 
   emptyTableBuy() {
@@ -148,7 +185,7 @@ class ActualizeOrdersPage extends ActualizeDataDOM {
       th.classList.add("font-light", "flex", "items-center", "justify-around");
       th.innerHTML =
         this._orders[i].ticker +
-        `<button id="edit-${i}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-pen-icon lucide-square-pen cursor-pointer"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/></svg></button>`;
+        `<button id="edit-${i}" class="cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-pen-icon lucide-square-pen pointer-events-none"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/></svg></button><button id="delete-${i}" class="cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2-icon lucide-trash-2 pointer-events-none"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg></button>`;
       const tdDate = document.createElement("td");
       const tdCategory = document.createElement("td");
       const tdUnits = document.createElement("td");
