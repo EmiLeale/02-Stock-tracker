@@ -61,7 +61,7 @@ class AddOrder extends OrderModal {
         note: "The best investment of all times",
       },
     ];
-    // localStorage.setItem("orders", JSON.stringify(this._orders)); // Delete for save orders in localStorage
+    // localStorage.setItem("orders", JSON.stringify(this._orders)); // Delete for save the above orders in localStorage
     this.addEventListener();
   }
 

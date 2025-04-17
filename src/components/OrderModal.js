@@ -73,6 +73,7 @@ class OrderModal {
     this._profit.textContent = "Profit (%)";
     this._note.value = "";
     this._form.classList.remove("grid-rows-8");
+    this._editMode = false;
   }
 
   isAllEmpty() {

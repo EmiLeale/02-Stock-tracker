@@ -26,8 +26,8 @@ class ActualizeWallet extends AddOrder {
           symbol: "AAPL",
           name: "Apple Inc.",
           price: 100,
-          units: 1,
-          total: 100,
+          units: 2,
+          total: 200,
         },
       ],
       forex: [
@@ -70,6 +70,7 @@ class ActualizeWallet extends AddOrder {
 
   actualizeGP() {
     const ticker = this.searchSymbolWallet();
+
     if (ticker) {
       if (this._units.value > ticker.units) {
         return;
@@ -143,8 +144,13 @@ class ActualizeWallet extends AddOrder {
       result = data[category].find(
         (item) => item.symbol === this._ticker.value
       );
+
       if (result && this._type.value === "Sell") {
         this._units.setAttribute("max", result.units);
+        if (this._editMode) {
+          const max = result.units + this._orders[this._idOrder].units;
+          this._units.setAttribute("max", max);
+        }
         return true, result;
       }
     }
