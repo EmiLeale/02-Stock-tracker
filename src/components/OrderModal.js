@@ -37,8 +37,10 @@ class OrderModal {
     const alert = window.confirm(
       "You're about to clean out your entire investment portfolio. Are you sure?"
     );
+    this._clear;
     if (!alert) {
-      return;
+      this._clear = false;
+      return this._clear;
     }
 
     this._orders = [];
@@ -55,7 +57,8 @@ class OrderModal {
     this.actualValueWallet();
     localStorage.setItem("wallet", JSON.stringify(this._wallet));
 
-    return true;
+    this._clear = true;
+    return this._clear;
   }
 
   cleanModal() {

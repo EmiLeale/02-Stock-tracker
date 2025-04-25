@@ -15,7 +15,7 @@ class ActualizeOrdersPage extends ActualizeDataDOM {
       this.actualizeListOrders();
       this._clearWalletBtn.addEventListener(
         "click",
-        this.actualizeListOrders.bind(this)
+        this.actualizeOrdersPage.bind(this)
       );
       this._editButtons = document.querySelectorAll('button[id^="edit-"]');
       this._editButtons.forEach((button) => {
@@ -30,12 +30,17 @@ class ActualizeOrdersPage extends ActualizeDataDOM {
     this._filterWallet.addEventListener("click", this.clickFilter.bind(this));
   }
 
+  actualizeOrdersPage() {
+    if (this._clear === false) {
+      return;
+    }
+    this.actualizeListOrders();
+  }
+
   deleteOrder() {
     this._editMode = true;
     this._deleteMode = true;
     this._idOrderDelete = parseInt(event.srcElement.id.replace("delete-", ""));
-
-    console.log(this._idOrderDelete);
 
     const alert = window.confirm(
       "Are you sure you want to delete this order? If you delete the order, your wallet will be updated."

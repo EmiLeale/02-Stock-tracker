@@ -13,7 +13,7 @@ class ActualizeWalletPage extends ActualizeDataDOM {
       this.actualizeListWallet();
       this._clearWalletBtn.addEventListener(
         "click",
-        this.actualizeListWallet.bind(this)
+        this.actualizeWalletPage.bind(this)
       );
     });
     this._form.addEventListener("submit", this.submitOrderFinish.bind(this));
@@ -27,6 +27,13 @@ class ActualizeWalletPage extends ActualizeDataDOM {
     }
 
     this.isOnWallet();
+    this.actualizeListWallet();
+  }
+
+  actualizeWalletPage() {
+    if (this._clear === false) {
+      return;
+    }
     this.actualizeListWallet();
   }
 
