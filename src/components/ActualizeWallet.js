@@ -110,6 +110,12 @@ class ActualizeWallet extends AddOrder {
     const lastOrder = this._orders[this._orders.length - 1];
     this.verifySymbol(lastOrder);
     this.sellSelectedDatalist();
+
+    localStorage.setItem(
+      "currenciesDataList",
+      JSON.stringify(this._currencies)
+    );
+    CurrencyService.addDataList(this._currencies);
   }
 
   sellSelectedDatalist() {
@@ -117,7 +123,14 @@ class ActualizeWallet extends AddOrder {
       CurrencyService.addDataList(this._wallet);
       this.actualizeModalToSell();
     } else {
-      CurrencyService.addDataList(this._currencies);
+      const currenciesDataList = localStorage.getItem("currenciesDataList");
+
+      if (currenciesDataList !== "undefined") {
+        this._newCurrencies = JSON.parse(currenciesDataList);
+        CurrencyService.addDataList(this._newCurrencies);
+      } else {
+        CurrencyService.addDataList(this._currencies);
+      }
     }
   }
 
@@ -357,7 +370,7 @@ class ActualizeWallet extends AddOrder {
     }
     this._currencies.others.push(newCurrencie);
     this._newCurrencieName.value = "";
-    CurrencyService.addDataList(this._currencies);
+
     this.actualValueWallet();
   }
 

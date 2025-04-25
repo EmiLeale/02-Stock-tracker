@@ -57,6 +57,8 @@ class OrderModal {
     this.actualValueWallet();
     localStorage.setItem("wallet", JSON.stringify(this._wallet));
 
+    localStorage.setItem("currenciesDataList", JSON.stringify());
+
     this._clear = true;
     return this._clear;
   }
