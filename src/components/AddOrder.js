@@ -87,6 +87,7 @@ class AddOrder extends OrderModal {
       this._profit.classList.remove("flex");
       this._gp.classList.remove("flex");
       this._form.classList.remove("grid-rows-8");
+      return false;
     }
   }
 

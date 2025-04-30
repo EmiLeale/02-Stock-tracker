@@ -110,26 +110,21 @@ class ActualizeWallet extends AddOrder {
     const lastOrder = this._orders[this._orders.length - 1];
     this.verifySymbol(lastOrder);
     this.sellSelectedDatalist();
-
-    localStorage.setItem(
-      "currenciesDataList",
-      JSON.stringify(this._currencies)
-    );
-    CurrencyService.addDataList(this._currencies);
   }
 
   sellSelectedDatalist() {
     if (this.sellSelected()) {
       CurrencyService.addDataList(this._wallet);
       this.actualizeModalToSell();
-    } else {
-      const currenciesDataList = localStorage.getItem("currenciesDataList");
-
-      if (currenciesDataList !== "undefined") {
-        this._newCurrencies = JSON.parse(currenciesDataList);
-        CurrencyService.addDataList(this._newCurrencies);
-      } else {
+    } else if (!this.sellSelected()) {
+      if (!this._orders.length > 0) {
         CurrencyService.addDataList(this._currencies);
+      } else {
+        this._wallet.others.splice(-1, 1);
+        let others = this._wallet.others;
+        let newCurrencies = this._currencies;
+        newCurrencies.others = others;
+        CurrencyService.addDataList(newCurrencies);
       }
     }
   }
@@ -200,8 +195,6 @@ class ActualizeWallet extends AddOrder {
 
     for (const others of this._wallet.others) {
       if (others.symbol === lastOrder.ticker) {
-        const data = this.searchSymbolJSON(lastOrder.ticker);
-        data.price = lastOrder.price;
         this.actualizingItem(lastOrder, "others");
         return true;
       }
@@ -276,7 +269,6 @@ class ActualizeWallet extends AddOrder {
 
   addNewItem(lastOrder) {
     let foundElement = null;
-
     for (const type in this._currencies) {
       if (Array.isArray(this._currencies[type])) {
         foundElement = this._currencies[type].find(
@@ -336,21 +328,18 @@ class ActualizeWallet extends AddOrder {
   }
 
   newCurrencie() {
-    if (
-      (this.searchSymbolJSON(this._ticker.value) ||
-        this._ticker.value === "") &&
-      this._type.value !== "Buy"
-    ) {
+    if (this._ticker.value === "") {
       this._newCurrencieForm.classList.add("hidden");
       return;
-    } else if (
+    }
+    if (
       this.searchSymbolJSON(this._ticker.value) ||
       this._type.value !== "Buy"
     ) {
       this._newCurrencieForm.classList.add("hidden");
       return;
     }
-    this._newCurrencieForm.classList.toggle("hidden");
+    this._newCurrencieForm.classList.remove("hidden");
   }
 
   newCurrencieLock() {
@@ -368,47 +357,64 @@ class ActualizeWallet extends AddOrder {
       newCurrencie.symbol = this._ticker.value.toUpperCase();
       this._newCurrencieForm.classList.toggle("hidden");
     }
-    this._currencies.others.push(newCurrencie);
     this._newCurrencieName.value = "";
-
-    this.actualValueWallet();
   }
 
   actualValueWallet() {
     this._totalValue = 0;
     this._totalCost = 0;
+
     Object.keys(this._wallet).forEach((category) => {
       this._wallet[category] = this._wallet[category].filter(
-        (item) => !(item.value !== undefined && item.cost !== undefined)
+        (item) =>
+          !(
+            item &&
+            typeof item === "object" &&
+            item.value !== undefined &&
+            item.cost !== undefined
+          )
       );
 
-      this._value = 0;
-      this._cost = 0;
+      let categoryValue = 0;
+      let categoryCost = 0;
 
-      this._wallet[category].forEach((element) => {
-        this._currencies[category].forEach((asset) => {
-          if (element.symbol === asset.symbol) {
-            this._cost += element.total;
-            let value = element.units * asset.price;
-            this._value += value;
+      if (category === "others") {
+        this._wallet[category].forEach((element) => {
+          categoryCost += element.total;
+          categoryValue += element.units * element.price;
+        });
+      } else if (Array.isArray(this._wallet[category])) {
+        this._wallet[category].forEach((element) => {
+          const asset = this._currencies[category]?.find(
+            (a) => a.symbol === element.symbol
+          );
+
+          if (asset) {
+            categoryCost += element.total;
+            categoryValue += element.units * asset.price;
+          } else {
+            categoryCost += element.total;
+            categoryValue += element.units * element.price;
           }
         });
-      });
+      }
 
       this._wallet[category].push({
-        value: this._value,
-        cost: this._cost,
+        value: categoryValue,
+        cost: categoryCost,
       });
 
-      this._totalCost += this._cost;
-      this._totalValue += this._value;
+      this._totalCost += categoryCost;
+      this._totalValue += categoryValue;
     });
+
     this._wallet.total = [
       {
         cost: this._totalCost,
         value: this._totalValue,
       },
     ];
+
     localStorage.setItem("wallet", JSON.stringify(this._wallet));
   }
 
