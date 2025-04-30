@@ -256,10 +256,10 @@ class ActualizeWallet extends AddOrder {
         this._wallet[type][index].total -=
           lastOrder.units * this._wallet[type][index].price;
       }
-      if (this._wallet[type][index].units === 0) {
+      if (this._wallet[type][index].units < 0) {
         this._wallet[type][index].total = 0;
         this._wallet[type][index].price = 0;
-        this._wallet[type].splice(index, 1);
+        this._wallet[type][index].units = 0;
       }
       localStorage.setItem("wallet", JSON.stringify(this._wallet));
     }

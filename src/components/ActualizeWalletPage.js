@@ -59,6 +59,7 @@ class ActualizeWalletPage extends ActualizeDataDOM {
     this._currentOrder = order || "Total Cost";
     for (let i = 0; i < this._newWallet.length; i++) {
       if (i >= this._newWallet.length) break;
+      if (this._newWallet[i].units === 0) break;
       const tr = document.createElement("tr");
       tr.classList.add("*:px-4", "*:py-2");
       const th = document.createElement("th");
@@ -83,18 +84,25 @@ class ActualizeWalletPage extends ActualizeDataDOM {
         this._newWallet[i].category.slice(1);
       tdUnits.textContent = this.formatNumber(this._newWallet[i].units);
       tdPrice.textContent = "$" + this.formatNumber(this._newWallet[i].total);
-      let profit =
-        this.actualValue(this._newWallet[i].units, this._newWallet[i].symbol) -
-        this._newWallet[i].total;
+
+      let cost = this.actualValue(
+        this._newWallet[i].units,
+        this._newWallet[i].symbol
+      );
+      let value = this._newWallet[i].total;
+      let profit = cost - value;
+
+      if (this._newWallet[i].category === "others") {
+        profit = 0;
+      }
 
       tdValue.textContent =
         "$" +
         this.formatNumber(
           this.actualValue(this._newWallet[i].units, this._newWallet[i].symbol)
         );
-      tdProfit.textContent = "$" + this.formatNumber(profit);
-      tdProfit.classList.add(profit >= 0 ? "text-green-500" : "text-red-500");
 
+      tdProfit.textContent = "$" + this.formatNumber(profit);
       tdProfitPer.textContent =
         this.formatNumber(
           ((this.actualValue(
@@ -105,9 +113,20 @@ class ActualizeWalletPage extends ActualizeDataDOM {
             this._newWallet[i].total) *
             100
         ) + " %";
+
+      tdProfit.classList.add(profit >= 0 ? "text-green-500" : "text-red-500");
       tdProfitPer.classList.add(
         profit >= 0 ? "text-green-500" : "text-red-500"
       );
+
+      if (
+        this.formatNumber(
+          this.actualValue(this._newWallet[i].units, this._newWallet[i].symbol)
+        ) === " -"
+      ) {
+        tdProfit.textContent = "$ -";
+        tdProfitPer.textContent = "% -";
+      }
 
       this._currentOrder === "Ticker" &&
         th.classList.add("bg-sky-200", "font-semibold");

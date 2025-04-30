@@ -71,7 +71,7 @@ class ActualizeHomePage extends ActualizeDataDOM {
         value = this._wallet[category][this._wallet[category].length - 1].value;
         profit = value - cost;
       }
-
+      console.log(profit);
       pCost.textContent = `Total Cost: $${this.formatNumber(cost)}`;
       pValue.textContent = `Actual Value: $${this.formatNumber(value)}`;
       pProfit.textContent = `P & L: $${this.formatNumber(profit)}`;
