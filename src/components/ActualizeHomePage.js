@@ -26,6 +26,7 @@ class ActualizeHomePage extends ActualizeDataDOM {
 
     this.isOnWallet();
     this.actualizeHomePage();
+    location.reload();
   }
 
   actualizeHomePage() {
@@ -41,8 +42,15 @@ class ActualizeHomePage extends ActualizeDataDOM {
   actualizeDataPerformance() {
     this._perfoDataCont.innerHTML = "";
     const fragment = document.createDocumentFragment();
+    this.actualValueWallet();
 
     Object.keys(this._wallet).forEach((category) => {
+      if (
+        !Array.isArray(this._wallet[category]) ||
+        this._wallet[category].length === 0
+      ) {
+        return;
+      }
       const div = document.createElement("div");
       const h3 = document.createElement("h3");
       const pCost = document.createElement("p");
@@ -66,12 +74,11 @@ class ActualizeHomePage extends ActualizeDataDOM {
           existCurrencie.price = this._orders[this._orders.length - 1].price;
         }
 
-        this.actualValueWallet();
         cost = this._wallet[category][this._wallet[category].length - 1].cost;
         value = this._wallet[category][this._wallet[category].length - 1].value;
         profit = value - cost;
       }
-      console.log(profit);
+
       pCost.textContent = `Total Cost: $${this.formatNumber(cost)}`;
       pValue.textContent = `Actual Value: $${this.formatNumber(value)}`;
       pProfit.textContent = `P & L: $${this.formatNumber(profit)}`;
@@ -101,26 +108,36 @@ class ActualizeHomePage extends ActualizeDataDOM {
     this._perfoDataCont.appendChild(fragment);
   }
 
+  actualizeNewHomePageWallet() {
+    this._tbodyWallet.innerHTML = "";
+    const tr = document.createElement("tr");
+    tr.classList.add(":w-20", "*:h16", "*:px-4", "*:py-2", "*:font-medium");
+    const th = document.createElement("th");
+    th.textContent = "You don't have any investments at this time";
+    th.setAttribute("colspan", "8");
+    tr.appendChild(th);
+    this._tbodyWallet.classList.remove("*:hover:bg-sky-200");
+    this._tbodyWallet.appendChild(tr);
+
+    return;
+  }
+
   actualizeWalletHome() {
     if (
       Object.keys(this._wallet).every((key) => this._wallet[key].length === 1)
     ) {
-      this._tbodyWallet.innerHTML = "";
-      const tr = document.createElement("tr");
-      tr.classList.add(":w-20", "*:h16", "*:px-4", "*:py-2", "*:font-medium");
-      const th = document.createElement("th");
-      th.textContent = "You don't have any investments at this time";
-      th.setAttribute("colspan", "8");
-      tr.appendChild(th);
-      this._tbodyWallet.classList.remove("*:hover:bg-sky-200");
-      this._tbodyWallet.appendChild(tr);
-
+      this.actualizeNewHomePageWallet();
       return;
     }
+
     const top3Wallet = this.getTop3Items(this._wallet);
     this._tbodyWallet.innerHTML = "";
     for (let i = 0; i < 3; i++) {
       if (i >= top3Wallet.length) break;
+      if (top3Wallet[i].units === 0) {
+        this.actualizeNewHomePageWallet();
+        break;
+      }
       const tr = document.createElement("tr");
       tr.classList.add("*:px-4", "*:py-2");
       const th = document.createElement("th");
@@ -143,7 +160,6 @@ class ActualizeHomePage extends ActualizeDataDOM {
       let profit =
         this.actualValue(top3Wallet[i].units, top3Wallet[i].symbol) -
         top3Wallet[i].total;
-
       tdValue.textContent =
         "$" +
         this.formatNumber(
@@ -152,18 +168,11 @@ class ActualizeHomePage extends ActualizeDataDOM {
       if (this.actualValue(top3Wallet[i].units, top3Wallet[i].symbol) === 0) {
         tdValue.textContent = "$" + this.formatNumber(top3Wallet[i].total);
         profit = 0;
-
         tdProfitPer.textContent = "% -";
       } else {
         tdProfitPer.textContent =
-          this.formatNumber(
-            ((this.actualValue(top3Wallet[i].units, top3Wallet[i].symbol) -
-              top3Wallet[i].total) /
-              top3Wallet[i].total) *
-              100
-          ) + " %";
+          this.formatNumber((profit / top3Wallet[i].total) * 100) + " %";
       }
-
       tdProfit.textContent = "$" + this.formatNumber(profit);
       tdProfit.classList.add(profit >= 0 ? "text-green-500" : "text-red-500");
 
@@ -176,18 +185,23 @@ class ActualizeHomePage extends ActualizeDataDOM {
     }
   }
 
+  actualizeNewHomePageOrders() {
+    this._tbodyOrders.innerHTML = "";
+    const tr = document.createElement("tr");
+    tr.classList.add(":w-20", "*:h16", "*:px-4", "*:py-2", "*:font-medium");
+    const th = document.createElement("th");
+    th.textContent = "You don't have any investments at this time";
+    th.setAttribute("colspan", "8");
+    tr.appendChild(th);
+    this._tbodyOrders.classList.remove("*:hover:bg-sky-200");
+    this._tbodyOrders.appendChild(tr);
+
+    return;
+  }
+
   actualizeOrderHome() {
     if (this._orders.length === 0) {
-      this._tbodyOrders.innerHTML = "";
-      const tr = document.createElement("tr");
-      tr.classList.add(":w-20", "*:h16", "*:px-4", "*:py-2", "*:font-medium");
-      const th = document.createElement("th");
-      th.textContent = "You don't have any investments at this time";
-      th.setAttribute("colspan", "8");
-      tr.appendChild(th);
-      this._tbodyOrders.classList.remove("*:hover:bg-sky-200");
-      this._tbodyOrders.appendChild(tr);
-
+      this.actualizeNewHomePageOrders();
       return;
     }
     const top3Orders = this.getTop3Items(this._orders);

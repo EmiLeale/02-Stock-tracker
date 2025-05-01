@@ -37,20 +37,25 @@ class ActualizeWalletPage extends ActualizeDataDOM {
     this.actualizeListWallet();
   }
 
+  newWalletActualize() {
+    this._tbodyWallet.innerHTML = "";
+    const tr = document.createElement("tr");
+    tr.classList.add(":w-20", "*:h16", "*:px-4", "*:py-2", "*:font-medium");
+    const th = document.createElement("th");
+    th.textContent = "You don't have any investments at this time";
+    th.setAttribute("colspan", "8");
+    tr.appendChild(th);
+    this._tbodyWallet.classList.remove("*:hover:bg-sky-200");
+    this._tbodyWallet.appendChild(tr);
+
+    return;
+  }
+
   actualizeListWallet(arr, order) {
     if (
       Object.keys(this._wallet).every((key) => this._wallet[key].length === 1)
     ) {
-      this._tbodyWallet.innerHTML = "";
-      const tr = document.createElement("tr");
-      tr.classList.add(":w-20", "*:h16", "*:px-4", "*:py-2", "*:font-medium");
-      const th = document.createElement("th");
-      th.textContent = "You don't have any investments at this time";
-      th.setAttribute("colspan", "8");
-      tr.appendChild(th);
-      this._tbodyWallet.classList.remove("*:hover:bg-sky-200");
-      this._tbodyWallet.appendChild(tr);
-
+      this.newWalletActualize();
       return;
     }
 
@@ -59,7 +64,10 @@ class ActualizeWalletPage extends ActualizeDataDOM {
     this._currentOrder = order || "Total Cost";
     for (let i = 0; i < this._newWallet.length; i++) {
       if (i >= this._newWallet.length) break;
-      if (this._newWallet[i].units === 0) break;
+      if (this._newWallet[i].units === 0) {
+        this.newWalletActualize();
+        break;
+      }
       const tr = document.createElement("tr");
       tr.classList.add("*:px-4", "*:py-2");
       const th = document.createElement("th");
