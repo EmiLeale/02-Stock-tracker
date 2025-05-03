@@ -7,6 +7,7 @@
     <link href="src/css/output.css" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="/assets/logo/ico.png">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body class="h-screen w-full bg-sky-900 text-black">
@@ -25,7 +26,7 @@
               <a href="/home.html"><li>Home</li></a>
               <a href="/src/html/wallet.html"><li>Wallet</li></a>
               <a href="/src/html/orders.html"><li>Orders</li></a>
-              <a href="performance.html">Performance</a>
+              <a href="/src/html/performance.html">Performance</a>
           </ul>
         </nav>
 
@@ -93,20 +94,64 @@
 
             <div class="w-full lg:w-5/6 h-full mb-2 lg:rounded-lg text-sm text-center *:sm:text-nowrap *:transition-all bg-sky-100"> <!-- Performance section -->
 
-              <h2 class="h-8 w-full bg-sky-800 text-sky-50 lg:rounded-t-lg flex items-center justify-center text-lg font-semibold tracking-widest">PERFORMANCE</h2>
+              <h2 id="performance-title" class="h-8 w-full bg-sky-800 text-sky-50 lg:rounded-t-lg flex items-center justify-center text-lg font-semibold tracking-widest">PERFORMANCE</h2>
 
-              <div class="grid grid-cols-2 grid-rows-2 m-4">
+              <div id="performance-container" class="h-fit grid grid-cols-2 grid-rows-2 m-2">
+                <div id="performance-data-container" class="h-96 col-span-2 md:row-span-2 md:col-span-1 grid grid-cols-2 grid-rows-3 *:p-4 *:md:text-start bg-sky-50 hover:bg-sky-100" > <!-- Performance Data --></div>
 
-                <div class="col-span-2 md:row-span-2 md:col-span-1 grid grid-cols-2 grid-rows-3 *:p-4 *:md:text-start" id="performance-data-container"> <!-- Performance Data --></div>
-
-                <div class="col-span-2 md:row-span-2 md:col-span-1"> <!-- Performance charts -->
-                  <div class="h-full w-full rounded-full border">CHART de todas los activos</div>
+                <div class="h-full col-span-2 md:row-span-2 md:col-span-1 ml-2 *:hover:bg-sky-100 *:bg-sky-50"> <!-- Performance charts -->
+                  <div class="relative h-48">
+                   <canvas id="categories-chart"></canvas>
+                  </div>
+                  <div class="relative h-48" id="investments-chart-container">
+                    <canvas id="wallet-chart"></canvas>
+                  </div>
                 </div>
-                
               </div>
-              
 
-              <a href="/src/html/performance.html" class="h-8 flex justify-center items-center text-xs sm:text-sm font-medium cursor-pointer text-sky-50 bg-sky-800 hover:text-sky-800 hover:bg-sky-50 lg:rounded-b-lg">See more
+              <div id="instructions-container" class="bg-sky-50 rounded-lg shadow-md max-w-2xl mx-auto p-4 my-4">
+                <h2 class="text-lg font-bold text-center text-gray-800">Quick Guide - Investor Tracker: What Does What?</h2>
+                <p class="text-gray-600 text-center">This guide explains the main functions of Investor Tracker and how to use them.</p>
+            
+                <h3 class="text-lg font-semibold border-b border-gray-200 text-gray-700 my-2">Main Navigation (Top Bar):</h3>
+                <ul class="list-disc list-inside space-y-1 text-gray-600 *:text-wrap">
+                    <li><strong>Home:</strong> Go to the main screen with summaries.</li>
+                    <li><strong>Wallet:</strong> View the complete list of your current assets.</li>
+                    <li><strong>Orders:</strong> View the history of all your transactions (buys and sells).</li>
+                    <li><strong>Performance:</strong> View performance charts.</li>
+                </ul>
+            
+                <h3 class="text-lg font-semibold border-b border-gray-200 text-gray-700 my-2">Quick Actions (Main Screen):</h3>
+                <ul class="list-disc list-inside space-y-1 text-gray-600 *:text-wrap">
+                    <li >
+                        <strong>Clear wallet:</strong> <strong class="text-red-600">Attention!</strong> This deletes <strong>all</strong> your wallet data. Use with caution. (If the wallet is empty, the app shows this guide).
+                    </li>
+                    <li><strong>Add order:</strong> Open the form to record a new buy or sell transaction.</li>
+                </ul>
+            
+                <h3 class="text-lg font-semibold border-b border-gray-200 text-gray-700 my-2">Order Form (When adding/editing an order):</h3>
+                <p class="text-gray-600 my-1">When you open the order form, you will see these fields and buttons:</p>
+                <ul class="list-disc list-inside space-y-1 text-gray-600 *:text-wrap">
+                    <li><strong>Select an operation:</strong> Choose <strong>Buy</strong> or <strong>Sell</strong>. (If it's a sell, you can only select assets you own and up to that quantity).</li>
+                    <li><strong>Date:</strong> Select the date (use the calendar icon).</li>
+                    <li><strong>Ticker:</strong> Enter the asset code (e.g., BTC). For a new Ticker: Type the code, give it a name when the option appears, click "+", and when you save the order, the new asset will be registered.</li>
+                    <li><strong>Units:</strong> Quantity of units.</li>
+                    <li><strong>Price:</strong> Price per unit.</li>
+                    <li><strong>Total:</strong> This field <strong>is calculated automatically</strong>.</li>
+                    <li><strong>Notes here...:</strong> Optional field for notes.</li>
+                    <li><strong>Save:</strong> Save the order. Your wallet and data will be updated.</li>
+                    <li><strong>Cancel:</strong> Close without saving.</li>
+                </ul>
+            
+                <h3 class="text-lg font-semibold  border-b border-gray-200 pb-1 text-gray-700 my-2">Managing Orders (On the ORDERS screen):</h3>
+                <p class=" text-gray-600 my-1">Next to each buy or sell transaction in the table on the "Orders" screen, you will find:</p>
+                <ul class="list-disc list-inside space-y-1 text-gray-600 *:text-wrap">
+                    <li ><strong>Pencil Icon ✏️ (Edit):</strong> Click to modify the details of that order. Changes will update your wallet.</li>
+                    <li><strong>Trash Can Icon 🗑️ (Delete):</strong> Click to delete that order. Your wallet will be adjusted.</li>
+                </ul>
+            </div>
+
+              <a id="see-more-performance" href="/src/html/performance.html" class="h-8 flex justify-center items-center text-xs sm:text-sm font-medium cursor-pointer text-sky-50 bg-sky-800 hover:text-sky-800 hover:bg-sky-50 lg:rounded-b-lg">See more
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down ml-1">
                   <path d="m6 9 6 6 6-6"/>
                 </svg></a>
@@ -172,7 +217,7 @@
               <a href="home.html"><li>Home</li></a>
               <a href="/src/html/wallet.html"><li>Wallet</li></a>
               <a href="/src/html/orders.html"><li>Orders</li></a>
-              <a href="performance.html">Performance</a>
+              <a href="/src/html/performance.html">Performance</a>
           </ul>
         </nav>
       </div>
@@ -182,6 +227,8 @@
     </footer>
 
     <script type="module" src="index.js"></script>
+    <script type="module" src="/src/components/charts/Charts.js"></script>
+    <script type="module" src="/src/components/charts/Charts1.js"></script>
 
 </body>
 </html>

@@ -4,6 +4,13 @@ class ActualizeHomePage extends ActualizeDataDOM {
   constructor() {
     super();
     this._perfoDataCont = document.getElementById("performance-data-container");
+    this._perfoContainer = document.getElementById("performance-container");
+    this._perfoTitle = document.getElementById("performance-title");
+    this._instructionsContainer = document.getElementById(
+      "instructions-container"
+    );
+    this._seeMorePerfo = document.getElementById("see-more-performance");
+
     this._walletTable = document.getElementById("wallet-table");
     this._ordersTable = document.getElementById("orders-table");
     this._tbodyWallet = document.querySelector("#wallet-table tbody");
@@ -40,6 +47,13 @@ class ActualizeHomePage extends ActualizeDataDOM {
   }
 
   actualizeDataPerformance() {
+    this._instructionsContainer.classList.add("hidden");
+    if (this._wallet.total[0].value === 0) {
+      this._perfoContainer.classList.add("hidden");
+      this._instructionsContainer.classList.remove("hidden");
+      this._seeMorePerfo.classList.add("hidden");
+      this._perfoTitle.textContent = "INSTRUCTIONS";
+    }
     this._perfoDataCont.innerHTML = "";
     const fragment = document.createDocumentFragment();
     this.actualValueWallet();
