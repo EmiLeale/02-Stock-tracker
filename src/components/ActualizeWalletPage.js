@@ -81,11 +81,6 @@ class ActualizeWalletPage extends ActualizeDataDOM {
       const tdValue = document.createElement("td");
       const tdProfit = document.createElement("td");
       const tdProfitPer = document.createElement("td");
-      tdName.classList.add("hidden", "md:table-cell");
-      tdCategory.classList.add("hidden", "md:table-cell");
-      tdValue.classList.add("hidden", "sm:table-cell");
-      tdProfit.classList.add("hidden", "sm:table-cell", "font-medium");
-      tdProfitPer.classList.add("font-medium");
       tdName.textContent = this._newWallet[i].name;
       tdCategory.textContent =
         this._newWallet[i].category.slice(0, 1).toUpperCase() +

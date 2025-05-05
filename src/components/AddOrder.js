@@ -68,6 +68,12 @@ class AddOrder extends OrderModal {
   addEventListener() {
     this._ticker.addEventListener("input", () => {
       this._newCurrencieForm.classList.add("hidden");
+      if (this._ticker.value !== "" && this._type.value === "Sell") {
+        this._units.disabled = false;
+      } else if (this._type.value === "Sell" && this._ticker.value === "") {
+        this._units.disabled = true;
+        this._units.value = "";
+      }
     });
   }
 
@@ -78,8 +84,14 @@ class AddOrder extends OrderModal {
       this._profit.classList.add("flex");
       this._gp.classList.add("flex");
       this._form.classList.add("grid-rows-8");
+      if (!this._ticker.value) {
+        this._units.disabled = true;
+        this._units.value = "";
+      }
       return true;
     } else if (this._type.value === "Buy") {
+      this._units.disabled = false;
+      this._units.value = "";
       this._units.setAttribute("max", Infinity);
       this._ticker.value = "";
       this._gp.classList.add("hidden");

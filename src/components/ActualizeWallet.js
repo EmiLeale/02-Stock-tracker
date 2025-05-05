@@ -357,6 +357,8 @@ class ActualizeWallet extends AddOrder {
       newCurrencie.symbol = this._ticker.value.toUpperCase();
       this._newCurrencieForm.classList.toggle("hidden");
     }
+
+    this._currencies.others.push(newCurrencie);
     this._newCurrencieName.value = "";
   }
 

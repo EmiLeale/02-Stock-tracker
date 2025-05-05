@@ -81,11 +81,7 @@
               </div>
               
               <div id="advice-new-currencie" class="hidden w-fit h-fit  items-center *:rounded-sm absolute left-0 top-0 bg-sky-200 p-4 rounded-2xl text-sm transition-all">
-                <p>You add Name Enterprise"" with the Ticker NEW"". The actual price is $$$""</p>
-                <p>The price will be updated automatically whenever a new investment is added. It can also be updated manually, alongside other prices.</p>
               </div>
-              
-              
             </form>
 
         </section>
@@ -99,17 +95,17 @@
               <div id="performance-container" class="h-fit grid grid-cols-2 grid-rows-2 m-2">
                 <div id="performance-data-container" class="h-96 col-span-2 md:row-span-2 md:col-span-1 grid grid-cols-2 grid-rows-3 *:p-4 *:md:text-start bg-sky-50 hover:bg-sky-100" > <!-- Performance Data --></div>
 
-                <div class="h-full col-span-2 md:row-span-2 md:col-span-1 ml-2 *:hover:bg-sky-100 *:bg-sky-50"> <!-- Performance charts -->
-                  <div class="relative h-48">
+                <div class="h-full col-span-2 md:row-span-2 md:col-span-1 md:ml-2 mt-2 md:mt-0 *:hover:bg-sky-100 *:bg-sky-50"> <!-- Performance charts -->
+                  <div class="relative h-48 flex justify-center">
                    <canvas id="categories-chart"></canvas>
                   </div>
-                  <div class="relative h-48" id="investments-chart-container">
+                  <div class="relative h-48 flex justify-center" id="investments-chart-container">
                     <canvas id="wallet-chart"></canvas>
                   </div>
                 </div>
               </div>
 
-              <div id="instructions-container" class="bg-sky-50 rounded-lg shadow-md max-w-2xl mx-auto p-4 my-4">
+              <div id="instructions-container" class="bg-sky-50 rounded-lg shadow-md max-w-2xl mx-auto p-4 my-4"> <!-- Information container -->
                 <h2 class="text-lg font-bold text-center text-gray-800">Quick Guide - Investor Tracker: What Does What?</h2>
                 <p class="text-gray-600 text-center">This guide explains the main functions of Investor Tracker and how to use them.</p>
             
@@ -149,7 +145,7 @@
                     <li ><strong>Pencil Icon ✏️ (Edit):</strong> Click to modify the details of that order. Changes will update your wallet.</li>
                     <li><strong>Trash Can Icon 🗑️ (Delete):</strong> Click to delete that order. Your wallet will be adjusted.</li>
                 </ul>
-            </div>
+              </div>
 
               <a id="see-more-performance" href="/src/html/performance.html" class="h-8 flex justify-center items-center text-xs sm:text-sm font-medium cursor-pointer text-sky-50 bg-sky-800 hover:text-sky-800 hover:bg-sky-50 lg:rounded-b-lg">See more
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down ml-1">

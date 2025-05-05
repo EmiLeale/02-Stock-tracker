@@ -93,8 +93,8 @@ class ActualizeHomePage extends ActualizeDataDOM {
         profit = value - cost;
       }
 
-      pCost.textContent = `Total Cost: $${this.formatNumber(cost)}`;
-      pValue.textContent = `Actual Value: $${this.formatNumber(value)}`;
+      pCost.textContent = `Cost: $${this.formatNumber(cost)}`;
+      pValue.textContent = `Value: $${this.formatNumber(value)}`;
       pProfit.textContent = `P & L: $${this.formatNumber(profit)}`;
       pProfit.classList.add(
         profit > 0

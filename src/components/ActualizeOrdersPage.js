@@ -196,9 +196,9 @@ class ActualizeOrdersPage extends ActualizeDataDOM {
       const tdUnits = document.createElement("td");
       const tdPrice = document.createElement("td");
       const tdTotal = document.createElement("td");
-      tdDate.classList.add("hidden", "md:table-cell");
-      tdCategory.classList.add("hidden", "md:table-cell");
-      tdTotal.classList.add("hidden", "sm:table-cell");
+      // tdDate.classList.add("hidden", "md:table-cell");
+      // tdCategory.classList.add("hidden", "md:table-cell");
+      // tdTotal.classList.add("hidden", "sm:table-cell");
       tdDate.textContent = this._orders[i].date;
       tdCategory.textContent =
         this._orders[i].category.slice(0, 1).toUpperCase() +

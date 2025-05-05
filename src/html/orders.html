@@ -129,18 +129,21 @@
             </button>
           </div>
 
-          <div class="w-full overflow-x-auto rounded-lg mb-4 hover:shadow-lg transition-all"> <!-- Orders buy table -->
-            <p class="w-full h-10 flex justify-center items-center bg-sky-800 text-sky-50">BUY ORDERS</p>
+          <p class="w-full h-10 flex justify-center items-center bg-sky-800 text-sky-50 rounded-t-lg">BUY ORDERS</p>
+          
+          <div class="w-full overflow-x-auto rounded-b-lg mb-4 hover:shadow-lg transition-all"> <!-- Orders buy table -->
+            
             <table id="orders-buy-table" class="w-full h-fit text-xs sm:text-sm text-center *:sm:text-nowrap *:transition-all whitespace-nowrap "> 
               
                 <thead class="bg-sky-950 text-sky-50 *:text-sm *:tracking-wide ">
                   <tr class="*:w-fit *:h-16 *:m-auto *:py-2 *:px-2 *:font-medium">
                     <th>Ticker</th>
-                    <th>Date</th>
+                    <th >Date</th>
                     <th>Category</th>
                     <th>Units</th>
                     <th>Unit Price</th>
-                    <th>Total</th>
+                    <th >Total</th>
+                    
                   </tr>
                 </thead>
                 <tbody class="bg-sky-100 *:even:bg-sky-50 divide-y divide-sky-950 *:hover:bg-sky-200  *:font-light *:transition-all ">
@@ -149,19 +152,20 @@
             </table>
           </div>
 
-          <div class="w-full overflow-x-auto rounded-lg mb-4 hover:shadow-lg transition-all"> <!-- Orders buy table -->
-            <p class="w-full h-10 flex justify-center items-center bg-sky-800 text-sky-50">SELL ORDERS</p>
+          <p class="w-full h-10 flex justify-center items-center bg-sky-800 text-sky-50 rounded-t-lg">SELL ORDERS</p>
+
+          <div class="w-full overflow-x-auto rounded-b-lg mb-4 hover:shadow-lg transition-all"> <!-- Orders buy table -->
             <table id="orders-sell-table" class="w-full h-fit text-xs sm:text-sm text-center *:sm:text-nowrap *:transition-all whitespace-nowrap"> <!-- Orders sell table -->
               
                 <thead class="bg-sky-950 text-sky-50 *:text-sm *:tracking-wide">
                   <tr class="*:w-fit *:h-16 *:m-auto *:py-2 *:px-2 *:font-medium">
                     <th>Ticker</th>
-                    <th>Date</th>
-                    <th>Category</th>
+                    <th >Date</th>
+                    <th >Category</th>
                     <th>Units</th>
                     <th>Unit Price</th>
                     <th>Total Sell</th>
-                    <th>Cost</th>
+                    <th >Cost</th>
                     <th>P / L</th>
                   </tr>
                 </thead>
