@@ -7,7 +7,7 @@ class HomePageCharts extends ActualizeHomePage {
 
     this.waitForWalletUpdate().then(() => {
       this.categoryTotalChart();
-      this.createChart2();
+      this.highestTotalChart();
     });
   }
 
@@ -68,17 +68,17 @@ class HomePageCharts extends ActualizeHomePage {
         labels: labels,
         datasets: [
           {
-            label: "Total",
-            data: totalsData,
-            backgroundColor: "rgba(54, 162, 235, 0.7)",
-            borderColor: "rgba(54, 162, 235, 1)",
+            label: "Cost",
+            data: costsData,
+            backgroundColor: "rgba(0, 200, 255, 0.8)",
+            borderColor: "rgba(0, 200, 255, 1)",
             borderWidth: 1,
           },
           {
-            label: "Cost",
-            data: costsData,
-            backgroundColor: "rgba(255, 99, 132, 0.7)",
-            borderColor: "rgba(255, 99, 132, 1)",
+            label: "Value",
+            data: totalsData,
+            backgroundColor: "rgba(100, 200, 255, 0.8)",
+            borderColor: "rgba(100, 200, 255, 1)",
             borderWidth: 1,
           },
         ],
@@ -152,17 +152,12 @@ class HomePageCharts extends ActualizeHomePage {
     };
   }
 
-  createChart2() {
+  highestTotalChart() {
     const highestCategoryData = this.findCategoryWithHighestTotal(this._wallet);
 
     const investmentsInHighestCategory = highestCategoryData.investments;
     const highestCategoryName = highestCategoryData.categoryName;
     const investmentsToChart = investmentsInHighestCategory.slice(0, -1);
-
-    investmentsInHighestCategory.forEach((i) => {
-      const actualValue = this.actualValue(i.units, i.symbol);
-      i.actualValue = actualValue;
-    });
 
     if (
       investmentsToChart.length > 0 &&
@@ -176,13 +171,13 @@ class HomePageCharts extends ActualizeHomePage {
         item.total == null ? 0 : item.total
       );
 
-      const itemCostsData = investmentsToChart.map((item) =>
-        item.actualValue == null ? 0 : item.actualValue
+      const itemCostsData = investmentsToChart.map(
+        (item) => (item.value = this.actualValue(item.units, item.symbol))
       );
 
       const ctx = document.getElementById("wallet-chart").getContext("2d");
 
-      if (investmentsInHighestCategory[0].category === "others") {
+      if (highestCategoryName === "others") {
         const investmentsChart = new Chart(ctx, {
           type: "bar",
           data: {
@@ -191,7 +186,7 @@ class HomePageCharts extends ActualizeHomePage {
               {
                 label: "Cost",
                 data: itemTotalsData,
-                backgroundColor: "rgba(75, 192, 192, 0.7)",
+                backgroundColor: "rgba(75, 192, 192, 0.8)",
                 borderColor: "rgba(75, 192, 192, 1)",
                 borderWidth: 1,
               },
@@ -240,15 +235,15 @@ class HomePageCharts extends ActualizeHomePage {
               {
                 label: "Cost",
                 data: itemTotalsData,
-                backgroundColor: "rgba(75, 192, 192, 0.7)",
-                borderColor: "rgba(75, 192, 192, 1)",
+                backgroundColor: "rgba(0, 200, 255, 0.8)",
+                borderColor: "rgba(0, 200, 255, 1)",
                 borderWidth: 1,
               },
               {
                 label: "Value",
                 data: itemCostsData,
-                backgroundColor: "rgba(255, 99, 132, 0.7)",
-                borderColor: "rgba(255, 99, 132, 1)",
+                backgroundColor: "rgba(100, 200, 255, 0.8)",
+                borderColor: "rgba(100, 200, 255, 1)",
                 borderWidth: 1,
               },
             ],

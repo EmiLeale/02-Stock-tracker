@@ -27,7 +27,7 @@ class ActualizeHomePage extends ActualizeDataDOM {
 
   submitOrderFinish() {
     event.preventDefault();
-    if (this.isEmpty()) {
+    if (this.isEmpty() || !this.actualizeModalToSell()) {
       return;
     }
 

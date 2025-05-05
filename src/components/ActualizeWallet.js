@@ -103,9 +103,7 @@ class ActualizeWallet extends AddOrder {
   isOnWallet() {
     this._units.setAttribute("max", Infinity);
 
-    if (!this.actualizeModalToSell()) {
-      return;
-    }
+    if (!this.actualizeModalToSell()) return;
     this.submitOrder();
     const lastOrder = this._orders[this._orders.length - 1];
     this.verifySymbol(lastOrder);
@@ -303,7 +301,7 @@ class ActualizeWallet extends AddOrder {
     } else {
       const newItem = {
         symbol: lastOrder.ticker,
-        name: lastOrder.ticker,
+        name: this._newCurrencieName1,
         units: lastOrder.units,
         price: lastOrder.price,
         total: lastOrder.units * lastOrder.price,
@@ -343,22 +341,17 @@ class ActualizeWallet extends AddOrder {
   }
 
   newCurrencieLock() {
-    let newCurrencie = {};
     if (this._newCurrencieName.value === "") {
       event.preventDefault();
       window.alert("Add a name to the new currencie");
       return;
     } else {
       event.preventDefault();
-
-      newCurrencie.name =
+      this._newCurrencieName1 =
         this._newCurrencieName.value.charAt(0).toUpperCase() +
         this._newCurrencieName.value.slice(1);
-      newCurrencie.symbol = this._ticker.value.toUpperCase();
       this._newCurrencieForm.classList.toggle("hidden");
     }
-
-    this._currencies.others.push(newCurrencie);
     this._newCurrencieName.value = "";
   }
 
