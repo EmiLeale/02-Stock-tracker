@@ -7,6 +7,7 @@
     <link href="/src/css/output.css" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="/assets/logo/ico.png">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body class="min-h-dvh h-full w-full bg-sky-900 grid grid-rows-[auto_1fr_auto] ">
@@ -25,7 +26,7 @@
                 <a href="/home.html"><li>Home</li></a>
                 <a href="/src/html/wallet.html"><li>Wallet</li></a>
                 <a href="/src/html/orders.html"><li>Orders</li></a>
-                <a href="performance.html">Performance</a>
+                <a href="/src/html/performance.html">Performance</a>
             </ul>
         </nav>
 
@@ -140,8 +141,8 @@
                     <th>Units</th>
                     <th >Total Cost</th>
                     <th >Actual Value</th>
-                    <th >P / L</th>
-                    <th >P / L %</th>
+                    <th >P / L ($)</th>
+                    <th >P / L (%)</th>
                   </tr>
                 </thead>
                 <tbody class="bg-sky-100 *:even:bg-sky-50 divide-y divide-sky-950 *:hover:bg-sky-200  *:font-light *:transition-all">
@@ -150,9 +151,14 @@
             </table>
           </div>
 
-            <div class="w-full h-72 bg-amber-300 my-2 rounded-lg hover:shadow-lg transition-all">
-              HERE WE WANT A GRAPH WITH EVERY Category invest and her %
-            </div>
+          <div class="md:h-96 h-full grid md:grid-cols-2 *:hover:bg-sky-100 *:bg-sky-50 my-2 rounded-lg "> <!-- Wallet charts -->
+             <div class="w-full md:h-96 h-72 relative flex justify-center rounded-lg hover:shadow-lg transition-all">
+                <canvas class="w-full " id="dounut-wallet-chart"></canvas>
+              </div>
+              <div class="relative md:h-96 h-72 flex justify-center rounded-lg hover:shadow-lg transition-all mt-2 md:mt-0" >
+                <canvas class="w-full " id="pie-wallet-chart"></canvas>
+              </div>
+          </div>
              
         </section>
       
@@ -168,7 +174,7 @@
               <a href="/home.html"><li>Home</li></a>
               <a href="/src/html/wallet.html"><li>Wallet</li></a>
               <a href="/src/html/orders.html"><li>Orders</li></a>
-              <a href="performance.html">Performance</a>
+              <a href="/src/html/performance.html">Performance</a>
           </ul>
         </nav>
       </div>

@@ -9,13 +9,7 @@ class ActualizeWalletPage extends ActualizeDataDOM {
     this._greaterFilter = document.getElementById("filter-greater");
     this._walletTable = document.getElementById("wallet-table");
     this._tbodyWallet = document.querySelector("#wallet-table tbody");
-    this.waitForWalletUpdate().then(() => {
-      this.actualizeListWallet();
-      this._clearWalletBtn.addEventListener(
-        "click",
-        this.actualizeWalletPage.bind(this)
-      );
-    });
+
     this._form.addEventListener("submit", this.submitOrderFinish.bind(this));
     this._filterWallet.addEventListener("click", this.clickFilter.bind(this));
   }
@@ -28,6 +22,7 @@ class ActualizeWalletPage extends ActualizeDataDOM {
 
     this.isOnWallet();
     this.actualizeListWallet();
+    location.reload();
   }
 
   actualizeWalletPage() {
@@ -62,12 +57,14 @@ class ActualizeWalletPage extends ActualizeDataDOM {
     this._tbodyWallet.innerHTML = "";
     this._newWallet = arr || this.orderItems(this._wallet);
     this._currentOrder = order || "Total Cost";
+
     for (let i = 0; i < this._newWallet.length; i++) {
       if (i >= this._newWallet.length) break;
       if (this._newWallet[i].units === 0) {
-        this.newWalletActualize();
+        // this.newWalletActualize();
         break;
       }
+
       const tr = document.createElement("tr");
       tr.classList.add("*:px-4", "*:py-2");
       const th = document.createElement("th");
@@ -105,17 +102,16 @@ class ActualizeWalletPage extends ActualizeDataDOM {
           this.actualValue(this._newWallet[i].units, this._newWallet[i].symbol)
         );
 
-      tdProfit.textContent = "$" + this.formatNumber(profit);
-      tdProfitPer.textContent =
-        this.formatNumber(
-          ((this.actualValue(
-            this._newWallet[i].units,
-            this._newWallet[i].symbol
-          ) -
-            this._newWallet[i].total) /
-            this._newWallet[i].total) *
-            100
-        ) + " %";
+      tdProfit.textContent = this.formatNumber(profit);
+      tdProfitPer.textContent = this.formatNumber(
+        ((this.actualValue(
+          this._newWallet[i].units,
+          this._newWallet[i].symbol
+        ) -
+          this._newWallet[i].total) /
+          this._newWallet[i].total) *
+          100
+      );
 
       tdProfit.classList.add(profit >= 0 ? "text-green-500" : "text-red-500");
       tdProfitPer.classList.add(
@@ -127,8 +123,8 @@ class ActualizeWalletPage extends ActualizeDataDOM {
           this.actualValue(this._newWallet[i].units, this._newWallet[i].symbol)
         ) === " -"
       ) {
-        tdProfit.textContent = "$ -";
-        tdProfitPer.textContent = "% -";
+        tdProfit.textContent = "-";
+        tdProfitPer.textContent = "-";
       }
 
       this._currentOrder === "Ticker" &&

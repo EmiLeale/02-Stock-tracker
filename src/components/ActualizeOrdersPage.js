@@ -11,21 +11,7 @@ class ActualizeOrdersPage extends ActualizeDataDOM {
     this._ordersTable = document.getElementById("orders-buy-table");
     this._tbodyOrders = document.querySelector("#orders-buy-table tbody");
     this._tbodyOrdersSell = document.querySelector("#orders-sell-table tbody");
-    this.waitForWalletUpdate().then(() => {
-      this.actualizeListOrders();
-      this._clearWalletBtn.addEventListener(
-        "click",
-        this.actualizeOrdersPage.bind(this)
-      );
-      this._editButtons = document.querySelectorAll('button[id^="edit-"]');
-      this._editButtons.forEach((button) => {
-        button.addEventListener("click", this.editOrder.bind(this));
-      });
-      this._deleteButtons = document.querySelectorAll('button[id^="delete-"]');
-      this._deleteButtons.forEach((button) => {
-        button.addEventListener("click", this.deleteOrder.bind(this));
-      });
-    });
+
     this._form.addEventListener("submit", this.submitOrderFinish.bind(this));
     this._filterWallet.addEventListener("click", this.clickFilter.bind(this));
   }

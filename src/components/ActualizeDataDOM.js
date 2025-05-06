@@ -35,6 +35,47 @@ class ActualizeDataDOM extends ActualizeWallet {
     return this._allItems.slice(0, 3);
   }
 
+  getAllItems(obj) {
+    this._allItems = [];
+    if (Array.isArray(obj)) {
+      this._allItems = obj.filter(
+        (item) => item.units * item.price !== undefined
+      );
+      this._allItems.sort((a, b) => b.units * b.price - a.units * a.price);
+    } else {
+      Object.keys(obj).forEach((category) => {
+        if (Array.isArray(obj[category])) {
+          obj[category].forEach((item) => {
+            if (item.total !== undefined) {
+              this._allItems.push(item);
+            }
+          });
+        }
+      });
+      this._allItems.sort((a, b) => b.total - a.total);
+    }
+
+    return this._allItems;
+  }
+
+  totalAndCost(wallet) {
+    const results = {};
+
+    for (const category of this._categories) {
+      if (wallet[category] && wallet[category].length > 0) {
+        const lastItem = wallet[category][wallet[category].length - 1];
+        results[category] = {
+          total: lastItem.value || 0,
+          cost: lastItem.cost || 0,
+        };
+      } else {
+        results[category] = { total: 0, cost: 0 };
+      }
+    }
+
+    return results;
+  }
+
   orderItems(obj) {
     this._allItems = [];
 
@@ -55,6 +96,16 @@ class ActualizeDataDOM extends ActualizeWallet {
     }
     this._allItems.sort((a, b) => b.total - a.total);
     return this._allItems;
+  }
+
+  separateOrdersByType(allOrders) {
+    if (!Array.isArray(allOrders)) {
+      console.error("La entrada de separateOrdersByType debe ser un array.");
+      return { buyOrders: [], sellOrders: [] };
+    }
+    const buyOrders = allOrders.filter((order) => order.type === "Buy");
+    const sellOrders = allOrders.filter((order) => order.type === "Sell");
+    return { buyOrders, sellOrders };
   }
 
   orderOrders(arr) {

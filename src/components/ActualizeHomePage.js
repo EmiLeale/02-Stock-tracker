@@ -15,13 +15,7 @@ class ActualizeHomePage extends ActualizeDataDOM {
     this._ordersTable = document.getElementById("orders-table");
     this._tbodyWallet = document.querySelector("#wallet-table tbody");
     this._tbodyOrders = document.querySelector("#orders-table tbody");
-    this.waitForWalletUpdate().then(() => {
-      this.actualizeHomePage();
-      this._clearWalletBtn.addEventListener(
-        "click",
-        this.clearWalletHomePage.bind(this)
-      );
-    });
+
     this._form.addEventListener("submit", this.submitOrderFinish.bind(this));
   }
 
@@ -180,14 +174,15 @@ class ActualizeHomePage extends ActualizeDataDOM {
           this.actualValue(top3Wallet[i].units, top3Wallet[i].symbol)
         );
       if (this.actualValue(top3Wallet[i].units, top3Wallet[i].symbol) === 0) {
-        tdValue.textContent = "$" + this.formatNumber(top3Wallet[i].total);
+        tdValue.textContent = this.formatNumber(top3Wallet[i].total);
         profit = 0;
-        tdProfitPer.textContent = "% -";
+        tdProfitPer.textContent = "-";
       } else {
-        tdProfitPer.textContent =
-          this.formatNumber((profit / top3Wallet[i].total) * 100) + " %";
+        tdProfitPer.textContent = this.formatNumber(
+          (profit / top3Wallet[i].total) * 100
+        );
       }
-      tdProfit.textContent = "$" + this.formatNumber(profit);
+      tdProfit.textContent = this.formatNumber(profit);
       tdProfit.classList.add(profit >= 0 ? "text-green-500" : "text-red-500");
 
       tdProfitPer.classList.add(

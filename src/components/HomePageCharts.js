@@ -6,28 +6,16 @@ class HomePageCharts extends ActualizeHomePage {
     this._categorys = ["crypto", "stocks", "forex", "index", "others"];
 
     this.waitForWalletUpdate().then(() => {
+      this.actualizeHomePage();
+      this._clearWalletBtn.addEventListener(
+        "click",
+        this.clearWalletHomePage.bind(this)
+      );
       this.categoryTotalChart();
       this.highestTotalChart();
     });
   }
 
-  totalAndCost(wallet) {
-    const results = {};
-
-    for (const category of this._categorys) {
-      if (wallet[category] && wallet[category].length > 0) {
-        const lastItem = wallet[category][wallet[category].length - 1];
-        results[category] = {
-          total: lastItem.value || 0,
-          cost: lastItem.cost || 0,
-        };
-      } else {
-        results[category] = { total: 0, cost: 0 };
-      }
-    }
-
-    return results;
-  }
   categoryTotalChart() {
     const data = this.totalAndCost(this._wallet);
     const chartDataItems = Object.keys(data)

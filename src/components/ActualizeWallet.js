@@ -4,6 +4,7 @@ import AddOrder from "./AddOrder.js";
 class ActualizeWallet extends AddOrder {
   constructor() {
     super();
+    this._categories = ["crypto", "stocks", "forex", "index", "others"];
     this._wallet = {
       crypto: [
         {

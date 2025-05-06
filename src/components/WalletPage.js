@@ -1,3 +1,3 @@
-import ActualizeWalletPage from "./ActualizeWalletPage.js";
+import WalletPageCharts from "./WalletPageCharts.js";
 
-new ActualizeWalletPage();
+new WalletPageCharts();
