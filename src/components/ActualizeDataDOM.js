@@ -8,7 +8,6 @@ class ActualizeDataDOM extends ActualizeWallet {
   async waitForWalletUpdate() {
     while (!this._currencies) {
       await new Promise((resolve) => setTimeout(resolve, 100));
-      console.log(this._currencies);
     }
   }
 

@@ -1,6 +1,6 @@
-import ActualizeDataDOM from "./ActualizeDataDOM.js";
+import OrdersPageCharts from "./OrdersPageCharts.js";
 
-class ActualizeOrdersPage extends ActualizeDataDOM {
+class ActualizeOrdersPage extends OrdersPageCharts {
   constructor() {
     super();
     this._currentOrder = null;
@@ -12,8 +12,26 @@ class ActualizeOrdersPage extends ActualizeDataDOM {
     this._tbodyOrders = document.querySelector("#orders-buy-table tbody");
     this._tbodyOrdersSell = document.querySelector("#orders-sell-table tbody");
 
-    this._form.addEventListener("submit", this.submitOrderFinish.bind(this));
     this._filterWallet.addEventListener("click", this.clickFilter.bind(this));
+    this._form.addEventListener("submit", this.submitOrderFinish.bind(this));
+
+    this.waitForWalletUpdate().then(() => {
+      this.actualizeListOrders();
+      this.ordersCharts();
+
+      this._clearWalletBtn.addEventListener(
+        "click",
+        this.actualizeOrdersPage.bind(this)
+      );
+      this._editButtons = document.querySelectorAll('button[id^="edit-"]');
+      this._editButtons.forEach((button) => {
+        button.addEventListener("click", this.editOrder.bind(this));
+      });
+      this._deleteButtons = document.querySelectorAll('button[id^="delete-"]');
+      this._deleteButtons.forEach((button) => {
+        button.addEventListener("click", this.deleteOrder.bind(this));
+      });
+    });
   }
 
   actualizeOrdersPage() {
@@ -214,8 +232,7 @@ class ActualizeOrdersPage extends ActualizeDataDOM {
       } else {
         const tdCost = document.createElement("td");
         const tdPL = document.createElement("td");
-        tdCost.classList.add("hidden", "md:table-cell");
-        tdPL.classList.add("hidden", "md:table-cell", "font-medium");
+        tdPL.classList.add("font-medium");
 
         this._currentOrder === "Cost" &&
           tdCost.classList.add("bg-sky-200", "font-semibold");

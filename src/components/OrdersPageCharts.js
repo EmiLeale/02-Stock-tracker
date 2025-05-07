@@ -1,25 +1,9 @@
-import ActualizeOrdersPage from "./ActualizeOrdersPage.js";
+import ActualizeDataDOM from "./ActualizeDataDOM.js";
 
-class OrdersPageCharts extends ActualizeOrdersPage {
+class OrdersPageCharts extends ActualizeDataDOM {
   constructor() {
     super();
-    this.waitForWalletUpdate().then(() => {
-      this.actualizeListOrders();
-      this.ordersCharts();
-
-      this._clearWalletBtn.addEventListener(
-        "click",
-        this.actualizeOrdersPage.bind(this)
-      );
-      this._editButtons = document.querySelectorAll('button[id^="edit-"]');
-      this._editButtons.forEach((button) => {
-        button.addEventListener("click", this.editOrder.bind(this));
-      });
-      this._deleteButtons = document.querySelectorAll('button[id^="delete-"]');
-      this._deleteButtons.forEach((button) => {
-        button.addEventListener("click", this.deleteOrder.bind(this));
-      });
-    });
+    this.ordersCharts();
   }
 
   ordersCharts() {
@@ -108,12 +92,9 @@ class OrdersPageCharts extends ActualizeOrdersPage {
       return count > 0 ? totalPL / count : 0;
     });
 
-    if (
-      this.transactionVolumeChartInstance ||
-      this.transactionVolumeChartInstance
-    ) {
+    if (this.transactionVolumeChartInstance || this.transactionVolumeChart) {
       this.transactionVolumeChartInstance.destroy();
-      this.transactionVolumeChartInstance.destroy();
+      this.transactionVolumeChart.destroy();
     }
 
     this.transactionVolumeChart = new Chart(

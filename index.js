@@ -1,3 +1,3 @@
-import HomePageCharts from "./src/components/HomePageCharts.js";
+import ActualizeHomePage from "./src/components/ActualizeHomePage.js";
 
-new HomePageCharts();
+new ActualizeHomePage();

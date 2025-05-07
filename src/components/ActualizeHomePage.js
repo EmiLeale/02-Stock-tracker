@@ -1,6 +1,6 @@
-import ActualizeDataDOM from "./ActualizeDataDOM.js";
+import HomePageCharts from "./HomePageCharts.js";
 
-class ActualizeHomePage extends ActualizeDataDOM {
+class ActualizeHomePage extends HomePageCharts {
   constructor() {
     super();
     this._perfoDataCont = document.getElementById("performance-data-container");
@@ -17,6 +17,17 @@ class ActualizeHomePage extends ActualizeDataDOM {
     this._tbodyOrders = document.querySelector("#orders-table tbody");
 
     this._form.addEventListener("submit", this.submitOrderFinish.bind(this));
+
+    this.waitForWalletUpdate().then(() => {
+      this.actualizeHomePage();
+      this.categoryTotalChart();
+      this.highestTotalChart();
+
+      this._clearWalletBtn.addEventListener(
+        "click",
+        this.clearWalletHomePage.bind(this)
+      );
+    });
   }
 
   submitOrderFinish() {

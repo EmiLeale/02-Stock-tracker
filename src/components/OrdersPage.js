@@ -1,3 +1,3 @@
-import OrdersPageCharts from "./OrdersPageCharts.js";
+import ActualizeOrdersPage from "./ActualizeOrdersPage.js";
 
-new OrdersPageCharts();
+new ActualizeOrdersPage();

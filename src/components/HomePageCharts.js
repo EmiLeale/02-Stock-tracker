@@ -1,16 +1,10 @@
-import ActualizeHomePage from "./ActualizeHomePage.js";
+import ActualizeDataDOM from "./ActualizeDataDOM.js";
 
-class HomePageCharts extends ActualizeHomePage {
+class HomePageCharts extends ActualizeDataDOM {
   constructor() {
     super();
     this._categorys = ["crypto", "stocks", "forex", "index", "others"];
-
     this.waitForWalletUpdate().then(() => {
-      this.actualizeHomePage();
-      this._clearWalletBtn.addEventListener(
-        "click",
-        this.clearWalletHomePage.bind(this)
-      );
       this.categoryTotalChart();
       this.highestTotalChart();
     });
@@ -49,57 +43,61 @@ class HomePageCharts extends ActualizeHomePage {
       return categoryData ? categoryData.cost : 0;
     });
 
-    const ctx = document.getElementById("categories-chart").getContext("2d");
-    const Graph = new Chart(ctx, {
-      type: "bar",
-      data: {
-        labels: labels,
-        datasets: [
-          {
-            label: "Cost",
-            data: costsData,
-            backgroundColor: "rgba(0, 200, 255, 0.8)",
-            borderColor: "rgba(0, 200, 255, 1)",
-            borderWidth: 1,
-          },
-          {
-            label: "Value",
-            data: totalsData,
-            backgroundColor: "rgba(100, 200, 255, 0.8)",
-            borderColor: "rgba(100, 200, 255, 1)",
-            borderWidth: 1,
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-        scales: {
-          y: {
-            beginAtZero: true,
-            title: {
-              display: true,
-              text: "Value",
+    if (this.categoryChart) this.categoryChart.destroy();
+
+    this.categoryChart = new Chart(
+      document.getElementById("categories-chart").getContext("2d"),
+      {
+        type: "bar",
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: "Cost",
+              data: costsData,
+              backgroundColor: "rgba(0, 200, 255, 0.8)",
+              borderColor: "rgba(0, 200, 255, 1)",
+              borderWidth: 1,
+            },
+            {
+              label: "Value",
+              data: totalsData,
+              backgroundColor: "rgba(100, 200, 255, 0.8)",
+              borderColor: "rgba(100, 200, 255, 1)",
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: "Value",
+              },
+            },
+            x: {
+              title: {
+                display: true,
+                text: "Category",
+              },
             },
           },
-          x: {
+          plugins: {
             title: {
               display: true,
-              text: "Category",
+              text: "Total for category",
+              fontSize: 16,
+            },
+            legend: {
+              display: true,
             },
           },
         },
-        plugins: {
-          title: {
-            display: true,
-            text: "Total for category",
-            fontSize: 16,
-          },
-          legend: {
-            display: true,
-          },
-        },
-      },
-    });
+      }
+    );
   }
 
   findCategoryWithHighestTotal(wallet) {
@@ -146,7 +144,6 @@ class HomePageCharts extends ActualizeHomePage {
     const investmentsInHighestCategory = highestCategoryData.investments;
     const highestCategoryName = highestCategoryData.categoryName;
     const investmentsToChart = investmentsInHighestCategory.slice(0, -1);
-
     if (
       investmentsToChart.length > 0 &&
       investmentsInHighestCategory.length > 0
@@ -163,113 +160,119 @@ class HomePageCharts extends ActualizeHomePage {
         (item) => (item.value = this.actualValue(item.units, item.symbol))
       );
 
-      const ctx = document.getElementById("wallet-chart").getContext("2d");
+      if (this.highestChart) this.highestChart.destroy();
 
       if (highestCategoryName === "others") {
-        const investmentsChart = new Chart(ctx, {
-          type: "bar",
-          data: {
-            labels: itemLabels,
-            datasets: [
-              {
-                label: "Cost",
-                data: itemTotalsData,
-                backgroundColor: "rgba(75, 192, 192, 0.8)",
-                borderColor: "rgba(75, 192, 192, 1)",
-                borderWidth: 1,
-              },
-            ],
-          },
-          options: {
-            responsive: true,
-            scales: {
-              y: {
-                beginAtZero: true,
-                title: {
-                  display: true,
-                  text: "Value",
+        this.highestChart = new Chart(
+          document.getElementById("wallet-chart").getContext("2d"),
+          {
+            type: "bar",
+            data: {
+              labels: itemLabels,
+              datasets: [
+                {
+                  label: "Cost",
+                  data: itemTotalsData,
+                  backgroundColor: "rgba(75, 192, 192, 0.8)",
+                  borderColor: "rgba(75, 192, 192, 1)",
+                  borderWidth: 1,
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  title: {
+                    display: true,
+                    text: "Value",
+                  },
+                },
+                x: {
+                  title: {
+                    display: true,
+                    text: "Investment Ticker",
+                  },
                 },
               },
-              x: {
+              plugins: {
                 title: {
                   display: true,
-                  text: "Investment Ticker",
+                  text: `Investments in ${
+                    highestCategoryName
+                      ? highestCategoryName.charAt(0).toUpperCase() +
+                        highestCategoryName.slice(1).toLowerCase()
+                      : "Highest Value"
+                  }`,
+                  fontSize: 16,
+                },
+                legend: {
+                  display: true,
                 },
               },
             },
-            plugins: {
-              title: {
-                display: true,
-                text: `Investments in ${
-                  highestCategoryName
-                    ? highestCategoryName.charAt(0).toUpperCase() +
-                      highestCategoryName.slice(1).toLowerCase()
-                    : "Highest Value"
-                }`,
-                fontSize: 16,
-              },
-              legend: {
-                display: true,
-              },
-            },
-          },
-        });
+          }
+        );
       } else {
-        const investmentsChart = new Chart(ctx, {
-          type: "bar",
-          data: {
-            labels: itemLabels,
-            datasets: [
-              {
-                label: "Cost",
-                data: itemTotalsData,
-                backgroundColor: "rgba(0, 200, 255, 0.8)",
-                borderColor: "rgba(0, 200, 255, 1)",
-                borderWidth: 1,
-              },
-              {
-                label: "Value",
-                data: itemCostsData,
-                backgroundColor: "rgba(100, 200, 255, 0.8)",
-                borderColor: "rgba(100, 200, 255, 1)",
-                borderWidth: 1,
-              },
-            ],
-          },
-          options: {
-            responsive: true,
-            scales: {
-              y: {
-                beginAtZero: true,
-                title: {
-                  display: true,
-                  text: "Value",
+        this.highestChart = new Chart(
+          document.getElementById("wallet-chart").getContext("2d"),
+          {
+            type: "bar",
+            data: {
+              labels: itemLabels,
+              datasets: [
+                {
+                  label: "Cost",
+                  data: itemTotalsData,
+                  backgroundColor: "rgba(0, 200, 255, 0.8)",
+                  borderColor: "rgba(0, 200, 255, 1)",
+                  borderWidth: 1,
+                },
+                {
+                  label: "Value",
+                  data: itemCostsData,
+                  backgroundColor: "rgba(100, 200, 255, 0.8)",
+                  borderColor: "rgba(100, 200, 255, 1)",
+                  borderWidth: 1,
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  title: {
+                    display: true,
+                    text: "Value",
+                  },
+                },
+                x: {
+                  title: {
+                    display: true,
+                    text: "Investment Ticker",
+                  },
                 },
               },
-              x: {
+              plugins: {
                 title: {
                   display: true,
-                  text: "Investment Ticker",
+                  text: `Investments in ${
+                    highestCategoryName
+                      ? highestCategoryName.charAt(0).toUpperCase() +
+                        highestCategoryName.slice(1).toLowerCase()
+                      : "Highest Value"
+                  }`,
+                  fontSize: 16,
+                },
+                legend: {
+                  display: true,
                 },
               },
             },
-            plugins: {
-              title: {
-                display: true,
-                text: `Investments in ${
-                  highestCategoryName
-                    ? highestCategoryName.charAt(0).toUpperCase() +
-                      highestCategoryName.slice(1).toLowerCase()
-                    : "Highest Value"
-                }`,
-                fontSize: 16,
-              },
-              legend: {
-                display: true,
-              },
-            },
-          },
-        });
+          }
+        );
       }
     }
   }

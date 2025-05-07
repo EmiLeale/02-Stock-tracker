@@ -1,18 +1,11 @@
-import ActualizeWalletPage from "./ActualizeWalletPage.js";
+import ActualizeDataDOM from "./ActualizeDataDOM.js";
 
-class WalletPageCharts extends ActualizeWalletPage {
+class WalletPageCharts extends ActualizeDataDOM {
   constructor() {
     super();
 
-    this.waitForWalletUpdate().then(() => {
-      this._clearWalletBtn.addEventListener(
-        "click",
-        this.actualizeWalletPage.bind(this)
-      );
-      this.firstChartWallet();
-      this.secondChartWallet();
-      this.actualizeListWallet();
-    });
+    this.firstChartWallet();
+    this.secondChartWallet();
   }
 
   firstChartWallet() {
@@ -84,9 +77,14 @@ class WalletPageCharts extends ActualizeWalletPage {
               font: {
                 size: 16,
               },
+              tooltip: {
+                mode: "index",
+                intersect: false,
+              },
             },
             legend: {
               display: true,
+              position: true,
             },
           },
         },

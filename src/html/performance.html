@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance</title>
+    <link href="/src/css/output.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/assets/logo/ico.png">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="h-screen w-full bg-sky-900 text-black">
+    
+    <header class="w-full h-20 bg-sky-50 flex justify-between sm:justify-evenly max-w-5xl m-auto">
+
+        <a href="home.html"><img src="/assets/logo/logo-removebg-preview.png" alt="Logo" class="w-36 h-fit aspect-video"></a> <!-- Logo -->
+        
+        <div class="relative w-36 h-full peer flex items-center justify-center sm:hidden "> <!-- Menu Container -->
+            <input type="checkbox" name="nav-button" id="nav-button" class="absolute opacity-0 cursor-pointer">
+            <label for="nav-button" class="cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg></label>
+        </div>
+
+        <nav class="h-8 w-full bg-sky-50 absolute top-0 peer-has-checked:top-20 transition-all -z-10 peer-has-checked:z-0 sm:static sm:z-0 sm:h-full sm:w-fit"> <!-- Sidebar/Navbar Container -->
+          <ul class="h-full flex justify-around sm:justify-center *:w-32 *:h-full *:text-center *:text-sm *:bg-sky-50 *:hover:bg-sky-200 *:active:bg-sky-300 *:flex *:justify-center *:items-center *:hover:font-semibold *:hover:tracking-wider *:transition-all" >
+              <a href="/home.html"><li>Home</li></a>
+              <a href="/src/html/wallet.html"><li>Wallet</li></a>
+              <a href="/src/html/orders.html"><li>Orders</li></a>
+              <a href="/src/html/performance.html">Performance</a>
+          </ul>
+        </nav>
+
+    </header>
+    
+    <main class="max-w-5xl m-auto bg-sky-900"> 
+        
+        <section class="w-full h-fit flex flex-col items-center transition-all" id="order-section"> <!-- Add Order section -->
+
+            <h2 class="w-full p-2 m-4 mt-8 bg-sky-50 text-center">Welcome user, do you want to add an order?</h2>
+
+            <div class="w-3/4 sm:w-1/2 flex justify-around">
+              <button id="add-order" class="w-32 h-8 bg-sky-50 hover:bg-sky-200 active:bg-sky-300 text-sm hover:font-semibold hover:tracking-wider rounded-2xl cursor-pointer transition-all mb-4 shadow-md shadow-sky-200 active:shadow-sky-600 hover:shadow-sky-900">Add order</button>
+
+              <button id="clear-wallet" class="w-32 h-8 bg-sky-50 hover:bg-sky-200 active:bg-sky-300 text-sm hover:font-semibold hover:tracking-wider rounded-2xl cursor-pointer transition-all mb-4 shadow-md shadow-sky-200 active:shadow-sky-600 hover:shadow-sky-900">Clear wallet</button>
+            </div>            
+
+            <form id="order-form" class="hidden h-fit w-96 bg-sky-300 grid-cols-2 grid-rows-7 gap-2 p-4 mb-4 rounded-2xl *:w-full *:h-full *:text-xs *:m-auto  *:outline-none *:border-1 *:focus:border-2 *:rounded-sm *:text-center absolute opacity-0 transition-all">
+
+                <select name="order-type" id="order-type" class="focus:bg-sky-50">
+                    <option disabled selected="true">Select an operation</option>
+                    <option value="Buy">Buy</option>
+                    <option value="Sell">Sell</option>
+                </select>
+                <input name="order-date" id="order-date" type="date" class="px-2 focus:bg-sky-50">
+        
+                <input list="order-suggests" name="order-ticker" id="order-ticker" type="search" placeholder="Ticker" maxlength="10" class="w-full h-full bg-amber-100 focus:bg-amber-200">
+                <datalist id="order-suggests"></datalist>
+                <input name="order-units" id="order-units" type="number" placeholder="Units" max="999999999999999" min="0" step="any" class="bg-amber-100 focus:bg-amber-200">
+        
+                <input name="order-price" id="order-price" type="number" placeholder="Price" max="999999999999999" min="0" step="any" class="col-span-2 bg-amber-100 focus:bg-amber-200" >
+                <div id="order-total" placeholder="Total" class="col-span-2 bg-amber-50 flex items-center justify-center">Total</div>
+        
+                <div id="order-gp" class="hidden bg-amber-50 items-center justify-center">G / P</div>
+                <div id="order-profit" class="hidden bg-amber-50 items-center justify-center">Profit (%)</div>
+        
+                <textarea name="order-note" id="order-note" placeholder="Notes here..." class="p-2 resize-none col-span-2 row-span-2 bg-amber-100 focus:bg-amber-200"></textarea>
+
+                <div class="col-span-2 flex items-end justify-around border-none *:cursor-pointer *:w-32 *:h-8 *:bg-sky-50 *:hover:bg-sky-200 *:active:bg-sky-300 *:rounded-2xl *:transition-all *:text-sm *:hover:font-semibold *:hover:tracking-wider *:shadow-md *:shadow-sky-900 *:active:shadow-sky-600 *:hover:shadow-sky-200">
+                    <input id="order-submit" type="submit" value="Save">
+                    <button id="order-cancel">Cancel</button>
+                </div>
+            </form>
+
+            <form id="new-currencie-form" class="hidden h-fit w-fit bg-red-100 grid-cols-2 grid-rows-7 gap-2 p-4 mb-4 rounded-2xl *:w-full *:m-auto  *:outline-none  *:focus:border-2 transition-all absolute top-72 z-10"> <!-- New Currencie modal -->
+              <p class="w-full text-xs text-center pb-2">Add new Currencie</p>
+              <div class="w-fit h-fit flex items-center *:text-center *:rounded-sm text-xs">
+                <input name="new-currencie-name" id="new-currencie-name" type="text" placeholder="Name" maxlength="20" class="h-8 border-1 bg-amber-100 focus:bg-amber-200" >
+                <button id="new-currencie-submit" type="submit">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus cursor-pointer"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                </button>
+              </div>
+              
+              <div id="advice-new-currencie" class="hidden w-fit h-fit  items-center *:rounded-sm absolute left-0 top-0 bg-sky-200 p-4 rounded-2xl text-sm transition-all">
+              </div>
+            </form>
+
+        </section>
+
+        <section class="w-full h-fit flex flex-col lg:items-center bg-sky-50 p-2 *:my-2"> <!-- Charts section -->
+
+            <div class="w-full h-full grid md:grid-cols-2 *:hover:bg-sky-100 *:bg-sky-50 "> <!-- Performance charts -->
+                <div class="w-full h-fit relative flex justify-center rounded-lg hover:shadow-lg transition-all my-2">
+                    <canvas class="w-full" id="categories-chart"></canvas>
+                </div>
+                <div class="w-full h-fit relative flex justify-center rounded-lg hover:shadow-lg transition-all ">
+                    <canvas class="w-full" id="wallet-chart"></canvas>
+                </div>
+            </div>
+
+            <div class="w-full md:h-96 h-full grid md:grid-cols-2 *:hover:bg-sky-100 *:bg-sky-50"> <!-- Wallet charts -->
+                <div class="w-full md:h-96 h-72 relative flex justify-center rounded-lg hover:shadow-lg transition-all">
+                    <canvas class="w-full" id="dounut-wallet-chart"></canvas>
+                </div>
+                <div class="w-full relative md:h-96 h-72 flex justify-center rounded-lg hover:shadow-lg transition-all mt-2 md:mt-0" >
+                    <canvas class="w-full " id="pie-wallet-chart"></canvas>
+                </div>
+            </div>
+
+            <div class="md:h-96 h-full grid md:grid-cols-2 *:hover:bg-sky-100 *:bg-sky-50 my-2 rounded-lg "> <!-- Orders charts -->
+              <div class="w-full md:h-96 h-72 relative flex justify-center rounded-lg hover:shadow-lg transition-all">
+                 <canvas class="w-full " id="transaction-volume-chart"></canvas>
+               </div>
+               <div class="w-full relative md:h-96 h-72 flex justify-center rounded-lg hover:shadow-lg transition-all mt-2 md:mt-0" >
+                 <canvas class="w-full " id="profit-line-chart"></canvas>
+               </div>
+           </div>
+        </section>
+
+    </main>
+
+    <footer class="w-full max-w-5xl h-fit m-auto text-center bg-sky-100 pb-4 text-xs sm:text-sm">
+
+      <div class="flex items-center">
+        <a href="home.html" class="w-1/4"><img src="/assets/logo/logo-removebg-preview.png" alt="Logo" class="h-20 aspect-video m-auto"></a>
+
+        <nav class="w-3/4"> <!-- Sidebar/Navbar Container -->
+          <ul class="flex justify-around pr-4" >
+              <a href="home.html"><li>Home</li></a>
+              <a href="/src/html/wallet.html"><li>Wallet</li></a>
+              <a href="/src/html/orders.html"><li>Orders</li></a>
+              <a href="/src/html/performance.html">Performance</a>
+          </ul>
+        </nav>
+      </div>
+      
+
+      <p class="text-xs">Project designed and developed by <a href="https://github.com/EmiLeale" target="_blank">Emiliano Leale</a></p>
+    </footer>
+
+    <script type="module" src="/src/components/Performance.js"></script>
+
+</body>
+</html>
