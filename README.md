@@ -4,7 +4,7 @@
 
 - [Overview](#overview)
 - [Features](#features)
-- [How to use / read](#how-to-use-/-read)
+- [How to use](#how-to-use)
 - [What I learned](#what-i-learned)
 - [Useful resources](#useful-resources)
 - [Built with](#built-with)
@@ -12,7 +12,7 @@
 
 ## Overview
 
-![Home Page](image.png)
+![image](https://github.com/user-attachments/assets/65344595-e230-4603-9b81-b18aa55f493f)
 
 ## Features
 
@@ -43,25 +43,13 @@ New Order Entry:
 - Additional Features (Optional):
 - Portfolio performance charts.
 
-### How to use / read
+### How to use
 
 First, it's an experimental application, 'Clear Wallet'. Its function is to clear everything, delete everything, reset everything; it's for playing around. The instructions are at the beginning of the page. Please read carefully, and try not to break it haha.
 
 Okay, the following is a flowchart of how the classes work in this app. Although I didn't manage to give one or two classes perfectly accurate names, I ended up making the rest quite tidy; even after finishing the project, I organized and edited the names of others, seeking to make everything clearer and more ordered.
 
-OrderModal
-↓
-Add Order
-↓
-ActualizeWallet <- Currency Service
-↓
-ActualizeDataDOM
-↓ ↓ ↓
-HomePageCharts WalletPageCharts OrdersPageCharts
-↓ ↓ ↓
-HomePageActualize WalletPageActualize OrdersPageActualize
-↓ ↓ ↓
-index.js WalletPage OrdersPage
+![image](https://github.com/user-attachments/assets/0d79d394-f8ae-442c-bfa2-cfda47e7cb30)
 
 I'm not sure why I started the project from the Order modal; I suppose it was due to beginning the design from that point, perhaps reflecting the problem of wanting to cover everything at the same time. But anyway, that's where I started. Next is AddOrder, which is the class responsible for processing the data from the OrderModal that is sent via a form. This class (AddOrder) feeds into ActualizeWallet along with CurrencyService. The ActualizeWallet and ActualizeDataDOM classes don't contain specific functions in the traditional sense; I simply grouped within them everything needed in other parts of the code that required CurrencyService, attempting to maintain a minimum level of order. Finally, we arrive at the stage of updating the data on the page, managed by the ...Charts and ...Actualize classes.
 
