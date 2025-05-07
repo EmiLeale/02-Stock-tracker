@@ -5,6 +5,7 @@ class OrdersPageCharts extends ActualizeOrdersPage {
     super();
     this.waitForWalletUpdate().then(() => {
       this.actualizeListOrders();
+      this.ordersCharts();
 
       this._clearWalletBtn.addEventListener(
         "click",
@@ -19,12 +20,10 @@ class OrdersPageCharts extends ActualizeOrdersPage {
         button.addEventListener("click", this.deleteOrder.bind(this));
       });
     });
-    this.ordersCharts();
   }
 
   ordersCharts() {
     const { buyOrders, sellOrders } = this.separateOrdersByType(this._orders);
-
     const allDates = [
       ...buyOrders.map((order) => order.date),
       ...sellOrders.map((order) => order.date),

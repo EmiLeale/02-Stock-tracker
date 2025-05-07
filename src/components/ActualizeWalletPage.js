@@ -1,6 +1,6 @@
-import ActualizeDataDOM from "./ActualizeDataDOM.js";
+import WalletPageCharts from "./WalletPageCharts.js";
 
-class ActualizeWalletPage extends ActualizeDataDOM {
+class ActualizeWalletPage extends WalletPageCharts {
   constructor() {
     super();
     this._currentOrder = null;
@@ -12,6 +12,14 @@ class ActualizeWalletPage extends ActualizeDataDOM {
 
     this._form.addEventListener("submit", this.submitOrderFinish.bind(this));
     this._filterWallet.addEventListener("click", this.clickFilter.bind(this));
+
+    this.waitForWalletUpdate().then(() => {
+      this._clearWalletBtn.addEventListener(
+        "click",
+        this.actualizeWalletPage.bind(this)
+      );
+      this.actualizeListWallet();
+    });
   }
 
   submitOrderFinish() {
@@ -60,11 +68,7 @@ class ActualizeWalletPage extends ActualizeDataDOM {
 
     for (let i = 0; i < this._newWallet.length; i++) {
       if (i >= this._newWallet.length) break;
-      if (this._newWallet[i].units === 0) {
-        // this.newWalletActualize();
-        break;
-      }
-
+      if (this._newWallet[i].units === 0) break;
       const tr = document.createElement("tr");
       tr.classList.add("*:px-4", "*:py-2");
       const th = document.createElement("th");
@@ -161,15 +165,21 @@ class ActualizeWalletPage extends ActualizeDataDOM {
     const order = event.target.textContent;
     const idFilter = event.target.parentElement.parentElement;
 
-    this._newWallet.forEach((item) => {
+    const walletWithUnits = this._newWallet.filter((item) => item.units > 0);
+
+    this._newWallet = walletWithUnits.map((item) => {
       const profit = this.actualValue(item.units, item.symbol) - item.total;
       const profitPer =
         ((this.actualValue(item.units, item.symbol) - item.total) /
           item.total) *
         100;
-      item.profit = profit;
-      item.profitPer = profitPer;
-      item.value = item.profit + item.total;
+
+      return {
+        ...item,
+        profit: profit,
+        profitPer: profitPer,
+        value: profit + item.total,
+      };
     });
 
     if (idFilter === this._lessFilter) {
