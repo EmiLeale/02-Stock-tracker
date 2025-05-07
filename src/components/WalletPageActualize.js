@@ -1,6 +1,6 @@
 import WalletPageCharts from "./WalletPageCharts.js";
 
-class ActualizeWalletPage extends WalletPageCharts {
+class WalletPageActualize extends WalletPageCharts {
   constructor() {
     super();
     this._currentOrder = null;
@@ -238,4 +238,4 @@ class ActualizeWalletPage extends WalletPageCharts {
   }
 }
 
-export default ActualizeWalletPage;
+export default WalletPageActualize;

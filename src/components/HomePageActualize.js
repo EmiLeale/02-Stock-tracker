@@ -1,6 +1,6 @@
 import HomePageCharts from "./HomePageCharts.js";
 
-class ActualizeHomePage extends HomePageCharts {
+class HomePageActualize extends HomePageCharts {
   constructor() {
     super();
     this._perfoDataCont = document.getElementById("performance-data-container");
@@ -253,4 +253,4 @@ class ActualizeHomePage extends HomePageCharts {
   }
 }
 
-export default ActualizeHomePage;
+export default HomePageActualize;

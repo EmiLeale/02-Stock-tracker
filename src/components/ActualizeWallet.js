@@ -6,49 +6,10 @@ class ActualizeWallet extends AddOrder {
     super();
     this._categories = ["crypto", "stocks", "forex", "index", "others"];
     this._wallet = {
-      crypto: [
-        {
-          symbol: "BTC",
-          name: "Bitcoin",
-          price: 61000,
-          units: 3,
-          total: 183000,
-        },
-        {
-          symbol: "ETH",
-          name: "Etherum",
-          price: 1500,
-          units: 1,
-          total: 1500,
-        },
-      ],
-      stocks: [
-        {
-          symbol: "AAPL",
-          name: "Apple Inc.",
-          price: 100,
-          units: 2,
-          total: 200,
-        },
-      ],
-      forex: [
-        {
-          symbol: "EUR/USD",
-          name: "Euro Dolar",
-          price: 0.96,
-          units: 1100,
-          total: 1145,
-        },
-      ],
-      index: [
-        {
-          symbol: "SPY",
-          name: "S&P 500",
-          price: 470,
-          units: 1,
-          total: 470,
-        },
-      ],
+      crypto: [],
+      stocks: [],
+      forex: [],
+      index: [],
       others: [],
       total: [],
     };

@@ -99,7 +99,6 @@ class ActualizeDataDOM extends ActualizeWallet {
 
   separateOrdersByType(allOrders) {
     if (!Array.isArray(allOrders)) {
-      console.error("La entrada de separateOrdersByType debe ser un array.");
       return { buyOrders: [], sellOrders: [] };
     }
     const buyOrders = allOrders.filter((order) => order.type === "Buy");

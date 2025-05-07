@@ -1,6 +1,6 @@
 import OrdersPageCharts from "./OrdersPageCharts.js";
 
-class ActualizeOrdersPage extends OrdersPageCharts {
+class OrdersPageActualize extends OrdersPageCharts {
   constructor() {
     super();
     this._currentOrder = null;
@@ -340,4 +340,4 @@ class ActualizeOrdersPage extends OrdersPageCharts {
   }
 }
 
-export default ActualizeOrdersPage;
+export default OrdersPageActualize;

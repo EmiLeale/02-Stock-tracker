@@ -1,3 +1,3 @@
-import ActualizeHomePage from "./src/components/ActualizeHomePage.js";
+import ActualizeHomePage from "./src/components/HomePageActualize.js";
 
 new ActualizeHomePage();

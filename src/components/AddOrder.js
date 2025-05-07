@@ -3,65 +3,7 @@ import OrderModal from "./OrderModal.js";
 class AddOrder extends OrderModal {
   constructor() {
     super();
-    this._orders = [
-      {
-        type: "Buy",
-        date: "12/03/2025",
-        ticker: "BTC",
-        units: 3,
-        price: 61000,
-        note: "BTC was cheap",
-      },
-      {
-        type: "Buy",
-        date: "18/03/2025",
-        ticker: "ETH",
-        units: 2,
-        price: 1500,
-        note: "ETH was cheap",
-      },
-      {
-        type: "Buy",
-        date: "18/03/2025",
-        ticker: "ETH",
-        units: 1,
-        price: 1300,
-        note: "ETH was cheap",
-      },
-      {
-        type: "Sell",
-        date: "01/04/2025",
-        ticker: "ETH",
-        units: 1,
-        price: 1500,
-        note: "I needed the money",
-      },
-      {
-        type: "Buy",
-        date: "17/09/2024",
-        ticker: "SPY",
-        units: 1,
-        price: 470,
-        note: "Investment for wallet stability",
-      },
-      {
-        type: "Buy",
-        date: "25/05/2023",
-        ticker: "EUR/USD",
-        units: 1100,
-        price: 0.96,
-        note: "I needed USD",
-      },
-      {
-        type: "Buy",
-        date: "10/02/2025",
-        ticker: "AAPL",
-        units: 2,
-        price: 100,
-        note: "The best investment of all times",
-      },
-    ];
-    // localStorage.setItem("orders", JSON.stringify(this._orders)); // Delete for save the above orders in localStorage
+    this._orders = [];
     this.addEventListener();
   }
 
